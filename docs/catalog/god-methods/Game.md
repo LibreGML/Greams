@@ -1,0 +1,633 @@
+# `Game` 方法索引
+
+- 文件: `.../lukasz/Game.smali`
+- 大小: **4287.5 KB**
+- 分组: 核心
+- 说明: 游戏总容器：文明/省/剧本IO/大量 draw API
+- 方法数: **493**；字段数: **81**
+- super: `Ljava/lang/Object;`
+
+## 字段（摘录）
+
+- `ACTIVE_CITIES_ANIMATION_TIME` : `I`
+- `BASE_PROVINCE_VALUE` : `I`
+- `BASE_PROVINCE_VALUE_CAPITAL` : `I`
+- `CAN_MIGRATE_EVERY_X_TURNS` : `I`
+- `CREATE_VASSAL_STARTING_RELATION` : `I`
+- `DECLARE_WAR_REACTIONS` : `I`
+- `DECLARE_WAR_VASSALS_REACTIONS` : `I`
+- `HIGHLIGHTED_PROVINCES_ANIMATION_TIME` : `F`
+- `HIGHLIGHTED_PROVINCES_ANIMATION_TIME_BACK` : `F`
+- `LEADER_MAX_VALUE` : `F`
+- `LEADER_MIN_VALUE` : `F`
+- `MAX_BELOW_ZERO_POINT_X` : `I`
+- `REGION_STYLE_CLASSIC` : `I`
+- `RELEASE_VASSAL_PERC_OF_TECH` : `F`
+- `RELEASE_VASSAL_PERC_OF_TECH_RAND` : `I`
+- `SearchedCivID` : `Ljava/util/List;`
+- `WAR_CANT_BE_DECLARED_IN_FIRST_XTURNS` : `I`
+- `iBuildingsWidth` : `I`
+- `lBuildingsImages` : `Ljava/util/List;`
+- `HIGHLIGHTED_CITIES_DISABLE_ANIMATION` : `Z`
+- `activeProvinceBorder_LandByLand_Style` : `Lage/of/civilizations2/jakowski/lukasz/Game$ActiveProvinceBorderStyle;`
+- `activeProvinceBorder_LandBySea_Style` : `Lage/of/civilizations2/jakowski/lukasz/Game$ActiveProvinceBorderStyle;`
+- `activeProvinceBorder_LastUpdateInCreateScenario` : `Z`
+- `activeProvinceBorder_SeaBySea_Style` : `Lage/of/civilizations2/jakowski/lukasz/Game$ActiveProvinceBorderStyle;`
+- `activeProvince_Animation_Data` : `Lage/of/civilizations2/jakowski/lukasz/Province_Animation2;`
+- `breakWasteland` : `Z`
+- `currentMoveUnitsLine` : `Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line;`
+- `currentRegroupArmy` : `Lage/of/civilizations2/jakowski/lukasz/RegroupArmy_Data;`
+- `drawMoveUnitsArmy` : `Lage/of/civilizations2/jakowski/lukasz/Game$DrawMoveUnitsArmy;`
+- `drawMoveUnitsArmy_UpdateAnimation` : `Z`
+- `drawProvinceBorder_LandBySeaIDs` : `Ljava/util/List;`
+- `fDashedLine_Percentage_HighlitedProvinceBorder` : `F`
+- `gameCities` : `Lage/of/civilizations2/jakowski/lukasz/Game_Cities;`
+- `gameMountains` : `Lage/of/civilizations2/jakowski/lukasz/Game_Mountains;`
+- `gameScenarios` : `Lage/of/civilizations2/jakowski/lukasz/Game_Scenarios;`
+- `gameWonders` : `Lage/of/civilizations2/jakowski/lukasz/Game_Wonders;`
+- `highlightedProvinceBorder_BackAnimation` : `Z`
+- `highlightedProvinceBorder_Update` : `Z`
+- `highlightedProvince_AnimationData` : `Lage/of/civilizations2/jakowski/lukasz/Province_Animation_MoveUnits2;`
+- `highlightedProvince_Animation_UpdateOffset` : `Lage/of/civilizations2/jakowski/lukasz/Game$HighlightedProvince_Animation_UpdateOffset;`
+- `iActiveProvince` : `I`
+- `iAlliancesSize` : `I`
+- `iAvailableCivilizations` : `I`
+- `iCivsSize` : `I`
+- `iHighlightedProvincesSize` : `I`
+- `iMoveUnits_JustDraw_AnotherArmiesSize` : `I`
+- `iPlayersSize` : `I`
+- `iProvincesSize` : `I`
+- `iRegionsSize` : `I`
+- `iWarsSize` : `I`
+- `lActive_CivRegion` : `Ljava/util/List;`
+- `lAlliances` : `Ljava/util/List;`
+- `lCities` : `Ljava/util/List;`
+- `lCivRegion_Styles` : `Ljava/util/List;`
+- `lCivs` : `Ljava/util/List;`
+- `lCivsSortedAZ` : `Ljava/util/List;`
+- `lCurrentRegroupArmyLine` : `Ljava/util/List;`
+- `lDashedLineTime_Percentage_HighlitedProvinceBorder` : `J`
+- `lHighlightedProvinces` : `Ljava/util/List;`
+- `lHighlightedProvinces_MoveUnits_Lines` : `Ljava/util/List;`
+- `lMountains` : `Ljava/util/List;`
+- `lMoveUnitsLineTime` : `J`
+- `lMoveUnits_JustDraw_AnotherArmies` : `Ljava/util/List;`
+- `lPeaceTreaties` : `Ljava/util/List;`
+- `lPlayers` : `Ljava/util/List;`
+- `lProvinces` : `Ljava/util/List;`
+- `lProvincesInView` : `Ljava/util/List;`
+- `lRegions` : `Ljava/util/List;`
+- `lSeaProvincesInView` : `Ljava/util/List;`
+- `lTIME_ACTIVE_CITIES` : `J`
+- `lTIME_HIGHLIGHTED_CITIES` : `J`
+- `lWars` : `Ljava/util/List;`
+- `lWastelandProvincesInView` : `Ljava/util/List;`
+- `loadArmiesWidth_ErrorIDs` : `Ljava/util/List;`
+- `oRTO` : `Lage/of/civilizations2/jakowski/lukasz/RandomTurnOrder;`
+- `sRespondToPeaceTreatyID` : `Ljava/lang/String;`
+- `scenarioID` : `I`
+- `selectedProvinces` : `Lage/of/civilizations2/jakowski/lukasz/Selected_Provinces;`
+- `setActiveProvince_ExtraAction` : `Lage/of/civilizations2/jakowski/lukasz/Game$SetActiveProvince_ExtraAction;`
+- `updateProvincesInView` : `Z`
+- … +1 fields
+
+## 方法（按簇）
+
+### draw* (199)
+
+- `drawActiveProvince(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `drawActiveProvinceBorder(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `drawActiveProvinceFlag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `drawActiveProvince_HoverJust_WithoutDrawingActiveProvince(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `drawAllCivilizations_Flag_InCapitals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown_FogOfWarDiscovery_Sea(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown_Sea(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown_Timeline(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Flag_InCapitals_WithCrown_Timeline_FogOfWar(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Name_Flag_InCapitals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Name_Flag_InCapitals_AvailableCivs(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Name_Flag_InCapitals_Crowns(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllCivilizations_Name_Flag_InCapitals_Vassals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllProvinces_Name_Flag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllianceMode_FlagAndCrown(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawAllianceMode_FlagAndCrown_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCapitalsArmy_FlagAndCrown(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCapitalsArmy_FlagAndCrown_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_ActiveProvince(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_ActiveProvince_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_ActiveProvince_Just(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_ActiveProvince_Just_OnlyCapitalMode(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_All(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_All_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_AlliancesMode(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_AlliancesMode_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Fort_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Images(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_IncomeMapMode(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_Images(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_Images_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_Imperial(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_Imperial_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_Player(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_StartTheGame(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyCapitals_StartTheGame_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_OnlyFormableCivCapital(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_PortCities(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_PortCities_L0(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_PortCities_L1(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_PortCities_L1_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Timeline(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Timeline_FogOfWar(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Timeline_FogOfWar_OnlyCapitalsImages(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_Timeline_OnlyCapitalsImages(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_WatchTower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCities_WatchTower_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawCivFlagBG(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V`
+- `drawCivNameBG(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V`
+- `drawCivilization_Flag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V`
+- `drawCivilization_Flag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIF)V`
+- `drawCivilization_Flag_Cores(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V`
+- `drawCivilization_Name_Flag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V`
+- `drawCivilization_Name_Flag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IFF)V`
+- `drawCivilization_Name_Flag_Crowns(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V`
+- `drawCivilization_Name_Flag_Crowns(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IFF)V`
+- `drawCivilization_Name_Flag_Vassals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V`
+- `drawCivilization_Name_Flag_Vassals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IFF)V`
+- `drawCores_Flags(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawEditorCity(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawFlagAndCrown_Emperor(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawFlagAndCrown_Emperor_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawHighlightProvince(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `drawIcnomeMapMode_FlagAndCrown(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMountains(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMountains_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMoveUnits(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMoveUnitsArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMoveUnitsFlag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIFF)V`
+- `drawMoveUnits_CurrentMove(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawMoveUnits_Spectactor(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinceArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyBackground(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyBackground_Capital(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyWithFlag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyWithFlag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Active_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Attack(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyWithFlag_Capital(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Active_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_TowerFortArmoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Capital_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Migrate(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyWithFlag_Plunder(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+- `drawProvinceArmyWithFlag_ProvinceValue(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIILcom/badlogic/gdx/graphics/Color;)V`
+- `drawProvinceArmyWithFlag_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmyWithFlag_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Fort_NoArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Fort_NoArmy_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_NoArmy_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Sea(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;FII)V`
+- `drawProvinceArmy_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_TowerFort_NoArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_TowerFort_NoArmy_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Tower_NoArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceArmy_Tower_NoArmy_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceBuildings(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;III)V`
+- `drawProvinceFlag(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_Begin(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;FIIIF)V`
+- `drawProvinceFlag_Capital_End(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;FIIIF)V`
+- `drawProvinceFlag_Capital_End_FlagCivID(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;FIIIFI)V`
+- `drawProvinceFlag_Capital_FlagCivID(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;FI)V`
+- `drawProvinceFlag_Capital_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_Fort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_TowerFort_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceFlag_Capital_Tower_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvinceID(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Armoury(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_Armoury_Just(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_ArmyPosition(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Capital_Crown(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;III)V`
+- `drawProvince_Capital_Crown_HRE(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;III)V`
+- `drawProvince_Capital_Crown_HRE_Vassal(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;III)V`
+- `drawProvince_Capital_Crown_Vassal(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;III)V`
+- `drawProvince_Danger(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Fort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_Fort_Just(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_GrowthRate(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Happiness(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_OptimizationRegions(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Potential(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_SeaProvincesLevels(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_StartingMoney(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_TechnologyLevels(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;ILcom/badlogic/gdx/graphics/Color;Lcom/badlogic/gdx/graphics/Color;F)V`
+- `drawProvince_Tower(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_TowerFort(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_TowerFort_Just(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvince_Tower_Just(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+- `drawProvinces(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIFI)V`
+- `drawProvincesArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvincesArmy_SetUpArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvincesBuildings(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvincesBuildings_FogOfWar(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvincesInfo(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvincesInfo_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_ArmyPosition(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_ArmyPosition_Capitals(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Army_PeaceTreaty(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Army_PeaceTreaty_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Danger(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIFI)V`
+- `drawProvinces_GrowthRate(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Happiness(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_OptimizationRegions(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Ports(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Ports_Build(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Ports_Build_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_Potential(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_SeaArmyBoxes(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_SeaArmyBoxes_Edit(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_SeaProvincesLevels(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_StartingMoney(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_TechnologyLevels(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawProvinces_TechnologyLevels_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawSeaProvinceArmy(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawWonders(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+- `drawWonders_FogOfWarDiscovery(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;F)V`
+
+### other (110)
+
+- `acceptPeaceOffer(III)V`
+- `access$000(Lage/of/civilizations2/jakowski/lukasz/Game;)Lage/of/civilizations2/jakowski/lukasz/Province_Animation_MoveUnits2;`
+- `access$100(Lage/of/civilizations2/jakowski/lukasz/Game;)I`
+- `access$200(Lage/of/civilizations2/jakowski/lukasz/Game;)Ljava/util/List;`
+- `access$300(Lage/of/civilizations2/jakowski/lukasz/Game;)I`
+- `access$400(Lage/of/civilizations2/jakowski/lukasz/Game;)I`
+- `access$500(Lage/of/civilizations2/jakowski/lukasz/Game;)Ljava/util/List;`
+- `addActiveCivRegion_CivID(II)V`
+- `addActiveCivRegion_RegionID(III)V`
+- `addAlliance(Ljava/lang/String;)V`
+- `addDrawProvinceBorder_LandBySea(II)V`
+- `addHighlightProvince_SelectProvinceMode(I)V`
+- `addLoadArmiesWidth_ErrorIDs(I)V`
+- `addPlayer()V`
+- `addPlayer(I)V`
+- `addWarData(II)V`
+- `autoBuildChooseProvinceMode(Z)V`
+- `autoChooseProvinceMode(I)V`
+- `buildAlliances()V`
+- `buildAlliances(Ljava/util/List;)V`
+- `buildBasinsOfSeaProvinces()V`
+- `buildCitiesProvinceID()V`
+- `buildCivilizationRegions(I)V`
+- `buildCivilizationsRegions()V`
+- `buildCivilizationsRegions_TextOver()V`
+- `buildCivilizationsRegions_TextOver(I)V`
+- `buildGameProvinceData(I)V`
+- `buildMountainsProvinceID()V`
+- `buildProvinceBorder()V`
+- `buildSeaPath(Ljava/util/List;Ljava/util/List;Ljava/util/List;II)Z`
+- `buildSeaPaths()V`
+- `buildWars()V`
+- `build_Leaders()V`
+- `build_LoadProvince(I)V`
+- `build_PreDefinedCivsBorders(I)V`
+- `build_PreDefinedCivsBorders_CivData(I)Lage/of/civilizations2/jakowski/lukasz/PreDefined_Borders_Data_GameData;`
+- `build_SuggestedOwners()V`
+- `build_SuggestedOwners(I)V`
+- `chooseProvinceMode()V`
+- `clearProvincesInView()V`
+- `convertProvincesPortPositionToAnotherScale(I)V`
+- `countAlliance_Economy(I)I`
+- `countAlliance_Population(I)I`
+- `countAlliance_Provinces(I)I`
+- `countAvarageDevelopmentLevel(I)Ljava/lang/String;`
+- `countAvarageDevelopmentLevel_Float(I)F`
+- `countAvarageGrowthRate()Ljava/lang/String;`
+- `countAvarageGrowthRate(I)Ljava/lang/String;`
+- `countContinentProvinces(I)I`
+- `countLandProvinces()I`
+- `countRegionProvinces(I)I`
+- `countSeaProvinces()I`
+- `countWorld_Population()I`
+- `createScenarioAddCivilization(Ljava/lang/String;IZ)Z`
+- `createScenarioAddCivilization(Ljava/lang/String;IZZZ)Z`
+- `createScenarioClearCivilizations()V`
+- `declareWar(IIZ)V`
+- `declareWar_Event(IIZ)V`
+- `deleteSeaPaths()V`
+- `deleteSuggestedOwners()V`
+- `disableDrawCivilizationRegions(I)V`
+- `disableDrawCivilizationRegions_Active()V`
+- `disableDrawCivilizationRegions_ActiveProvince()V`
+- `disableDrawCivlizationsRegions_Players()V`
+- `disableHighlightedProvinces()V`
+- `disableNonPlayableCivilizations()V`
+- `disposeCivilizations()V`
+- `disposeMapData()V`
+- `enableDrawCivilizationRegions(II)V`
+- `enableDrawCivilizationRegions_ActiveProvince()V`
+- `enableDrawCivlizationsRegions_Player(I)V`
+- `enableDrawCivlizationsRegions_Players()V`
+- `enableHighlightedProvinces_Classic()V`
+- `enableHighlightedProvinces_Percentage()V`
+- `generateProvincesNames()V`
+- `inViewX(I)Z`
+- `inViewX(II)Z`
+- `inViewX2(I)Z`
+- `inViewX2(II)Z`
+- `inViewXBelowZero(I)Z`
+- `inViewXBelowZero(II)Z`
+- `inViewX_WholeRegion(II)Z`
+- `inViewX_WholeRegion2(II)Z`
+- `inViewY(I)Z`
+- `inViewY(II)Z`
+- `inViewY_WholeRegion(II)Z`
+- `initGameCities()V`
+- `initGameMountains()V`
+- `initGameScenarios()V`
+- `initPlayers()V`
+- `initPlayers(Ljava/util/List;)V`
+- `joinWar(III)V`
+- `pathContains(III)Z`
+- `provinceBordersWithProvince_LandByLand(II)Z`
+- `randomCivilizationColor(I)V`
+- `randomPlayerCivilizations(I)V`
+- `releaseAVasssal(Ljava/lang/String;Ljava/util/List;IIZ)I`
+- `resetActiveProvincesINFO()V`
+- `resetChooseProvinceData()V`
+- `resetChooseProvinceData_Immediately()V`
+- `resetLastActiveProvince()V`
+- `ressetVassal_CivID(I)V`
+- `showPath(IILjava/util/List;)V`
+- `showTurnChangesInformation(I)Z`
+- `shuffleCivilizations()V`
+- `sortCivilizationsAZ()V`
+- `uncivilizedCanFishing(I)Z`
+- `uncivilizedProvinceBordersWithCiv(II)Z`
+- `whitePeace(II)V`
+- `whitePeace_ReturnProvincesToRightfulOwners(II)V`
+
+### get* (57)
+
+- `getActiveCivID()I`
+- `getActiveProvinceID()I`
+- `getAlliance(I)Lage/of/civilizations2/jakowski/lukasz/Alliance;`
+- `getAlliancesSize()I`
+- `getAlliedWithPlayer_IncludeVassal(I)Z`
+- `getAvailableCivilizations()I`
+- `getCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization;`
+- `getCivNonAggressionPact(II)I`
+- `getCivRegionID(I)I`
+- `getCivTruce(II)I`
+- `getCivsAreAllied(II)Z`
+- `getCivsAreAllied_IncludeVassal(IIZ)Z`
+- `getCivsAreAllied_IncludeVassal_Old(IIZ)Z`
+- `getCivsAtWar(II)Z`
+- `getCivsInAlliance(II)Z`
+- `getCivsSize()I`
+- `getGameScenarios()Lage/of/civilizations2/jakowski/lukasz/Game_Scenarios;`
+- `getGuarantee(II)I`
+- `getHover_CapitalCity(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_CapitalCity_ByProvinceID(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_LargestCity(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_LeaderOfCiv(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_PopulationOfCiv(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_PopulationOfCiv_CreateAVassal()Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_ProvincesOfCiv(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_RankOfCiv(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_TechnologyLevel(I)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getHover_TerrainTypeInfo(II)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;`
+- `getMilitaryAccess(II)I`
+- `getMilitaryAccess_WithoutTwoWays(II)I`
+- `getPeaceTreaty_GameDataID(Ljava/lang/String;)I`
+- `getPeaceTreaty_GameData_AlreadySent(II)Z`
+- `getPlayer(I)Lage/of/civilizations2/jakowski/lukasz/Player;`
+- `getPlayerID_ByCivID(I)I`
+- `getPlayersSize()I`
+- `getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;`
+- `getProvinceAnimation_Active_Data()Lage/of/civilizations2/jakowski/lukasz/Province_Animation2;`
+- `getProvinceAnimation_Highlighted_Data()Lage/of/civilizations2/jakowski/lukasz/Province_Animation_MoveUnits2;`
+- `getProvinceInViewID(I)I`
+- `getProvinceValue(I)I`
+- `getProvinceValue_Capital(I)I`
+- `getProvinceValue_DevelopmentLevel(I)I`
+- `getProvinceValue_PopulationGrowthRate(I)I`
+- `getProvinceValue_Terrain(I)I`
+- `getProvincesSize()I`
+- `getRTO()Lage/of/civilizations2/jakowski/lukasz/RandomTurnOrder;`
+- `getRegionID(I)I`
+- `getRegions()Ljava/util/List;`
+- `getScenarioID()I`
+- `getSeaProvinceInViewID(I)I`
+- `getSelectedProvinces()Lage/of/civilizations2/jakowski/lukasz/Selected_Provinces;`
+- `getSortedCivsAZ(I)I`
+- `getSortedCivsSize()I`
+- `getTrueMilitaryAccess(II)I`
+- `getWar(I)Lage/of/civilizations2/jakowski/lukasz/War_GameData;`
+- `getWarID(II)I`
+- `getWarsSize()I`
+
+### update/check* (35)
+
+- `checkAlliances()V`
+- `checkArmies()V`
+- `checkClosedSea(I)Z`
+- `checkHighlightedProvince()Z`
+- `checkLandBySeaProvincesBorders()V`
+- `checkPlayersCivilizations()V`
+- `checkPosOfClickX(F)F`
+- `checkProvinceActionMenu()V`
+- `checkProvinceConnections()V`
+- `checkProvince_UselessPoints()V`
+- `checkSeaBySeaProvincesBorders()V`
+- `checkUncivilizedMenu(I)Z`
+- `checkVassals()V`
+- `update()V`
+- `updateActiveProvinceBorderStyle()V`
+- `updateAlliedWithPlayer_IncludeVassal()V`
+- `updateCivilizationIdeology(ILjava/lang/String;)V`
+- `updateCivsAreAllied_IncludeVassal()V`
+- `updateDaultScenarioID_ForMap()V`
+- `updateDrawProvince(I)V`
+- `updateDrawRegionProvinces(I)V`
+- `updateHighlitghtProvinceBorder(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `updateLevelOfPort()V`
+- `updateLoadArmiesWidth_ErrorIDs(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `updateNumOfAvailableCivilizations()V`
+- `updatePath()V`
+- `updateProvinceNameWidth(I)V`
+- `updateProvinceNameWidth(Ljava/lang/String;)V`
+- `updateProvincesInView()V`
+- `updateProvincesSize()V`
+- `updateRegionsSize()V`
+- `updateSetActiveProvinceID_ExtraAction()V`
+- `updateWarStatistics(IIIII)V`
+- `updateWarStatistics_Casualties(IIII)V`
+- `updateWarStatistics_ConqueredProvinces(III)V`
+
+### load/save* (25)
+
+- `loadCities()V`
+- `loadMountains()V`
+- `loadProvince(I)V`
+- `loadProvinceNames_ALL()V`
+- `loadProvinceTexture(I)V`
+- `loadProvinceTextures()V`
+- `loadProvinces()V`
+- `loadRegions()V`
+- `loadSavedGame(I)V`
+- `loadSavedGame_NEW(I)V`
+- `loadScenario(Z)V`
+- `loadScenario_RandomGame()V`
+- `loadWonders()V`
+- `saveAlliancesNamesPackage()V`
+- `saveCity()V`
+- `saveContinentPackage()V`
+- `saveContinentPackagesData()V`
+- `saveDiplomacyColors()V`
+- `saveLinesData()V`
+- `saveProvince_Info_GameData(I)V`
+- `saveProvince_Info_GameData_SHIFTXY(I)V`
+- `saveRegionPackage()V`
+- `saveRegionPackagesData()V`
+- `saveScenario()V`
+- `saveScenario_Info()V`
+
+### army/move* (23)
+
+- `actionMoveUnits()V`
+- `addHighlightedProvince_MoveUnits_Line(II)V`
+- `buildDrawArmy()V`
+- `buildDrawArmy_ShowIDs()V`
+- `buildMoveUnits_JustDraw_AnotherArmies()V`
+- `clearMoveUnits_JustDraw_AnotherArmies()V`
+- `convertProvincesArmyPositionToAnotherScale(I)V`
+- `countArmyInAlly(I)I`
+- `createScenarioRemoveCivilization(I)V`
+- `getDrawProvinceArmy_EndPosY(IF)I`
+- `getProvinceArmy(I)I`
+- `moveCapitalToTheLargestCity(I)V`
+- `regroupArmyMode()V`
+- `removeActiveCivRegion_CivID(I)V`
+- `removeActiveCivRegion_RegionID(II)V`
+- `removeDrawProvinceBorder_LandBySea(II)V`
+- `removePlayer(I)V`
+- `removeWarData(I)V`
+- `resetRegroupArmyData()V`
+- `setCurrentRegroupArmyID(I)V`
+- `updateDrawMoveUnitsArmy()V`
+- `updateHighlight_MoveUnitsProvinces(I)V`
+- `updateSeaProvince_CenterArmyPostion(IF)Lage/of/civilizations2/jakowski/lukasz/Point_XY;`
+
+### set* (15)
+
+- `setActiveProvinceID(I)V`
+- `setAvailableCivilizations(I)V`
+- `setChosenProvinceID(I)V`
+- `setCivNonAggressionPact(III)Z`
+- `setCivTruce(III)Z`
+- `setGuarantee(III)Z`
+- `setMilitaryAccess(III)Z`
+- `setProvinceID(II)V`
+- `setProvinceID_HoverAProvince(II)I`
+- `setProvinceID_IsMouseOverAProvinceID(III)Z`
+- `setProvinceID_PPM(II)V`
+- `setProvinceID_Point(II)I`
+- `setScenarioID(I)V`
+- `setUpdateProvincesInView(Z)V`
+- `setVassal_OfCiv(II)V`
+
+### colonize/neutral* (9)
+
+- `buildWastelandLevels()V`
+- `buildWastelandLevels(Ljava/util/List;II)V`
+- `canDeclareWar_TribalColonize_NeedsToBorder(II)Z`
+- `checkWastelandProvince(ILjava/util/List;)V`
+- `countLandProvinces_NotWasteland()I`
+- `disposeCivilizations_WithoutWasteland()V`
+- `getNeutralCivilization()Lage/of/civilizations2/jakowski/lukasz/Civilization;`
+- `getWastelandProvinceInViewID(I)I`
+- `setWasteland(IZ)V`
+
+### diplomacy* (4)
+
+- `getCivRelation_OfCivB(II)F`
+- `setCivRelation_OfCivB(IIF)V`
+- `war_CheckDiplomacy(II)V`
+- `war_CheckDiplomacy_AccessLost_UpdateFogOfWar(II)V`
+
+### migrate* (4)
+
+- `addHighlightedProvince_MoveUnits_Line_Migrate(II)V`
+- `uncivilizedCanMigrate(II)Z`
+- `uncivilizedCanMigrate_FromProvince(II)Z`
+- `uncivilizedCanMigrate_FromProvince_NumOfTurns(II)I`
+
+### predicate* (4)
+
+- `isActiveCivRegion_CivID(II)Z`
+- `isAlly(II)Z`
+- `isAtPeace(I)Z`
+- `isCivTagAvailable(Ljava/lang/String;)Z`
+
+### combat* (3)
+
+- `getDefensivePact(II)I`
+- `getSeaProvinceAttack(II)Z`
+- `setDefensivePact(III)Z`
+
+### fog* (3)
+
+- `enableDrawCivilizationRegions_FogOfWar(II)V`
+- `haveArmy_FogOfWarCheck(II)Z`
+- `isPlayerAlly_FogOfWarCheck(II)Z`
+
+### recruit* (1)
+
+- `drawProvinceArmyWithFlag_Recruit(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIII)V`
+
+### revolt* (1)
+
+- `declareWar_Rebel(IIZ)V`
+

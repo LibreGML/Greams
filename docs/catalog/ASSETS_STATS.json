@@ -1,0 +1,49 @@
+{
+  "by_top": {
+    "config.ini": {
+      "files": 1,
+      "bytes": 98
+    },
+    "ic_32x32.ico": {
+      "files": 1,
+      "bytes": 21822
+    },
+    "ic_32x32.png": {
+      "files": 1,
+      "bytes": 27475
+    },
+    "settings": {
+      "files": 1,
+      "bytes": 1547
+    },
+    "settings_map": {
+      "files": 1,
+      "bytes": 122
+    },
+    "console": {
+      "files": 4,
+      "bytes": 53
+    },
+    "game": {
+      "files": 15680,
+      "bytes": 57565035
+    },
+    "map": {
+      "files": 31390,
+      "bytes": 45698267
+    },
+    "music": {
+      "files": 13,
+      "bytes": 14461613
+    },
+    "sounds": {
+      "files": 41,
+      "bytes": 5761437
+    },
+    "UI": {
+      "files": 1773,
+      "bytes": 22011207
+    }
+  },
+  "total_files": 48906
+}

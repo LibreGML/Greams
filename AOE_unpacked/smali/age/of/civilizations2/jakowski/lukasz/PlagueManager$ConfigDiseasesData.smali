@@ -1,0 +1,30 @@
+.class public Lage/of/civilizations2/jakowski/lukasz/PlagueManager$ConfigDiseasesData;
+.super Ljava/lang/Object;
+.source "PlagueManager.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lage/of/civilizations2/jakowski/lukasz/PlagueManager;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0xc
+    name = "ConfigDiseasesData"
+.end annotation
+
+
+# instance fields
+.field protected Age_of_Civilizations:Ljava/lang/String;
+
+.field protected Disease:Ljava/util/ArrayList;
+
+
+# direct methods
+.method protected constructor <init>()V
+    .locals 0
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method

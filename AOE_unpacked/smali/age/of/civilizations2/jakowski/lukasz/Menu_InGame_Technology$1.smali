@@ -1,0 +1,46 @@
+.class Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology$1;
+.super Lage/of/civilizations2/jakowski/lukasz/Button_Technology;
+.source "Menu_InGame_Technology.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;-><init>(I)V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x0
+    name = null
+.end annotation
+
+
+# instance fields
+.field final synthetic this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;
+
+
+# direct methods
+.method constructor <init>(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;IIII)V
+    .locals 0
+
+    iput-object p1, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;
+
+    invoke-direct {p0, p2, p3, p4, p5}, Lage/of/civilizations2/jakowski/lukasz/Button_Technology;-><init>(IIII)V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method protected getWidth()I
+    .locals 1
+
+    iget-object v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;
+
+    invoke-virtual {v0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Technology;->getElementW()I
+
+    move-result v0
+
+    mul-int/lit8 v0, v0, 0x2
+
+    return v0
+.end method

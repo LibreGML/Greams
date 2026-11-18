@@ -1,0 +1,861 @@
+# `MenuManager` 方法索引
+
+- 文件: `.../lukasz/MenuManager.smali`
+- 大小: **4375.5 KB**
+- 分组: UI总线
+- 说明: 所有菜单 setViewID / 重建
+- 方法数: **718**；字段数: **451**
+- super: `Ljava/lang/Object;`
+
+## 字段（摘录）
+
+- `$SWITCH_TABLE$age$of$civilizations2$jakowski$lukasz$Menu` : `[I`
+- `$SWITCH_TABLE$age$of$civilizations2$jakowski$lukasz$MenuElement$TypeOfElement` : `[I`
+- `HOVER_MOBILE_TIME_VISIBLE` : `I`
+- `INGAME_MESSAGES_LEFT` : `I`
+- `buildProvinceHover_Informations` : `Lage/of/civilizations2/jakowski/lukasz/MenuManager$BuildProvinceHover_Informations;`
+- `hoverMobileTime` : `J`
+- `iHoveredProvinceID` : `I`
+- `ABOUT` : `I`
+- `ACHIEVEMENTS` : `I`
+- `CHOOSE_SCENARIO` : `I`
+- `CREATE_CITY` : `I`
+- `CREATE_CIVILIZATION` : `I`
+- `CREATE_CIVILIZATION_DATA` : `I`
+- `CREATE_CIVILIZATION_FLAG` : `I`
+- `CREATE_CIVILIZATION_OVERLAY` : `I`
+- `CREATE_CIVILIZATION_TOP` : `I`
+- `CREATE_NEW_GAME` : `I`
+- `CREATE_NEW_GAME_CIV_INFO` : `I`
+- `CREATE_NEW_GAME_CIV_INFO_DIPLOMACY` : `I`
+- `CREATE_NEW_GAME_CIV_INFO_PLAYERS` : `I`
+- `CREATE_NEW_GAME_CIV_INFO_SHOW_MENU` : `I`
+- `CREATE_NEW_GAME_CIV_INFO_STATS` : `I`
+- `CREATE_NEW_GAME_MAPMODES` : `I`
+- `CREATE_NEW_GAME_OPTIONS` : `I`
+- `CREATE_NEW_GAME_PALLETS` : `I`
+- `CREATE_NEW_GAME_SCENARIOS` : `I`
+- `CREATE_NEW_GAME_TOP` : `I`
+- `CREATE_NEW_GAME_TOP_VIEWS` : `I`
+- `CREATE_RANDOM_GAME` : `I`
+- `CREATE_RANDOM_GAME_CIVILIZATIONS_SELECT` : `I`
+- `CREATE_RANDOM_GAME_CIVILIZATIONS_SELECT_ALPHABET` : `I`
+- `CREATE_RANDOM_GAME_CIVILIZATIONS_SELECT_LIST` : `I`
+- `CREATE_RANDOM_GAME_OPTIONS` : `I`
+- `CREATE_RANDOM_GAME_PLAYERS` : `I`
+- `CREATE_RANDOM_GAME_SETTINGS` : `I`
+- `CREATE_RANDOM_GAME_WASTELANDMAPS` : `I`
+- `CREATE_SCENARIO_ASSIGN` : `I`
+- `CREATE_SCENARIO_ASSIGN_LIST` : `I`
+- `CREATE_SCENARIO_ASSIGN_SELECT` : `I`
+- `CREATE_SCENARIO_AVAILABLE_PROVINCES` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS_IDEOLOGIES` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS_SELECT` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS_SELECT_ALPHABET` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS_SELECT_LIST` : `I`
+- `CREATE_SCENARIO_CIVILIZATIONS_SUGGEST` : `I`
+- `CREATE_SCENARIO_COLONIZATION` : `I`
+- `CREATE_SCENARIO_CORES` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CIV` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CIV_ALPHABET` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CIV_LIST` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CORE` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CORE_ALPHABET` : `I`
+- `CREATE_SCENARIO_CORES_ADD_CORE_LIST` : `I`
+- `CREATE_SCENARIO_CORES_SETUP` : `I`
+- `CREATE_SCENARIO_EVENTS` : `I`
+- `CREATE_SCENARIO_EVENTS_ADD_CIV` : `I`
+- `CREATE_SCENARIO_EVENTS_ADD_CIV_ALPHABET` : `I`
+- `CREATE_SCENARIO_EVENTS_ADD_CIV_LIST` : `I`
+- `CREATE_SCENARIO_EVENTS_ADD_NEW_CONDITION` : `I`
+- `CREATE_SCENARIO_EVENTS_ADD_NEW_OUTCOME` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_ALLIES` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_ATWAR` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_CIVEXIST` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_CONTROLLEDBYPLAYER` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_CONTROLSPROVINCES` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_DECISIONTAKEN` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_DEFENSIVE` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_DEVELOPMENT` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_DEVELOPMENT_LOW` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_ECONOMY` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_ECONOMY_LOW` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_EVENTCHANCE` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_FARM` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_FORT` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_HAPPINESS` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_HAPPINESS_LOW` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_HAVEARMY` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_HAVECORE` : `I`
+- `CREATE_SCENARIO_EVENTS_COND_IDEOLOGY` : `I`
+- … +371 fields
+
+## 方法（按簇）
+
+### get* (219)
+
+- `getActiveMenu()Ljava/util/List;`
+- `getActiveMenuElement()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getActiveMenuElementID()I`
+- `getActiveOrder(I)I`
+- `getActiveSliderMenuID()I`
+- `getColorPicker()Lage/of/civilizations2/jakowski/lukasz/ColorPicker_AoC;`
+- `getCreateAVassal_Info()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getCreateAVassal_Stats()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getCreateCity_UpdateSaveButton()V`
+- `getCreateCiv_Name()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getCreateNewGame()I`
+- `getCreateNewGame_CivInfo_updateLanguage()V`
+- `getCreateNewGame_MapModes()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getCreateScenario_Civilizations()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getCreateScenario_Civilizations_SelectAlphabet()V`
+- `getCreateScenario_Cores_AddCiv_Alphabet()V`
+- `getCreateScenario_Cores_AddCore_Alphabet()V`
+- `getCreateScenario_Events_AddCiv_Alphabet()V`
+- `getCreateScenario_Events_Calendar_Visible()Z`
+- `getCreateScenario_Events_SelectCiv_Alphabet()V`
+- `getCreateScenario_ScenarioAge()Z`
+- `getCreateVassal_SelectAlphabet()V`
+- `getCreate_NewGame_Civ_Info()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getCreate_NewGame_Civ_Info_Stats()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getDialogMenu()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getDrawCivilization()Lage/of/civilizations2/jakowski/lukasz/Drag_Civilization;`
+- `getEditor_GameCivs_Edit()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getFromViewID()I`
+- `getGameCivs_SelectAlphabet()V`
+- `getGraphButtonMode()Z`
+- `getGraphButtonMode2()Z`
+- `getHover_ExtraPosX()I`
+- `getHover_ExtraPosY()I`
+- `getHoveredProvinceID()I`
+- `getInAboutMenu()Z`
+- `getInChooseScenario()Z`
+- `getInCreateCity()Z`
+- `getInCreateCivilization()Z`
+- `getInCreateNewGame()Z`
+- `getInCreateScenario_Assign()Z`
+- `getInCreateScenario_Assign_Select()Z`
+- `getInCreateScenario_Available_Provinces()Z`
+- `getInCreateScenario_Civilizations()Z`
+- `getInCreateScenario_Civilizations_Select()Z`
+- `getInCreateScenario_Cores()Z`
+- `getInCreateScenario_Cores_AddCiv()Z`
+- `getInCreateScenario_Cores_AddCore()Z`
+- `getInCreateScenario_Events()Z`
+- `getInCreateScenario_Events_AddCiv()Z`
+- `getInCreateScenario_Events_SelectCiv()Z`
+- `getInCreateScenario_Events_SelectProvinces()Z`
+- `getInCreateScenario_HolyRomanEmpire()Z`
+- `getInCreateScenario_PalletOfColors()Z`
+- `getInCreateScenario_Preview()Z`
+- `getInCreateScenario_StartingMoney()Z`
+- `getInCreateScenario_TechnologyLevels()Z`
+- `getInCreateVassal_Select()Z`
+- `getInCustomizeAlliance()Z`
+- `getInDownloadPallets()Z`
+- `getInEditor_GameCivs()Z`
+- `getInEndGameMenu()Z`
+- `getInGame()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGameCivs()Z`
+- `getInGameEditor_Regions()Z`
+- `getInGameEditor_ReligionAdd()Z`
+- `getInGameEditor_TerrainAdd()Z`
+- `getInGameView()Z`
+- `getInGameView_EndOfGame()Z`
+- `getInGameView_Options()Z`
+- `getInGame_ActionInfo_Province()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Budget()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_CivInfo()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_CivInfo_Stats()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Civ_Info()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Civ_Info_Actions()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_CivlizationView()Z`
+- `getInGame_CreateAVassal()Z`
+- `getInGame_CreateAVassal_MapModes()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_FlagActionGraph()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_FormAnimation()Z`
+- `getInGame_Formable_Civ_Provinces()Z`
+- `getInGame_MapModes()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Messages()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_PeaceTreaty()Z`
+- `getInGame_PeaceTreaty_Response()Z`
+- `getInGame_Playlist()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Plunder()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ProvinceAction()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ProvinceBuildConfirm_Visible()Z`
+- `getInGame_ProvinceBuild_Visible()Z`
+- `getInGame_ProvinceChooseProvince_Visible()Z`
+- `getInGame_ProvinceInfo()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_Report_Visible()Z`
+- `getInGame_SelectProvinces()Z`
+- `getInGame_SendMessage()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_SendMessage_TradeLEFT()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_SendMessage_TradeRIGHT()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ShowProvinces()Z`
+- `getInGame_Timeline()Z`
+- `getInGame_Timeline_UpdateLanguage()V`
+- `getInGame_TradeSelectCiv()Z`
+- `getInGame_Victory_UpdateLanguage()V`
+- `getInInitMenu()Z`
+- `getInLeader_Edit_SelectCivs()Z`
+- `getInLeaders()Z`
+- `getInLoadMap()Z`
+- `getInMainMenu()Z`
+- `getInMapEditor_Connections()Z`
+- `getInMapEditor_Continents()Z`
+- `getInMapEditor_Create_NewContinent()Z`
+- `getInMapEditor_Create_NewRegion()Z`
+- `getInMapEditor_FormableCivs()Z`
+- `getInMapEditor_FormableCivs_Edit()Z`
+- `getInMapEditor_FormableCivs_SelectClaimant()Z`
+- `getInMapEditor_FormableCivs_SelectFormable()Z`
+- `getInMapEditor_GrowthRate()Z`
+- `getInMapEditor_LoadPreDefinedBorders()Z`
+- `getInMapEditor_LoadSuggestedOwners()Z`
+- `getInMapEditor_PortPosition()Z`
+- `getInMapEditor_ProvinceBackground()Z`
+- `getInMapEditor_Regions()Z`
+- `getInMapEditor_SeaProvinces()Z`
+- `getInMapEditor_Terrain()Z`
+- `getInMapEditor_TradeZones()Z`
+- `getInMapEditor_TradeZones_Edit()Z`
+- `getInNewGamePlayers()Z`
+- `getInNextPlayerTurn()Z`
+- `getInPalletOfCivsColorsEdit()Z`
+- `getInPrintAMap()Z`
+- `getInRandomGame()Z`
+- `getInRandomGame_Civilizations_Select()Z`
+- `getInSelectAvailableCivilizations()Z`
+- `getInSelectCiv()Z`
+- `getInSelectLanguage()Z`
+- `getInSelectLanguage_OnBackPressed()V`
+- `getInSelectMapType()Z`
+- `getInSettings()Z`
+- `getInSettingsProvince()Z`
+- `getInStartGameMenu()Z`
+- `getInUnions_AddCiv()Z`
+- `getInVictory()Z`
+- `getIsScrollableX_MenuHovered()Z`
+- `getIsScrollableY_MenuHovered()Z`
+- `getIsScrollable_Hovered_MenuElement()Z`
+- `getKeyboard()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getKeyboardActiveMenuElementID()I`
+- `getKeyboardActiveSliderMenuID()I`
+- `getLeaders_Alphabet()V`
+- `getLeaders_SelectCivs_Alphabet()V`
+- `getMapEditor_FormableCivs_Alphabet()V`
+- `getMapEditor_FormableCivs_SelectAlphabet()V`
+- `getMapEditor_FormableCivs_SelectClaimantAlphabet()V`
+- `getMenuElement(II)Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getMenu_InGame_CurrentWars()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getMenu_InGame_CurrentWars_Info()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getMenu_InGame_Outliner()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getPMMLMenu()Lage/of/civilizations2/jakowski/lukasz/Menu;`
+- `getRandomGame_Civilizations_SelectAlphabet()V`
+- `getScenarioAge_Calendar_Visible()Z`
+- `getSelectAvailableCivilizations()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getSlideMapMode()Z`
+- `getSliderMenuCloseMode()Z`
+- `getSliderMenuMode()Z`
+- `getSliderMenuResizeLEFT()Z`
+- `getSliderMenuResizeMode()Z`
+- `getSliderMenuTitleMode()Z`
+- `getSliderMode()Z`
+- `getTextSliderMode()Z`
+- `getUnions_AddCiv_Alphabet()V`
+- `getViewID()I`
+- `getViewID(Lage/of/civilizations2/jakowski/lukasz/Menu;)I`
+- `getVisibleCreateCiv_Data()Z`
+- `getVisibleCreateScenario_Events_Edit()Z`
+- `getVisibleInGame_BuildingsConstructed()Z`
+- `getVisibleInGame_CensusOfProvince()Z`
+- `getVisibleInGame_ConquredProvinces()Z`
+- `getVisibleInGame_Event()Z`
+- `getVisibleInGame_HRE()Z`
+- `getVisibleInGame_HRE_VoteFor()Z`
+- `getVisibleInGame_History()Z`
+- `getVisibleInGame_MilitaryAlliances()Z`
+- `getVisibleInGame_Playlist()Z`
+- `getVisibleInGame_Rank()Z`
+- `getVisibleInGame_SendMessage()Z`
+- `getVisibleInGame_Technology()Z`
+- `getVisibleInGame_Tribute()Z`
+- `getVisibleInGame_TurnSummary()Z`
+- `getVisibleInGame_VictoryConditions()Z`
+- `getVisibleInGame_WarDetails()Z`
+- `getVisibleInGame_WarPreparations()Z`
+- `getVisibleInGame_Wars()Z`
+- `getVisibleInGame_Wonders()Z`
+- `getVisibleInGame_WorldPopulation()Z`
+- `getVisible_CreateNewGame_Options()Z`
+- `getVisible_CreateNewGame_Options_Pallets()Z`
+- `getVisible_CreateNewGame_Options_Scenarios()Z`
+- `getVisible_CreateRandomGame_Options()Z`
+- `getVisible_CreateRandomGame_Players()Z`
+- `getVisible_CreateRandomGame_Settings()Z`
+- `getVisible_CreateScenario_SetUpArmies_Civs()Z`
+- `getVisible_CreateScenario_SetUpArmies_Sliders()Z`
+- `getVisible_InGame_Alliance()Z`
+- `getVisible_InGame_Budget()Z`
+- `getVisible_InGame_CivInfo()Z`
+- `getVisible_InGame_CivInfo_Stats_Opinions()Z`
+- `getVisible_InGame_CreateVassal_Civs()Z`
+- `getVisible_InGame_FlagAction()Z`
+- `getVisible_InGame_FlagAction_Console()Z`
+- `getVisible_InGame_MapModes()Z`
+- `getVisible_InGame_ProvinceAction()Z`
+- `getVisible_InGame_View_Stats()Z`
+- `getVisible_Menu_InGame_AllianceInfo()Z`
+- `getVisible_Menu_InGame_CityHaveBeenFounded()Z`
+- `getVisible_Menu_InGame_CurrentWars()Z`
+- `getVisible_Menu_InGame_CurrentWars_Info()Z`
+- `getVisible_Menu_InGame_Graph()Z`
+- `getVisible_Menu_InGame_Outliner()Z`
+- `getVisible_Menu_InGame_War()Z`
+- `get_MenuElementHover_IsInView()Z`
+
+### other (200)
+
+- `$SWITCH_TABLE$age$of$civilizations2$jakowski$lukasz$Menu()[I`
+- `$SWITCH_TABLE$age$of$civilizations2$jakowski$lukasz$MenuElement$TypeOfElement()[I`
+- `access$000(Lage/of/civilizations2/jakowski/lukasz/MenuManager;)Z`
+- `access$100(Lage/of/civilizations2/jakowski/lukasz/MenuManager;II)V`
+- `access$202(Lage/of/civilizations2/jakowski/lukasz/MenuManager;Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover;)Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover;`
+- `actionDown(II)Z`
+- `actionDownClose(II)Z`
+- `actionDownSliderMenuResize(II)Z`
+- `actionDownSliderMenuTitle(II)Z`
+- `actionElement(II)V`
+- `actionUp(II)Z`
+- `actionUpClose(II)V`
+- `addMenu(Lage/of/civilizations2/jakowski/lukasz/SliderMenu;)I`
+- `addMenuToOrderAtTheTop(I)V`
+- `addNextMenuToView(ILage/of/civilizations2/jakowski/lukasz/SliderMenu;)I`
+- `centerInGame_Event()V`
+- `clearCreateScenario_Cores_AddCiv()V`
+- `clearCreateScenario_Cores_AddCore()V`
+- `clearCreateScenario_Events_AddCiv()V`
+- `clearCreateScenario_Events_SelectCiv()V`
+- `clearCreateScenario_SelectCivilizations()V`
+- `clearCreateVassal_SelectCivilizations()V`
+- `clearGameEditoLines()V`
+- `clearLeaders__SelectCiv()V`
+- `clearMapEditor_FormableCivs_SelectCivilizations()V`
+- `clearMapEditor_FormableCivs_SelectClaimant()V`
+- `clearRandomGame_SelectCivilizations()V`
+- `clearUnions_AddCiv()V`
+- `disposeChooseScenarioFlags()V`
+- `disposeFlagsCreate_Scenario_Assign()V`
+- `fixOrderOfMenuBug()V`
+- `hideCivilizations_Info_Players()V`
+- `hidePeaceTreatyProvinces()V`
+- `hidePeaceTreaty_ResponseProvinces()V`
+- `initExtraMenus()V`
+- `menuCreateScenario_Cores_AddCiv_UpdateTitle(I)V`
+- `menuCreateScenario_SelectCivilizations_UpdateTitle(I)V`
+- `menuCreateVassal_SelectCiv_UpdateTitle(I)V`
+- `menuInGame_FlagActionBotRightLeft_LoadData(I)V`
+- `onBackPressed()V`
+- `onMenuPressed()V`
+- `rebuildCivilizations_Info_Players()V`
+- `rebuildCreateCiv_Data()V`
+- `rebuildCreateCiv_Flag()V`
+- `rebuildCreateRandomGame_Players()V`
+- `rebuildCreateRandomGame_Settings()V`
+- `rebuildCreateScenario_AssignCiv()V`
+- `rebuildCreateScenario_Civilizations_Ideologies()V`
+- `rebuildCreateScenario_Civilizations_SelectList()V`
+- `rebuildCreateScenario_Civilizations_Suggest()V`
+- `rebuildCreateScenario_Cores_AddCiv_List()V`
+- `rebuildCreateScenario_Cores_AddCore_List()V`
+- `rebuildCreateScenario_Cores_SetUp()V`
+- `rebuildCreateScenario_Events_AddCiv_List()V`
+- `rebuildCreateScenario_Events_Calendar()V`
+- `rebuildCreateScenario_Events_SelectCiv_List()V`
+- `rebuildCreateScenario_HolyRomanEmpire_Princes()V`
+- `rebuildCreateScenario_SetUpArmies_Civs()V`
+- `rebuildCreateScenario_SetUpArmies_Sliders()V`
+- `rebuildCreateVassal_SelectList()V`
+- `rebuildGameCivs_SelectList()V`
+- `rebuildInGameProvinceBuildConfirm()V`
+- `rebuildInGame_Abadon(II)V`
+- `rebuildInGame_Alliance(I)V`
+- `rebuildInGame_Assimilate(I)V`
+- `rebuildInGame_BuildAll(I)V`
+- `rebuildInGame_BuildArmoury(I)V`
+- `rebuildInGame_BuildBunker(I)V`
+- `rebuildInGame_BuildFarm(I)V`
+- `rebuildInGame_BuildFort(I)V`
+- `rebuildInGame_BuildLibrary(I)V`
+- `rebuildInGame_BuildNuclearReactor(I)V`
+- `rebuildInGame_BuildPort(I)V`
+- `rebuildInGame_BuildShaft(I)V`
+- `rebuildInGame_BuildSupply(I)V`
+- `rebuildInGame_BuildTower(I)V`
+- `rebuildInGame_BuildWorkshop(I)V`
+- `rebuildInGame_BuildingsConstrcuted()V`
+- `rebuildInGame_CallToArms(I)V`
+- `rebuildInGame_CensusOfProvince(I)V`
+- `rebuildInGame_ChangeGovernment()V`
+- `rebuildInGame_Civ_Info_Actions()V`
+- `rebuildInGame_Civ_Info_Decisions()V`
+- `rebuildInGame_Civ_Info_Opinions()V`
+- `rebuildInGame_Civilize(I)V`
+- `rebuildInGame_ConqueredProvinces()V`
+- `rebuildInGame_ContinentPopulation()V`
+- `rebuildInGame_DeclarationOfIndependence(I)V`
+- `rebuildInGame_DeclarationOfIndependence2(I)V`
+- `rebuildInGame_DeclarationOfIndependence3(I)V`
+- `rebuildInGame_DeclarationOfIndependence4(I)V`
+- `rebuildInGame_DeclarationOfIndependence5(I)V`
+- `rebuildInGame_DeclarationOfIndependence6(I)V`
+- `rebuildInGame_DeclarationOfIndependence7(I)V`
+- `rebuildInGame_DeclarationOfIndependence8(I)V`
+- `rebuildInGame_DeclareWar(I)V`
+- `rebuildInGame_DestroyAll(I)V`
+- `rebuildInGame_DestroyArmoury(I)V`
+- `rebuildInGame_DestroyBunker(I)V`
+- `rebuildInGame_DestroyFarm(I)V`
+- `rebuildInGame_DestroyFort(I)V`
+- `rebuildInGame_DestroyLibrary(I)V`
+- `rebuildInGame_DestroyNuclearReactor(I)V`
+- `rebuildInGame_DestroyPort(I)V`
+- `rebuildInGame_DestroyShaft(I)V`
+- `rebuildInGame_DestroySupply(I)V`
+- `rebuildInGame_DestroyTower(I)V`
+- `rebuildInGame_DestroyWorkshop(I)V`
+- `rebuildInGame_Event()V`
+- `rebuildInGame_Festival(I)V`
+- `rebuildInGame_FlagActionLeft()V`
+- `rebuildInGame_FlagActionRightBoth()V`
+- `rebuildInGame_FlagActionRightLeft()V`
+- `rebuildInGame_FlagActionRightRight()V`
+- `rebuildInGame_FormUnion(I)V`
+- `rebuildInGame_Graph()V`
+- `rebuildInGame_HRE()V`
+- `rebuildInGame_HRE_VoteFor()V`
+- `rebuildInGame_History()V`
+- `rebuildInGame_Invest(I)V`
+- `rebuildInGame_InvestDevelopment(I)V`
+- `rebuildInGame_JoinAWar(II)V`
+- `rebuildInGame_KickFromAlliance(I)V`
+- `rebuildInGame_Laws(I)V`
+- `rebuildInGame_LeaveAllinace(I)V`
+- `rebuildInGame_LiberateAVassal(I)V`
+- `rebuildInGame_Loans(I)V`
+- `rebuildInGame_Message_Alliance(III)V`
+- `rebuildInGame_Message_CallToArms(III)V`
+- `rebuildInGame_Message_CallToArms_Denied(III)V`
+- `rebuildInGame_Message_DeclarationOfIndependence_ByVassal(III)V`
+- `rebuildInGame_Message_Gift(III)V`
+- `rebuildInGame_Message_Independence_Ask(III)V`
+- `rebuildInGame_Message_MilitaryAccess_Ask(III)V`
+- `rebuildInGame_Message_MilitaryAccess_Give(III)V`
+- `rebuildInGame_Message_NonAggression(III)V`
+- `rebuildInGame_Message_OfferVasalization(III)V`
+- `rebuildInGame_Message_PrepareForWar(IIII)V`
+- `rebuildInGame_Message_TradeRequest(IILage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;)V`
+- `rebuildInGame_Message_TransferControl(III)V`
+- `rebuildInGame_Message_Ultimatum(IIILage/of/civilizations2/jakowski/lukasz/Ultimatum_GameData;)V`
+- `rebuildInGame_Message_UltimatumRefused(III)V`
+- `rebuildInGame_Message_Union(III)V`
+- `rebuildInGame_Messages()V`
+- `rebuildInGame_MilitartAccess_Ask(I)V`
+- `rebuildInGame_MilitartAccess_Give(I)V`
+- `rebuildInGame_MilitaryAlliances()V`
+- `rebuildInGame_NonAggressionPact(I)V`
+- `rebuildInGame_OfferAlliance(I)V`
+- `rebuildInGame_OfferVassalization(I)V`
+- `rebuildInGame_PeaceTreaty_Provinces()V`
+- `rebuildInGame_PeaceTreaty_Scores()V`
+- `rebuildInGame_Playlist()V`
+- `rebuildInGame_Plunder(I)V`
+- `rebuildInGame_PrepareForWar(III)V`
+- `rebuildInGame_ProclaimIndependence(I)V`
+- `rebuildInGame_Rank()V`
+- `rebuildInGame_RepayLoan(II)V`
+- `rebuildInGame_Report()V`
+- `rebuildInGame_SendGift(I)V`
+- `rebuildInGame_SendGiftResources(I)V`
+- `rebuildInGame_SendInsult(I)V`
+- `rebuildInGame_SendUltimatum(I)V`
+- `rebuildInGame_TakeLoan(I)V`
+- `rebuildInGame_TakeResources(I)V`
+- `rebuildInGame_Technology(I)V`
+- `rebuildInGame_TradeRequest(I)V`
+- `rebuildInGame_TradeRequest_Just()V`
+- `rebuildInGame_TransferControl(I)V`
+- `rebuildInGame_Tribute()V`
+- `rebuildInGame_TurnSummary()V`
+- `rebuildInGame_VictoryConditions()V`
+- `rebuildInGame_WarDetails()V`
+- `rebuildInGame_WarPreparations(I)V`
+- `rebuildInGame_Wars()V`
+- `rebuildInGame_Wonders()V`
+- `rebuildInGame_WorldPopulation()V`
+- `rebuildLeader_Edit_SelectCivs_List()V`
+- `rebuildLeaders()V`
+- `rebuildLeaders_Edit_Civs()V`
+- `rebuildMapEditor_Connections_IDs(I)V`
+- `rebuildMapEditor_FormableCivs()V`
+- `rebuildMapEditor_FormableCivs_Claimants()V`
+- `rebuildMapEditor_FormableCivs_SelectClaimantList()V`
+- `rebuildMapEditor_FormableCivs_SelectList()V`
+- `rebuildMenu_InGame_AllianceInfo(II)V`
+- `rebuildMenu_InGame_CityHaveBeenFounded(II)V`
+- `rebuildMenu_InGame_SavedGame()V`
+- `rebuildMenu_InGame_VassalReleased(I)V`
+- `rebuildMenu_InGame_War(II)V`
+- `rebuildRandomGame_Civilizations_SelectList()V`
+- `rebuildScenario_Age_Calendar()V`
+- `rebuildUnions_AddCiv_List()V`
+- `resetChangeViewMode()V`
+- `resetHoverActive()V`
+- `resetMobileHover()V`
+- `scrollHoveredMenuElement(I)V`
+- `scrollHoveredMenu_X(I)V`
+- `scrollHoveredMenu_Y(I)V`
+- `startSliderMenuResizeMode(IIIZ)V`
+
+### set* (131)
+
+- `setActiveMenuElementID(I)V`
+- `setActiveSliderMenuID(I)V`
+- `setBackAnimation(Z)V`
+- `setColorPickerMode(Z)V`
+- `setCreateScenario_Events_Calendar_Visible(Z)V`
+- `setCreate_Scenario_Assign_UndoButton(Z)V`
+- `setCreate_Scenario_AvailableProvinces_UndoButton(Z)V`
+- `setFlagEditorMode(Z)V`
+- `setGraphButtonMode(Z)V`
+- `setGraphButtonMode2(Z)V`
+- `setGraphButtonModeX(Z)V`
+- `setGraphMode(Z)V`
+- `setInGame_Report_Visible(Z)V`
+- `setKeyboardActiveMenuElementID(I)V`
+- `setKeyboardActiveSliderMenuID(I)V`
+- `setKeyboardMode(Z)V`
+- `setOrderOfLawsPoints()V`
+- `setOrderOfMenu(I)V`
+- `setOrderOfMenu_CreateNewGame_CivInfo()V`
+- `setOrderOfMenu_Games()V`
+- `setOrderOfMenu_InGame()V`
+- `setOrderOfMenu_InGame_CivInfo()V`
+- `setOrderOfMenu_InGame_CreateAVassal_Info()V`
+- `setOrderOfMenu_InGame_FlagAction()V`
+- `setOrderOfMenu_InGame_TradeRequest()V`
+- `setOrderOfMenu_LoadGame()V`
+- `setOrderOfMenu_Menu_InGame_CurrentWars()V`
+- `setOrderOfMenu_Menu_InGame_Outliner()V`
+- `setOrderOfTechPoints()V`
+- `setOrderOfWonders()V`
+- `setPMMLMenu(Lage/of/civilizations2/jakowski/lukasz/Menu;)V`
+- `setScenarioAge_Calendar_Visible(Z)V`
+- `setSlideMapMode(Z)V`
+- `setSliderMenuCloseMode(Z)V`
+- `setSliderMenuMode(Z)V`
+- `setSliderMenuResizeMode(Z)V`
+- `setSliderMenuTitleMode(Z)V`
+- `setSliderMode(Z)V`
+- `setTextSliderMode(Z)V`
+- `setUpdateSliderMenuPosX(Z)V`
+- `setUpdateSliderMenuPosY(Z)V`
+- `setViewID(Lage/of/civilizations2/jakowski/lukasz/Menu;)V`
+- `setViewIDWithoutAnimation(Lage/of/civilizations2/jakowski/lukasz/Menu;)V`
+- `setVisibleCreateCiv_Data(Z)V`
+- `setVisibleCreateCiv_Flag(Z)V`
+- `setVisibleCreateCiv_Overlay(Z)V`
+- `setVisibleCreateScenario_Events_Edit(Z)V`
+- `setVisibleInGame_BuildingsConstructed(Z)V`
+- `setVisibleInGame_CensusOfProvince(Z)V`
+- `setVisibleInGame_ConquredProvinces(Z)V`
+- `setVisibleInGame_Event(Z)V`
+- `setVisibleInGame_HRE(Z)V`
+- `setVisibleInGame_History(Z)V`
+- `setVisibleInGame_MessageView(Z)V`
+- `setVisibleInGame_Messages(Z)V`
+- `setVisibleInGame_MilitaryAlliances(Z)V`
+- `setVisibleInGame_Playlist(Z)V`
+- `setVisibleInGame_Plunder(Z)V`
+- `setVisibleInGame_RTOBot(Z)V`
+- `setVisibleInGame_Rank(Z)V`
+- `setVisibleInGame_SendMessage(Z)V`
+- `setVisibleInGame_Technology(Z)V`
+- `setVisibleInGame_Tribute(Z)V`
+- `setVisibleInGame_TurnSummary(Z)V`
+- `setVisibleInGame_VictoryConditions(Z)V`
+- `setVisibleInGame_WarDetails(Z)V`
+- `setVisibleInGame_WarPreparations(Z)V`
+- `setVisibleInGame_Wars(Z)V`
+- `setVisibleInGame_Wonders(Z)V`
+- `setVisibleInGame_WorldPopulation(Z)V`
+- `setVisible_CreateNewGame_CivInfo(Z)V`
+- `setVisible_CreateNewGame_Options(Z)V`
+- `setVisible_CreateNewGame_Options_Pallets(Z)V`
+- `setVisible_CreateNewGame_Options_Scenarios(Z)V`
+- `setVisible_CreateRandomGame_Options(Z)V`
+- `setVisible_CreateRandomGame_Players(Z)V`
+- `setVisible_CreateRandomGame_Setings(Z)V`
+- `setVisible_CreateScenario_Civilizations_Ideologies(Z)V`
+- `setVisible_CreateScenario_Civilizations_Suggest(Z)V`
+- `setVisible_CreateScenario_Cores_SetUp(Z)V`
+- `setVisible_CreateScenario_SetUpArmies_Civs(Z)V`
+- `setVisible_CreateScenario_SetUpArmies_Sliders(Z)V`
+- `setVisible_InGamePeaceTreatyProvinces(Z)V`
+- `setVisible_InGamePeaceTreaty_ResponseProvinces(Z)V`
+- `setVisible_InGame_ActionInfo(Z)V`
+- `setVisible_InGame_ActionInfo_ChooseProvince()V`
+- `setVisible_InGame_ActionInfo_NoUnits()V`
+- `setVisible_InGame_ActionInfo_TreasuryIsEmpty()V`
+- `setVisible_InGame_Alliance(Z)V`
+- `setVisible_InGame_Budget(Z)V`
+- `setVisible_InGame_CivInfo(Z)V`
+- `setVisible_InGame_CivInfo_Decisions(Z)V`
+- `setVisible_InGame_CivInfo_Stats_Opinions(Z)V`
+- `setVisible_InGame_CreateVassal_Civs(Z)V`
+- `setVisible_InGame_EndOfGame(Z)V`
+- `setVisible_InGame_FlagAction(Z)V`
+- `setVisible_InGame_FlagAction_Console(Z)V`
+- `setVisible_InGame_HRE(Z)V`
+- `setVisible_InGame_HRE_VoteFor(Z)V`
+- `setVisible_InGame_MapModes(Z)V`
+- `setVisible_InGame_Options(Z)V`
+- `setVisible_InGame_ProvinceAction(Z)V`
+- `setVisible_InGame_ProvinceAction_Uncivilize2(Z)V`
+- `setVisible_InGame_ProvinceBuild(ZZ)V`
+- `setVisible_InGame_ProvinceBuildConfirm(Z)V`
+- `setVisible_InGame_View(Z)V`
+- `setVisible_InGame_ViewDevelopment(Z)V`
+- `setVisible_InGame_ViewEconomy(Z)V`
+- `setVisible_InGame_ViewGovernments(Z)V`
+- `setVisible_InGame_ViewGrowthRate(Z)V`
+- `setVisible_InGame_ViewIncome(Z)V`
+- `setVisible_InGame_ViewTechnology(ZZ)V`
+- `setVisible_InGame_ViewTerrain(Z)V`
+- `setVisible_InGame_ViewUnrest(Z)V`
+- `setVisible_InGame_View_Buildings(Z)V`
+- `setVisible_InGame_View_Diseases(Z)V`
+- `setVisible_InGame_View_HideViews()V`
+- `setVisible_InGame_View_ProvinceValue(Z)V`
+- `setVisible_InGame_View_Stats()V`
+- `setVisible_Menu_InGame_AllianceInfo(Z)V`
+- `setVisible_Menu_InGame_CityHaveBeenFounded(Z)V`
+- `setVisible_Menu_InGame_CurrentWars(Z)V`
+- `setVisible_Menu_InGame_CurrentWars_Info(Z)V`
+- `setVisible_Menu_InGame_Graph(Z)V`
+- `setVisible_Menu_InGame_Outliner(Z)V`
+- `setVisible_Menu_InGame_VassalReleased(Z)V`
+- `setVisible_Menu_InGame_War(Z)V`
+- `setVisible_Settings_Audio()V`
+- `set_CreateScenario_StartingMoney_Slider(I)V`
+- `set_CreateScenario_TechnologyLevels_Slider(I)V`
+- `set_CreateScenario_TechnologyLevels_SliderCivs()V`
+
+### army/move* (48)
+
+- `actionMove(II)Z`
+- `actionMoveGraphVertical(II)V`
+- `actionMoveResize(II)V`
+- `actionMoveSlideMap(II)V`
+- `actionMoveSlider(II)V`
+- `actionMoveSliderMenu(II)V`
+- `actionMoveTextSliderX(II)V`
+- `actionMoveTextSliderY(II)V`
+- `actionMoveTitle(II)V`
+- `actionMove_Hover(II)Z`
+- `getCreateScenario_SetUpArmy()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInCreateScenario_SetUpArmy()Z`
+- `getInGame_ProvinceDisband_Confrm()V`
+- `getInGame_ProvinceDisband_Slider()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getInGame_ProvinceDisband_Visible()Z`
+- `getInGame_ProvinceMoveUnits()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ProvinceMoveUnits_Confrim()V`
+- `getInGame_ProvinceMoveUnits_Slider()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getInGame_ProvinceMoveUnits_Visible()Z`
+- `getInGame_ProvinceRegroupArmy_ConfirmMove()V`
+- `getInGame_ProvinceRegroupArmy_Visible()Z`
+- `getInGame_RegroupArmy_Slider()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getInMapEditor_ArmyPosition()Z`
+- `getInMapEditor_ArmySeaBoxes()Z`
+- `getInMapEditor_ArmySeaBoxes_Add()Z`
+- `getInMapEditor_ArmySeaBoxes_Edit()Z`
+- `getVisibleInGame_Army()Z`
+- `getVisibleInGame_GraphMovements()Z`
+- `getVisible_InGame_ProvinceRegroupArmy()Z`
+- `rebuildInGame_Army()V`
+- `rebuildInGame_MoveCapital(I)V`
+- `rebuildMenu_InGame_CapitalMoved(II)V`
+- `setVisibleInGame_Army(Z)V`
+- `setVisibleInGame_GraphMovements(Z)V`
+- `setVisible_InGame_ActionInfo_Disband()V`
+- `setVisible_InGame_ActionInfo_Move()V`
+- `setVisible_InGame_ActionInfo_NoMovementPoints()V`
+- `setVisible_InGame_ActionInfo_RegroupArmy()V`
+- `setVisible_InGame_ActionInfo_RegroupArmy_Move()V`
+- `setVisible_InGame_ProvinceDisband(Z)V`
+- `setVisible_InGame_ProvinceMoveUnits(Z)V`
+- `setVisible_InGame_ProvinceRegroupArmy(Z)V`
+- `setVisible_InGame_ViewArmy(Z)V`
+- `setVisible_Menu_InGame_CapitalMoved(Z)V`
+- `updateInGame_ActionInfo_Disband()V`
+- `updateInGame_ActionInfo_Move()V`
+- `updateInGame_TOP_MovementPoints(I)V`
+- `updateSlideMap_ActionMove()V`
+
+### diplomacy* (48)
+
+- `getInGameEditor_Create_DiplomacyPackage()Z`
+- `getInGame_Civ_Info_Diplomacy()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInManageDiplomacy()Z`
+- `getInManageDiplomacy_Alliances()Z`
+- `getInManageDiplomacy_DefensivePact()Z`
+- `getInManageDiplomacy_Guarantee()Z`
+- `getInManageDiplomacy_MilitaryAccess()Z`
+- `getInManageDiplomacy_Pacts3()Z`
+- `getInManageDiplomacy_Relations_Interactive()Z`
+- `getInManageDiplomacy_Truces()Z`
+- `getInManageDiplomacy_Vassals()Z`
+- `getManageDiplomacy_Alliances()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Defensive()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Guarantee()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_MilitaryAccess()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Pacts3()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Relations_Interactive()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Truces()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getManageDiplomacy_Vassals()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `rebuildCreate_NewGame_Civ_Info_Diplomacy()V`
+- `rebuildInGame_Civ_Info_Diplomacy()V`
+- `rebuildInGame_ImproveRelations(I)V`
+- `rebuildManageDiplomacy_Alliances()V`
+- `rebuildManageDiplomacy_Defensive()V`
+- `rebuildManageDiplomacy_DefensivePacts_List()V`
+- `rebuildManageDiplomacy_Guarantee()V`
+- `rebuildManageDiplomacy_Guarantee_List()V`
+- `rebuildManageDiplomacy_MilitaryAccess()V`
+- `rebuildManageDiplomacy_MilitaryAccess_List()V`
+- `rebuildManageDiplomacy_Pacts3()V`
+- `rebuildManageDiplomacy_Pacts_List()V`
+- `rebuildManageDiplomacy_Trcues_List()V`
+- `rebuildManageDiplomacy_Truces()V`
+- `rebuildManageDiplomacy_Vassals()V`
+- `rebuildManageDiplomacy_Vassals_List()V`
+- `setVisible_ManageDiplomacy_DefensivePact(Z)V`
+- `setVisible_ManageDiplomacy_DefensivePacts_List(Z)V`
+- `setVisible_ManageDiplomacy_Guarantee(Z)V`
+- `setVisible_ManageDiplomacy_Guarantee_List(Z)V`
+- `setVisible_ManageDiplomacy_MilitaryAccess(Z)V`
+- `setVisible_ManageDiplomacy_MilitaryAccess_List(Z)V`
+- `setVisible_ManageDiplomacy_Pacts3(Z)V`
+- `setVisible_ManageDiplomacy_Pacts_List(Z)V`
+- `setVisible_ManageDiplomacy_Relations(Z)V`
+- `setVisible_ManageDiplomacy_Truces(Z)V`
+- `setVisible_ManageDiplomacy_Vassals(Z)V`
+- `setVisible_ManageDiplomacy_Vassals_List(Z)V`
+- `updateInGame_TOP_DiplomacyPoints(I)V`
+
+### update/check* (23)
+
+- `update()V`
+- `updateBuildProvinceHoverInformation()V`
+- `updateCreateNewGame_Top()V`
+- `updateCreateScanerio_Events_Slider()V`
+- `updateCreateScenario_Events_Age_Date()V`
+- `updateEleemntHover_Animation()V`
+- `updateHoveredMenuElement_Hover(II)V`
+- `updateHoveredProvince_Hover(II)V`
+- `updateInGameRTO(Z)V`
+- `updateInGame_ActionInfo_Regroup()V`
+- `updateInGame_TOP_All(I)V`
+- `updateInGame_TOP_All_NextTurnActions(I)V`
+- `updateInGame_TOP_Date()V`
+- `updateInGame_TOP_ManPower(I)V`
+- `updateInGame_TOP_Money(I)V`
+- `updateInGame_TOP_NuclearWeapons(I)V`
+- `updateInGame_TOP_Rank(I)V`
+- `updateInGame_TOP_SupportRate(I)V`
+- `updateInGame_TOP_Turn()V`
+- `updateLanguage()V`
+- `updateScenario_Age_Date()V`
+- `updateSelecetScenarioAge_Slider()V`
+- `updateViewID()V`
+
+### recruit* (20)
+
+- `getInGame_ProvinceRecruit()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ProvinceRecruitInstantly_Confrim()V`
+- `getInGame_ProvinceRecruitInstantly_Slider()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getInGame_ProvinceRecruitInstantly_Visible()Z`
+- `getInGame_ProvinceRecruit_Confrim()V`
+- `getInGame_ProvinceRecruit_Instantly()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInGame_ProvinceRecruit_Slider()Lage/of/civilizations2/jakowski/lukasz/MenuElement;`
+- `getInGame_ProvinceRecruit_Visible()Z`
+- `getVisibleInGame_RecruitedArmy()Z`
+- `rebuildInGame_RecruitedArmy()V`
+- `setOrderOfMenu_InGame_Recruit()V`
+- `setVisibleInGame_RecruitedArmy(Z)V`
+- `setVisible_InGame_ActionInfo_Recruit()V`
+- `setVisible_InGame_ActionInfo_RecruitInstantly()V`
+- `setVisible_InGame_ActionInfo_RecruitOccupied()V`
+- `setVisible_InGame_ProvinceRecruit(Z)V`
+- `setVisible_InGame_ProvinceRecruitInstantly(Z)V`
+- `setVisible_InGame_ViewRecruitable(Z)V`
+- `updateInGame_ActionInfo_Recruit()V`
+- `updateInGame_ActionInfo_RecruitInstantly()V`
+
+### colonize/neutral* (13)
+
+- `getCreateScenario_WastelandContinents()Lage/of/civilizations2/jakowski/lukasz/SliderMenu;`
+- `getInCreateScenario_WastelandMap()Z`
+- `getInMapEditor_WastelandMaps_Edit()Z`
+- `getVisible_CreateRandomGame_WastelandMaps()Z`
+- `getVisible_CreateScenario_SetUpArmies_Neutral()Z`
+- `rebuildCreateScenario_SetUpArmies_Neutral()V`
+- `setMapEditor_WastelandMaps_Edit_UndoButton(Z)V`
+- `setVisible_CreateRandomGame_WastelandMaps(Z)V`
+- `setVisible_CreateScenario_SetUpArmies_Neutral(Z)V`
+- `setVisible_InGame_ProvinceAction_Colonize(Z)V`
+- `setVisible_InGame_ProvinceAction_Colonize_BorderOrArmy(Z)V`
+- `setVisible_InGame_ProvinceAction_Colonize_Just(Z)V`
+- `setVisible_InGame_ProvinceAction_Colonize_TechRequired(Z)V`
+
+### combat* (4)
+
+- `rebuildInGame_DefensivePact(I)V`
+- `rebuildInGame_Message_DefensivePact(III)V`
+- `setVisible_InGame_Dices(Z)V`
+- `setVisible_InGame_ProvinceAction_NuclearAttack(Z)V`
+
+### happiness* (4)
+
+- `getInCreateScenario_Happiness()Z`
+- `setVisible_InGame_ViewHappiness(Z)V`
+- `setVisible_InGame_ViewProvinceStability(Z)V`
+- `set_CreateScenario_Happiness_Slider(I)V`
+
+### draw* (2)
+
+- `draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V`
+- `draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V`
+
+### load/save* (2)
+
+- `saveCreateScenarioSettings_Data()V`
+- `saveLeader_Edit_Data()V`
+
+### fog* (1)
+
+- `updateInGame_ProvinceInfoGraph(I)V`
+
+### migrate* (1)
+
+- `rebuildInGame_Migrate(II)V`
+
+### predicate* (1)
+
+- `isSomethingHovered()Z`
+
+### revolt* (1)
+
+- `rebuildInGame_SupportRebels(II)V`
+

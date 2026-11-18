@@ -1,0 +1,70 @@
+# === 本地/系统 ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+.cursor/
+*.iml
+
+# === Python ===
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# === 密钥与签名（严禁入库）===
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+build/aoe-debug.keystore
+**/local.properties
+
+# === 原始/构建 APK 与安装产物（体积大）===
+AOE.APK
+*.apk
+*.apks
+*.aab
+*.idsig
+build/AOE-unsigned.apk
+build/AOE-aligned.apk
+build/AOE-signed.apk
+build/installed.apk
+
+# === 构建中间产物 / 巨型日志 ===
+AOE_unpacked/build/
+build/crash_*.log
+build/verify_*.log
+build/crash_load*.log
+build/crash_repro*.log
+build/*.log
+build/adb_cap*/
+build/adb_shots/
+*.logcat
+
+# === 第三方工具二进制（可本机自备）===
+apktool_*.jar
+apktool.jar
+uber-apk-signer*.jar
+bundletool*.jar
+
+# === 归档垃圾 / scratch ===
+archive/scratch/
+archive/build-logs/
+*.tmp
+*.bak
+*~
+
+# === 控制台编译临时输出（若生成在 tools 下）===
+tools/console/**/bin/
+tools/console/**/out/
+tools/console/**/*.class
+tools/**/*.log
+
+# === Node（若有）===
+node_modules/

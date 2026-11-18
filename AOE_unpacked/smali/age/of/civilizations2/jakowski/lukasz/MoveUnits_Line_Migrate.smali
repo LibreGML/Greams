@@ -1,0 +1,195 @@
+.class Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;
+.super Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line;
+.source "MoveUnits_Line_Migrate.java"
+
+
+# static fields
+.field protected static MOVE_SRC_X2:I
+
+.field protected static MOVE_WIDTH2:I
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 0
+
+    return-void
+.end method
+
+.method protected constructor <init>(II)V
+    .locals 0
+
+    invoke-direct {p0, p1, p2}, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line;-><init>(II)V
+
+    invoke-virtual {p0}, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->getImageID()Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object p1
+
+    invoke-virtual {p1}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result p1
+
+    sput p1, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->MOVE_WIDTH2:I
+
+    return-void
+.end method
+
+
+# virtual methods
+.method protected getFlipX()Z
+    .locals 1
+
+    sget-object v0, Lage/of/civilizations2/jakowski/lukasz/CFG;->linesManager:Lage/of/civilizations2/jakowski/lukasz/LinesManager;
+
+    iget-boolean v0, v0, Lage/of/civilizations2/jakowski/lukasz/LinesManager;->migrateFlipX:Z
+
+    return v0
+.end method
+
+.method protected getImageID()Lage/of/civilizations2/jakowski/lukasz/Image;
+    .locals 1
+
+    sget-object v0, Lage/of/civilizations2/jakowski/lukasz/CFG;->linesManager:Lage/of/civilizations2/jakowski/lukasz/LinesManager;
+
+    iget-object v0, v0, Lage/of/civilizations2/jakowski/lukasz/LinesManager;->migrateImage:Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    return-object v0
+.end method
+
+.method protected getMoveSrcX()I
+    .locals 1
+
+    sget v0, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->MOVE_SRC_X2:I
+
+    return v0
+.end method
+
+.method protected updateColor(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;)V
+    .locals 7
+
+    new-instance v0, Lcom/badlogic/gdx/graphics/Color;
+
+    sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    sget-object v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    invoke-virtual {p0}, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->getFromProvinceID()I
+
+    move-result v3
+
+    invoke-virtual {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Province;->getCivID()I
+
+    move-result v2
+
+    invoke-virtual {v1, v2}, Lage/of/civilizations2/jakowski/lukasz/Game;->getCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Lage/of/civilizations2/jakowski/lukasz/Civilization;->getR()I
+
+    move-result v1
+
+    div-int/lit16 v1, v1, 0xff
+
+    int-to-float v1, v1
+
+    sget-object v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    invoke-virtual {p0}, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->getFromProvinceID()I
+
+    move-result v4
+
+    invoke-virtual {v3, v4}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Province;->getCivID()I
+
+    move-result v3
+
+    invoke-virtual {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/Game;->getCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Civilization;->getG()I
+
+    move-result v2
+
+    int-to-float v2, v2
+
+    const/high16 v3, 0x437f0000    # 255.0f
+
+    div-float/2addr v2, v3
+
+    sget-object v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    sget-object v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    invoke-virtual {p0}, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->getFromProvinceID()I
+
+    move-result v6
+
+    invoke-virtual {v5, v6}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Lage/of/civilizations2/jakowski/lukasz/Province;->getCivID()I
+
+    move-result v5
+
+    invoke-virtual {v4, v5}, Lage/of/civilizations2/jakowski/lukasz/Game;->getCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Civilization;->getB()I
+
+    move-result v4
+
+    int-to-float v4, v4
+
+    div-float/2addr v4, v3
+
+    const/high16 v3, 0x3f800000    # 1.0f
+
+    invoke-direct {v0, v1, v2, v4, v3}, Lcom/badlogic/gdx/graphics/Color;-><init>(FFFF)V
+
+    invoke-virtual {p1, v0}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    return-void
+.end method
+
+.method protected updateMovingLine()V
+    .locals 5
+
+    iget v0, p0, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->fMovingPercentage:F
+
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+
+    move-result-wide v1
+
+    iget-wide v3, p0, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->lMovingTime:J
+
+    sub-long/2addr v1, v3
+
+    long-to-float v1, v1
+
+    const/high16 v2, 0x43af0000    # 350.0f
+
+    div-float/2addr v1, v2
+
+    const v2, 0x3f666666    # 0.9f
+
+    mul-float v1, v1, v2
+
+    add-float/2addr v0, v1
+
+    iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/MoveUnits_Line_Migrate;->fMovingPercentage:F
+
+    return-void
+.end method

@@ -1,0 +1,527 @@
+# `Civilization` 方法索引
+
+- 文件: `.../lukasz/Civilization.smali`
+- 大小: **717.2 KB**
+- 分组: 实体
+- 说明: 单文明运行时实体
+- 方法数: **390**；字段数: **101**
+- super: `Ljava/lang/Object;`
+
+## 字段（摘录）
+
+- `ADD_CIV_DEFAULT_TECH_LEVEL` : `I`
+- `MIN_MONEY_REQUIRED_TO_ENABLE_RESEARCH` : `I`
+- `iNumOfTurnsForNuclearWeapon` : `I`
+- `bordersWithEnemy` : `I`
+- `canExpandOnContinent` : `Z`
+- `civFlag` : `Lage/of/civilizations2/jakowski/lukasz/Image;`
+- `civGameData` : `Lage/of/civilizations2/jakowski/lukasz/Save_Civ_GameData;`
+- `civsInRange` : `Ljava/util/List;`
+- `civsInfluenced` : `Ljava/util/List;`
+- `civsInfluencedSize` : `I`
+- `civsIsAlliedIncludeVassal` : `Ljava/util/List;`
+- `controlledByPlayer` : `Z`
+- `fAverageDevelopment` : `F`
+- `fStability` : `F`
+- `holdLookingForFriends_UntilTurnID` : `I`
+- `iAdministrationCosts` : `I`
+- `iArmiesPositionSize` : `I`
+- `iArmyInAnotherProvinceSize` : `I`
+- `iAveragePopulation` : `I`
+- `iBorderWithCivsSize` : `I`
+- `iBudget` : `I`
+- `iCivID` : `I`
+- `iCivNameHeight` : `I`
+- `iCivNameLength` : `I`
+- `iCivNameWidth` : `I`
+- `iCivRegionsSize` : `I`
+- `iHappiness` : `I`
+- `iIdeologyID` : `I`
+- `iIncomeProduction` : `I`
+- `iIncomeTaxation` : `I`
+- `iLeague` : `I`
+- `iMigrateSize` : `I`
+- `iMilitaryUpkeep_PERC` : `F`
+- `iMilitaryUpkeep_Total` : `I`
+- `lAdministrationCosts` : `J`
+- `lBudget` : `J`
+- `lIncomeProduction` : `J`
+- `lIncomeTaxation` : `J`
+- `lMilitaryUpkeep_Total` : `J`
+- `iMovePoints` : `I`
+- `iMoveUnitsSize` : `I`
+- `iMove_Units_PlunderSize` : `I`
+- `iNumOfNeighboringNeutralProvinces` : `I`
+- `iNumOfProvinces` : `I`
+- `iNumOfProvincesWithoutOccupied` : `I`
+- `iNumOfUnits` : `I`
+- `iNumOf_Armories` : `I`
+- `iNumOf_Bunkers` : `I`
+- `iNumOf_Farms` : `I`
+- `iNumOf_Farms_ProvincesPossibleToBuild` : `I`
+- `iNumOf_Forts` : `I`
+- `iNumOf_Libraries` : `I`
+- `iNumOf_NuclearReactors` : `I`
+- `iNumOf_Ports` : `I`
+- `iNumOf_SuppliesCamp` : `I`
+- `iNumOf_Towers` : `I`
+- `iNumOf_Workshops` : `I`
+- `iRankPosition` : `I`
+- `iRankScore` : `I`
+- `iRecruitArmySize` : `I`
+- `isAssimilateProvincesPlayer` : `I`
+- `isAtNuclearWar` : `Z`
+- `isAtWar` : `Z`
+- `isAtWarWithCivs` : `Ljava/util/List;`
+- `isAvailable` : `Z`
+- `isBuildBuildingsForPlayer` : `I`
+- `isMoveAtWarPlayer` : `I`
+- `isRegroupArmyForPlayer` : `I`
+- `lArmiesPosition` : `Ljava/util/List;`
+- `lArmyInAnotherProvince` : `Ljava/util/List;`
+- `lBorderWithCivs` : `Ljava/util/List;`
+- `lBordersWithNeutralProvincesID` : `Ljava/util/List;`
+- `lBordersWithWastelandProvincesID` : `Ljava/util/List;`
+- `lCivNameChars` : `Ljava/util/List;`
+- `lCivRegions` : `Ljava/util/List;`
+- `lCurrentRegroupArmyLine` : `Ljava/util/List;`
+- `lDefensivePact` : `Ljava/util/List;`
+- `lEventsToRun` : `Ljava/util/List;`
+- `lGuarantee` : `Ljava/util/List;`
+- `lMigrate` : `Ljava/util/List;`
+- … +21 fields
+
+## 方法（按簇）
+
+### get* (121)
+
+- `getAI_Style()I`
+- `getAllianceID()I`
+- `getAssimilate(I)Lage/of/civilizations2/jakowski/lukasz/CivFestival;`
+- `getAssimilatesSize()I`
+- `getB()I`
+- `getBonus(I)Lage/of/civilizations2/jakowski/lukasz/CivBonus_GameData;`
+- `getBonusesSize()I`
+- `getBordersWithCiv(I)Z`
+- `getBordersWithEnemy()I`
+- `getBordersWithHatedCivsSize()I`
+- `getBoundaryDistance(I)F`
+- `getCanExpandOnContinent()Z`
+- `getCapitalProvinceID()I`
+- `getChangeGovermentStatus()Ljava/lang/String;`
+- `getCivCommercePower()F`
+- `getCivCommercePower_CountBuildings()F`
+- `getCivCommercePower_GDP()F`
+- `getCivCommercePower_Other()F`
+- `getCivID()I`
+- `getCivName()Ljava/lang/String;`
+- `getCivNameCharacter(I)C`
+- `getCivNameHeight()I`
+- `getCivNameLength()I`
+- `getCivNameWidth()I`
+- `getCivPersonality()Lage/of/civilizations2/jakowski/lukasz/CivPersonality;`
+- `getCivPlans()Lage/of/civilizations2/jakowski/lukasz/CivPlans;`
+- `getCivRegion(I)Lage/of/civilizations2/jakowski/lukasz/Civilization_Region;`
+- `getCivRegionsSize()I`
+- `getCivTag()Ljava/lang/String;`
+- `getClosingTheCommerce()Z`
+- `getConstruction(I)Lage/of/civilizations2/jakowski/lukasz/Construction_GameData;`
+- `getConstructionsSize()I`
+- `getControlledByPlayer()Z`
+- `getCoreCapitalProvinceID()I`
+- `getDeclareWarStatus(I)Ljava/lang/String;`
+- `getEvent_TookDecision(Ljava/lang/String;)Z`
+- `getEventsToRun(I)I`
+- `getEventsToRunSize()I`
+- `getFestival(I)Lage/of/civilizations2/jakowski/lukasz/CivFestival;`
+- `getFestivalsSize()I`
+- `getFlag()Lage/of/civilizations2/jakowski/lukasz/Image;`
+- `getFlag_IsNull()Z`
+- `getFriendlyCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization_Friends_GameData;`
+- `getFriendlyCivsSize()I`
+- `getG()I`
+- `getGoldenAge_Military()I`
+- `getGoldenAge_Prosperity()I`
+- `getGoldenAge_Science()I`
+- `getGuarantee(I)I`
+- `getHatedCiv(I)Lage/of/civilizations2/jakowski/lukasz/Civilization_Hated_GameData;`
+- `getHatedCiv_By(I)I`
+- `getHatedCivsSize()I`
+- `getHatedCivs_BySize()I`
+- `getIdeologyID()I`
+- `getInReformation()I`
+- `getInvest(I)Lage/of/civilizations2/jakowski/lukasz/CivInvest;`
+- `getInvest_Development(I)Lage/of/civilizations2/jakowski/lukasz/CivInvest_Development;`
+- `getInvestsSize()I`
+- `getInvestsSize_Development()I`
+- `getIsAlliedWithPlayer()Z`
+- `getIsAvailable()Z`
+- `getIsPartOfHolyRomanEmpire()Z`
+- `getIsPupet()Z`
+- `getLoan(I)Lage/of/civilizations2/jakowski/lukasz/Loan_GameData;`
+- `getLoansSize()I`
+- `getLoans_GoldTotalPerTurn()I`
+- `getManPower()I`
+- `getManPowerIncreasing()I`
+- `getManPower_ThisTurn()I`
+- `getMilitaryAccess(I)I`
+- `getModifier_Administation()F`
+- `getModifier_EconomyGrowth()F`
+- `getModifier_IncomeProduction()F`
+- `getModifier_IncomeTaxation()F`
+- `getModifier_MilitaryUpkeep()F`
+- `getModifier_PopGrowth()F`
+- `getModifier_Research()F`
+- `getMoney()J`
+- `getNextElection()I`
+- `getNonAggressionPact(I)I`
+- `getNuclearWeapons()I`
+- `getNuclearWeaponsPerTurn()I`
+- `getNuclearWeaponsTurn()I`
+- `getNumOfProvinces()I`
+- `getNumOfProvincesWithoutOccupied()I`
+- `getNumOfUnits()I`
+- `getProvinceID(I)I`
+- `getPuppetOfCivID()I`
+- `getR()I`
+- `getRGB()Lcom/badlogic/gdx/graphics/Color;`
+- `getRGB(F)Lcom/badlogic/gdx/graphics/Color;`
+- `getRankPosition()I`
+- `getRankScore()I`
+- `getResearchProgress()F`
+- `getSeaAccess()I`
+- `getSeaAccess_PortProvinces()Ljava/util/List;`
+- `getSeaAccess_PortProvinces_Size()I`
+- `getSeaAccess_Provinces()Ljava/util/List;`
+- `getSeaAccess_Provinces_Size()I`
+- `getSentMessage(I)Lage/of/civilizations2/jakowski/lukasz/Civilization_SentMessages;`
+- `getSentMessagesSize()I`
+- `getSpendings_Goods()F`
+- `getSpendings_Investments()F`
+- `getSpendings_Research()F`
+- `getSupportRate()F`
+- `getTagsCanForm(I)Ljava/lang/String;`
+- `getTagsCanFormSize()I`
+- `getTaxationLevel()F`
+- `getTechnologyLevel()F`
+- `getTechnologyLevel_INT()I`
+- `getTruce(I)I`
+- `getUpdateRegions()Z`
+- `getVassalLiberityDesire()F`
+- `getVassal_Tribute(I)I`
+- `getWarReparationsGets(I)Lage/of/civilizations2/jakowski/lukasz/WarReparations;`
+- `getWarReparationsGetsSize()I`
+- `getWarReparationsGets_TurnsLeft(I)I`
+- `getWarReparationsPays(I)Lage/of/civilizations2/jakowski/lukasz/WarReparations;`
+- `getWarReparationsPaysSize()I`
+- `getWarReparationsPays_TurnsLeft(I)I`
+- `getWarWeariness()F`
+
+### set* (67)
+
+- `setAI_Style(I)V`
+- `setAllianceID(I)V`
+- `setAtNuclearWar()V`
+- `setB(I)V`
+- `setBordersWithEnemy(I)V`
+- `setCanExpandOnContinent(Z)V`
+- `setCapitalProvinceID(I)V`
+- `setCivID(I)V`
+- `setCivID_Just(I)V`
+- `setCivName(Ljava/lang/String;)V`
+- `setCivTag(Ljava/lang/String;)V`
+- `setClosingTheCommerce(Z)V`
+- `setControlledByPlayer(Z)V`
+- `setCoreCapitalProvinceID(I)V`
+- `setFirstReactor(Z)V`
+- `setFlag(Lage/of/civilizations2/jakowski/lukasz/Image;)V`
+- `setG(I)V`
+- `setGoldenAge_Military(I)V`
+- `setGoldenAge_Prosperity(I)V`
+- `setGoldenAge_Science(I)V`
+- `setGuarantee(II)Z`
+- `setIdeologyID(I)V`
+- `setInReformation(I)V`
+- `setIsAlliedWithPlayer(Z)V`
+- `setIsAtWar(Z)V`
+- `setIsAvailable(Z)V`
+- `setIsPartOfHolyRomanEmpire(Z)V`
+- `setManPower(I)V`
+- `setManPowerPerTurn(I)V`
+- `setManPower_ThisTurn(I)V`
+- `setMilitaryAccess(II)Z`
+- `setModifier_EconomyGrowth(F)V`
+- `setModifier_IncomeProduction(F)V`
+- `setModifier_IncomeTaxation(F)V`
+- `setModifier_MilitaryUpkeep(F)V`
+- `setModifier_PopGrowth(F)V`
+- `setModifier_Research(F)V`
+- `setMoney(J)V`
+- `setNextElection(I)V`
+- `setNonAggressionPact(II)Z`
+- `setNuclearWeapons(I)V`
+- `setNuclearWeaponsPerTurn(I)V`
+- `setNuclearWeaponsTurn(I)V`
+- `setNumOfProvincesWithoutOccupied(I)V`
+- `setNumOfUnits(I)V`
+- `setPuppetOfCivID(I)V`
+- `setPuppetOfCivID(IZ)V`
+- `setPuppetOfCivID_Empire(IZ)V`
+- `setPuppetOfCivID_PeaceTreaty(IZ)V`
+- `setR(I)V`
+- `setRankPosition(I)V`
+- `setRankScore(I)V`
+- `setResearchProgress(F)V`
+- `setResources(J)V`
+- `setSeaAccess(I)V`
+- `setSpendings_Goods(F)V`
+- `setSpendings_Investments(F)V`
+- `setSpendings_Research(F)V`
+- `setSupportRate(F)V`
+- `setTaxationLevel(F)V`
+- `setTechnologyLevel(F)V`
+- `setTechnologyLevel_INT(I)V`
+- `setTruce(II)Z`
+- `setUpdateRegions(Z)V`
+- `setVassalLiberityDesire(F)V`
+- `setVassal_Tribute(II)V`
+- `setWarWeariness(F)V`
+
+### other (64)
+
+- `addAssimilate(Lage/of/civilizations2/jakowski/lukasz/CivFestival;)Z`
+- `addBordersWithCivID(I)V`
+- `addEventToRunID(I)V`
+- `addEvent_DecisionTaken(Ljava/lang/String;)V`
+- `addFestival(Lage/of/civilizations2/jakowski/lukasz/CivFestival;)Z`
+- `addFriendlyCiv(I)Z`
+- `addHatedCiv(I)Z`
+- `addHatedCiv_By(I)V`
+- `addInvest(Lage/of/civilizations2/jakowski/lukasz/CivInvest;)Z`
+- `addInvest_Development(Lage/of/civilizations2/jakowski/lukasz/CivInvest_Development;)Z`
+- `addLoan(II)V`
+- `addNewBonus(Lage/of/civilizations2/jakowski/lukasz/CivBonus_GameData;)Z`
+- `addNewConstruction(Lage/of/civilizations2/jakowski/lukasz/Construction_GameData;)V`
+- `addProvince(I)V`
+- `addProvince_Just(I)V`
+- `addResearchProgress(F)V`
+- `addSeaAccess_PortProvinces(I)V`
+- `addSeaAccess_Provinces(I)V`
+- `addSentMessages(Lage/of/civilizations2/jakowski/lukasz/Civilization_SentMessages;)V`
+- `addTagsCanForm(Ljava/lang/String;)V`
+- `addVassal(I)V`
+- `addWarReparationsGets(I)V`
+- `addWarReparationsPay(I)V`
+- `applyBonusChanges(Lage/of/civilizations2/jakowski/lukasz/CivBonus_GameData;)V`
+- `applyBonusChanges_Expired(Lage/of/civilizations2/jakowski/lukasz/CivBonus_GameData;)V`
+- `buildCivPersonality()V`
+- `buildCivPersonality_Buildings()V`
+- `buildCivPersonality_MoreOften()V`
+- `buildCivilizationRegion(II)V`
+- `buildNumOfUnits()V`
+- `buildRegroupLines_AfterLoading()V`
+- `civRegionsContainsProvince(I)Z`
+- `clearCivRegions()V`
+- `clearConstructions()V`
+- `clearFreidnlyCivs()V`
+- `clearHatedCivs()V`
+- `clearLoans()V`
+- `clearProvinces_FillTheMap(Z)V`
+- `clearSeaAccess_PortProvinces()V`
+- `clearSeaAccess_Provinces()V`
+- `clearSentMessages()V`
+- `clearTagsCanForm()V`
+- `controlsProvince(I)Z`
+- `countEconomy()I`
+- `countEconomy_WithoutOccupied()I`
+- `countNumOfProvinces()V`
+- `countNumOfProvinces_WithoutOccupied()I`
+- `countPopulation()I`
+- `countPopulation_WithoutOccupied()I`
+- `createCivilizationRegion(I)V`
+- `disposeFlag()V`
+- `initCivilization(Ljava/lang/String;IIII)V`
+- `messageWasSent(I)Z`
+- `messageWasSent(ILage/of/civilizations2/jakowski/lukasz/Message_Type;)Z`
+- `messageWasSent(Lage/of/civilizations2/jakowski/lukasz/Message_Type;)Z`
+- `newPlunder(II)V`
+- `runAssimilates()V`
+- `runCommerce()V`
+- `runConstruction()V`
+- `runFestivals()V`
+- `runInvests()V`
+- `runInvests_Development()V`
+- `runNextEvent()V`
+- `runWarReparations()V`
+
+### army/move* (49)
+
+- `addArmyInAnotherProvince(I)V`
+- `addRegroupArmy(Lage/of/civilizations2/jakowski/lukasz/RegroupArmy_Data;)V`
+- `clearMoveUnits()V`
+- `clearMoveUnits_Plunder()V`
+- `clearRegroupArmy()V`
+- `getArmyInAnotherProvince(I)I`
+- `getArmyInAnotherProvinceSize()I`
+- `getCapitalMoved_LastTurnID()I`
+- `getCivBuildArmyCost()I`
+- `getCurrentRegroupArmyLine(I)Ljava/util/List;`
+- `getModifier_MovementPoints()F`
+- `getMovePoints()I`
+- `getMoveUnits(I)Lage/of/civilizations2/jakowski/lukasz/Move_Units;`
+- `getMoveUnitsPlunderSize()I`
+- `getMoveUnitsSize()I`
+- `getMoveUnits_Plunder(I)Lage/of/civilizations2/jakowski/lukasz/Move_Units_Plunder;`
+- `getRegroupArmy(I)Lage/of/civilizations2/jakowski/lukasz/RegroupArmy_Data;`
+- `getRegroupArmySize()I`
+- `isRegoupingArmy_ToProvinceID(I)I`
+- `moveRegroupArmy()V`
+- `newMove(IIIZ)V`
+- `removeArmyInAnotherProvince(I)V`
+- `removeAssimilate(I)V`
+- `removeAssimilate_ProvinceID(I)V`
+- `removeCivRegionID(I)V`
+- `removeEventToRun(I)V`
+- `removeFestival(I)V`
+- `removeFestival_ProvinceID(I)V`
+- `removeFriendlyCiv(I)V`
+- `removeHatedCiv(I)V`
+- `removeHatedCiv_BY(I)V`
+- `removeInvest(I)V`
+- `removeInvest_Development(I)V`
+- `removeInvest_ProvinceID(I)V`
+- `removeInvest_ProvinceID_Development(I)V`
+- `removeLoan(I)V`
+- `removeMove(I)V`
+- `removePlunder(I)V`
+- `removePlunder_ProvinceID(I)V`
+- `removeProvince(I)V`
+- `removeRegroupArmy(I)V`
+- `removeSentMessage(I)V`
+- `removeSentMessages(Lage/of/civilizations2/jakowski/lukasz/Message_Type;)V`
+- `removeTagsCanForm(I)V`
+- `removeTagsCanForm(Ljava/lang/String;)V`
+- `removeVassal(I)V`
+- `setCapitalMoved_LastTurnID(I)V`
+- `setModifier_MovementPoints(F)V`
+- `setMovePoints(I)V`
+
+### predicate* (25)
+
+- `isAssimialateOrganized_TurnsLeft(I)I`
+- `isAssimilateOrganized(I)Z`
+- `isAssimilateOrganized_GET(I)Lage/of/civilizations2/jakowski/lukasz/CivFestival;`
+- `isAtNuclearWar()Z`
+- `isAtWar()Z`
+- `isFestivalOrganized(I)Z`
+- `isFestivalOrganized_GET(I)Lage/of/civilizations2/jakowski/lukasz/CivFestival;`
+- `isFestivalOrganized_TurnsLeft(I)I`
+- `isFirstReactor()Z`
+- `isFriendlyCiv(I)I`
+- `isHatedCiv(I)Z`
+- `isHatedCivBy(I)Z`
+- `isInConstruction(ILage/of/civilizations2/jakowski/lukasz/ConstructionType;)I`
+- `isInvestOrganized(I)Z`
+- `isInvestOrganized_Development(I)Z`
+- `isInvestOrganized_EconomyLeft(I)I`
+- `isInvestOrganized_EconomyLeft_Development(I)F`
+- `isInvestOrganized_GET(I)Lage/of/civilizations2/jakowski/lukasz/CivInvest;`
+- `isInvestOrganized_GET_Development(I)Lage/of/civilizations2/jakowski/lukasz/CivInvest_Development;`
+- `isInvestOrganized_TurnsLeft(I)I`
+- `isInvestOrganized_TurnsLeft_Development(I)I`
+- `isMovingUnitsFromProvinceID(I)Z`
+- `isMovingUnitsToProvinceID(I)Z`
+- `isMovingUnitsToProvinceID_Num(I)I`
+- `isPlundred(I)Z`
+
+### update/check* (13)
+
+- `updateBonuses()V`
+- `updateChangeGoverment()V`
+- `updateCivilizationIdeology()V`
+- `updateCivilizationIdeology(Ljava/lang/String;III)V`
+- `updateFriendlyCiv()V`
+- `updateLoansNextTurn()V`
+- `updateManPowerIncreasing()V`
+- `updateNextElection_Start()V`
+- `updateNextReformation_Start()V`
+- `updateNuclearWeapon()V`
+- `updateStartingManPower()V`
+- `updateSupport_Rate()V`
+- `updateSupport_Rate_Start()V`
+
+### diplomacy* (12)
+
+- `buildDiplomacy(Z)V`
+- `getCivilization_Diplomacy_GameData()Lage/of/civilizations2/jakowski/lukasz/Civilization_Diplomacy_GameData;`
+- `getDiplomacyPoints()I`
+- `getDiplomacyStatus_Ally(I)Ljava/lang/String;`
+- `getDiplomacyStatus_Improvement(I)Ljava/lang/String;`
+- `getDiplomacyStatus_Insult(I)Ljava/lang/String;`
+- `getRelation(I)F`
+- `setDiplomacyPoints(I)V`
+- `setRelation(IF)V`
+- `updateDiplomacy_AfterAddingCivilization()V`
+- `updateDiplomacy_AfterRemoveCivilization(I)V`
+- `updateDiplomacy_AfterRemoveCivilization_Relations(I)V`
+
+### combat* (11)
+
+- `getDefensivePact(I)I`
+- `getModifier_AttackBonus()F`
+- `getModifier_AttackBonus_GoldenAge()F`
+- `getModifier_AttackBonus_Leader()F`
+- `getModifier_DefenseBonus()F`
+- `getModifier_DefenseBonus_GoldenAge()F`
+- `getModifier_DefenseBonus_Leader()F`
+- `getSpendings_attackbonus()F`
+- `setDefensivePact(II)Z`
+- `setModifier_AttackBonus(F)V`
+- `setModifier_DefenseBonus(F)V`
+
+### recruit* (11)
+
+- `clearRecruitArmy()V`
+- `getRecruitArmy(I)Lage/of/civilizations2/jakowski/lukasz/RecruitArmy_Request;`
+- `getRecruitArmySize()I`
+- `getRecruitArmy_BasedOnProvinceID(I)I`
+- `isRecruitingArmyInProvinceID(I)I`
+- `recruitArmy(II)Z`
+- `recruitArmyAutoPlan(II)Z`
+- `recruitArmyAutoplan_AI(II)Z`
+- `recruitArmy_AI(II)Z`
+- `recruitArmy_NewTurn()V`
+- `removeRecruitArmy(I)V`
+
+### happiness* (6)
+
+- `getHappiness()I`
+- `getHappiness_10Turn()F`
+- `getStability()F`
+- `setHappiness(I)V`
+- `setHappiness_10Turn(F)V`
+- `setStability(F)V`
+
+### migrate* (6)
+
+- `clearMigrate()V`
+- `getMigrate(I)Lage/of/civilizations2/jakowski/lukasz/Move_Units;`
+- `getMigrateSize()I`
+- `migratesFromProvinceID(I)Z`
+- `newMigrate(IIZ)V`
+- `removeMigrate(I)V`
+
+### colonize/neutral* (3)
+
+- `buildCivPersonality_Colonization()V`
+- `getNumOfNeighboringNeutralProvinces()I`
+- `setNumOfNeighboringNeutralProvinces(I)V`
+
+### load/save* (1)
+
+- `loadFlag()Z`
+
+### revolt* (1)
+
+- `countRevolutionaryRisks_WithoutOccupied()F`
+

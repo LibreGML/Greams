@@ -1,0 +1,47 @@
+.class Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager$13;
+.super Ljava/lang/Object;
+.source "Map_TouchManager.java"
+
+# interfaces
+.implements Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager$ExtraAction;
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager;->update_ExtraAction()V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x0
+    name = null
+.end annotation
+
+
+# instance fields
+.field final synthetic this$0:Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager;
+
+
+# direct methods
+.method constructor <init>(Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager;)V
+    .locals 0
+
+    iput-object p1, p0, Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager$13;->this$0:Lage/of/civilizations2/jakowski/lukasz/Map_TouchManager;
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public extraAction(II)V
+    .locals 0
+
+    sget-object p1, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    const/4 p2, -0x1
+
+    invoke-virtual {p1, p2}, Lage/of/civilizations2/jakowski/lukasz/Game;->setActiveProvinceID(I)V
+
+    return-void
+.end method

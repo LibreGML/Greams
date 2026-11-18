@@ -1,0 +1,231 @@
+# `BuildingsManager` 方法索引
+
+- 文件: `.../lukasz/BuildingsManager.smali`
+- 大小: **333.9 KB**
+- 分组: 建造
+- 说明: 建筑管理
+- 方法数: **121**；字段数: **91**
+- super: `Ljava/lang/Object;`
+
+## 字段（摘录）
+
+- `ACTIVE_BUILDING` : `Lage/of/civilizations2/jakowski/lukasz/Buildings;`
+- `ARMOURY_BUILD_COST` : `[F`
+- `ARMOURY_BUILD_MOVEMENT_COST` : `[I`
+- `ARMOURY_CONSTRUCTION` : `[I`
+- `ARMOURY_NAMES` : `[Ljava/lang/String;`
+- `ARMOURY_TECH_LEVEL` : `[F`
+- `BONUS_CAPITAL_ATTACK_FROM_CAPITAL` : `I`
+- `BONUS_CAPITAL_DEFENSE` : `I`
+- `BUNKER_BUILD_COST` : `[F`
+- `BUNKER_BUILD_MOVEMENT_COST` : `[I`
+- `BUNKER_CONSTRUCTION` : `[I`
+- `BUNKER_DEFENSE_BONUS` : `[I`
+- `BUNKER_MAINTENANCE_COST` : `[I`
+- `BUNKER_NAMES` : `[Ljava/lang/String;`
+- `BUNKER_TECH_LEVEL` : `[F`
+- `DESTROY_MOVEMENT_COST` : `I`
+- `FARM_BUILD_COST` : `[F`
+- `FARM_BUILD_MOVEMENT_COST` : `[I`
+- `FARM_CONSTRUCTION` : `[I`
+- `FARM_GROWTH_RATE_BONUS` : `[F`
+- `FARM_MAINTENANCE_COST` : `[I`
+- `FARM_NAMES` : `[Ljava/lang/String;`
+- `FARM_TECHNOLOGY_LEVEL` : `[F`
+- `FORT_BUILD_COST` : `[F`
+- `FORT_BUILD_MOVEMENT_COST` : `[I`
+- `FORT_CONSTRUCTION` : `[I`
+- `FORT_DEFENSE_BONUS` : `[I`
+- `FORT_MAINTENANCE_COST` : `[I`
+- `FORT_NAMES` : `[Ljava/lang/String;`
+- `FORT_TECH_LEVEL` : `[F`
+- `LIBRARY_BUILD_COST` : `[F`
+- `LIBRARY_BUILD_MOVEMENT_COST` : `[I`
+- `LIBRARY_CONSTRUCTION` : `[I`
+- `LIBRARY_NAMES` : `[Ljava/lang/String;`
+- `LIBRARY_RESEARCH_PER_POPULATION` : `[I`
+- `LIBRARY_TECH_LEVEL` : `[F`
+- `NUCLEAR_REACTOR_BUILD_COST` : `[F`
+- `NUCLEAR_REACTOR_BUILD_MOVEMENT_COST` : `[I`
+- `NUCLEAR_REACTOR_CONSTRUCTION` : `[I`
+- `NUCLEAR_REACTOR_NAMES` : `[Ljava/lang/String;`
+- `NUCLEAR_REACTOR_TECH_LEVEL` : `[F`
+- `PORT_BUILD_COST` : `[F`
+- `PORT_BUILD_MOVEMENT_COST` : `[I`
+- `PORT_CONSTRUCTION` : `[I`
+- `PORT_INCOME_PRODUCTION` : `[F`
+- `PORT_MAINTENANCE_COST` : `[I`
+- `PORT_NAMES` : `[Ljava/lang/String;`
+- `PORT_TECHNOLOGY_LEVEL` : `[F`
+- `SUPPLY_BONUS` : `[F`
+- `SUPPLY_BUILD_COST` : `[F`
+- `SUPPLY_BUILD_MOVEMENT_COST` : `[I`
+- `SUPPLY_CONSTRUCTION` : `[I`
+- `SUPPLY_NAMES` : `[Ljava/lang/String;`
+- `SUPPLY_TECH_LEVEL` : `[F`
+- `TOWER_BUILD_COST` : `[F`
+- `TOWER_BUILD_MOVEMENT_COST` : `[I`
+- `TOWER_CONSTRUCTION` : `[I`
+- `TOWER_DEFENSE_BONUS` : `[I`
+- `TOWER_MAINTENANCE_COST` : `[I`
+- `TOWER_NAMES` : `[Ljava/lang/String;`
+- `TOWER_TECHNOLOGY_LEVEL` : `[F`
+- `WORKSHOP_BUILD_COST` : `[F`
+- `WORKSHOP_BUILD_MOVEMENT_COST` : `[I`
+- `WORKSHOP_CONSTRUCTION` : `[I`
+- `WORKSHOP_INCOME_PRODUCTION` : `[F`
+- `WORKSHOP_MAINTENANCE_COST` : `[I`
+- `WORKSHOP_NAMES` : `[Ljava/lang/String;`
+- `WORKSHOP_TECHNOLOGY_LEVEL` : `[F`
+- `fBuildArmoury` : `Z`
+- `fBuildBunker` : `Z`
+- `fBuildFarm` : `Z`
+- `fBuildFort` : `Z`
+- `fBuildLibrary` : `Z`
+- `fBuildNuclearReactor` : `Z`
+- `fBuildPort` : `Z`
+- `fBuildShaft` : `Z`
+- `fBuildSupply` : `Z`
+- `fBuildWatchTower` : `Z`
+- `fBuildWorkshop` : `Z`
+- `fDestroyArmoury` : `Z`
+- … +11 fields
+
+## 方法（按簇）
+
+### get* (67)
+
+- `getArmoury_BuildCost(II)I`
+- `getArmoury_Construction(I)I`
+- `getArmoury_MaxLevel()I`
+- `getArmoury_Name(I)Ljava/lang/String;`
+- `getArmoury_TechLevel(I)F`
+- `getBunker_BuildCost(II)I`
+- `getBunker_Construction(I)I`
+- `getBunker_MaitenanceCost(I)I`
+- `getBunker_MaxLevel()I`
+- `getBunker_MaxLevel_CanBuild(I)I`
+- `getBunker_Name(I)Ljava/lang/String;`
+- `getBunker_TechLevel(I)F`
+- `getFarm_BuildCost(II)I`
+- `getFarm_Construction(I)I`
+- `getFarm_GrowthRateBonus(I)F`
+- `getFarm_MaitenanceCost(I)I`
+- `getFarm_MaxLevel()I`
+- `getFarm_MaxLevel_CanBuild(I)I`
+- `getFarm_Name(I)Ljava/lang/String;`
+- `getFarm_TechLevel(I)F`
+- `getFort_BuildCost(II)I`
+- `getFort_Construction(I)I`
+- `getFort_MaitenanceCost(I)I`
+- `getFort_MaxLevel()I`
+- `getFort_MaxLevel_CanBuild(I)I`
+- `getFort_Name(I)Ljava/lang/String;`
+- `getFort_TechLevel(I)F`
+- `getLibrary_BuildCost(II)I`
+- `getLibrary_Construction(I)I`
+- `getLibrary_MaxLevel()I`
+- `getLibrary_MaxLevel_CanBuild(I)I`
+- `getLibrary_Name(I)Ljava/lang/String;`
+- `getLibrary_ResearchPerPopulation(I)I`
+- `getLibrary_TechLevel(I)F`
+- `getNuclearReactor_BuildCost(II)I`
+- `getNuclearReactor_Construction(I)I`
+- `getNuclearReactor_MaxLevel()I`
+- `getNuclearReactor_Name(I)Ljava/lang/String;`
+- `getNuclearReactor_TechLevel(I)F`
+- `getPort_BuildCost(II)I`
+- `getPort_Construction(I)I`
+- `getPort_IncomeProduction(I)F`
+- `getPort_MaitenanceCost(I)I`
+- `getPort_MaxLevel()I`
+- `getPort_Name(I)Ljava/lang/String;`
+- `getPort_TechLevel(I)F`
+- `getSupply_Bonus(I)F`
+- `getSupply_BuildCost(II)I`
+- `getSupply_Construction(I)I`
+- `getSupply_MaxLevel()I`
+- `getSupply_Name(I)Ljava/lang/String;`
+- `getSupply_TechLevel(I)F`
+- `getTower_BuildCost(II)I`
+- `getTower_Construction(I)I`
+- `getTower_MaitenanceCost(I)I`
+- `getTower_MaxLevel()I`
+- `getTower_MaxLevel_CanBuild(I)I`
+- `getTower_Name(I)Ljava/lang/String;`
+- `getTower_TechLevel(I)F`
+- `getWorkshop_BuildCost(II)I`
+- `getWorkshop_Construction(I)I`
+- `getWorkshop_IncomeProduction(I)F`
+- `getWorkshop_MaitenanceCost(I)I`
+- `getWorkshop_MaxLevel()I`
+- `getWorkshop_MaxLevel_CanBuild(I)I`
+- `getWorkshop_Name(I)Ljava/lang/String;`
+- `getWorkshop_TechLevel(I)F`
+
+### other (30)
+
+- `buildArmoury(II)Z`
+- `buildBunker(II)Z`
+- `buildFarm(II)Z`
+- `buildFort(II)Z`
+- `buildLibrary(II)Z`
+- `buildNuclearReactor(II)Z`
+- `buildPort(II)Z`
+- `buildSupply(II)Z`
+- `buildTower(II)Z`
+- `buildWorkshop(II)Z`
+- `constructArmoury(II)Z`
+- `constructBunker(II)Z`
+- `constructFarm(II)Z`
+- `constructFort(II)Z`
+- `constructLibrary(II)Z`
+- `constructNuclearReactor(II)Z`
+- `constructPort(II)Z`
+- `constructSupply(II)Z`
+- `constructTower(II)Z`
+- `constructWorkshop(II)Z`
+- `destroyArmoury(II)Z`
+- `destroyBunker(II)Z`
+- `destroyFarm(II)Z`
+- `destroyFort(II)Z`
+- `destroyLibrary(II)Z`
+- `destroyNuclearReactor(II)Z`
+- `destroyPort(II)Z`
+- `destroySupply(II)Z`
+- `destroyTower(II)Z`
+- `destroyWorkshop(II)Z`
+
+### predicate* (11)
+
+- `canBuildArmoury(I)Z`
+- `canBuildBunker(I)Z`
+- `canBuildFarm(I)Z`
+- `canBuildFarm_Terrain(I)Z`
+- `canBuildFort(I)Z`
+- `canBuildLibrary(I)Z`
+- `canBuildNuclearReactor(I)Z`
+- `canBuildPort(I)Z`
+- `canBuildSupply(I)Z`
+- `canBuildTower(I)Z`
+- `canBuildWorkshop(I)Z`
+
+### army/move* (10)
+
+- `getArmoury_BuildMovementCost(I)I`
+- `getBunker_BuildMovementCost(I)I`
+- `getFarm_BuildMovementCost(I)I`
+- `getFort_BuildMovementCost(I)I`
+- `getLibrary_BuildMovementCost(I)I`
+- `getNuclearReactor_BuildMovementCost(I)I`
+- `getPort_BuildMovementCost(I)I`
+- `getSupply_BuildMovementCost(I)I`
+- `getTower_BuildMovementCost(I)I`
+- `getWorkshop_BuildMovementCost(I)I`
+
+### combat* (3)
+
+- `getBunker_DefenseBonus(I)I`
+- `getFort_DefenseBonus(I)I`
+- `getTower_DefenseBonus(I)I`
+

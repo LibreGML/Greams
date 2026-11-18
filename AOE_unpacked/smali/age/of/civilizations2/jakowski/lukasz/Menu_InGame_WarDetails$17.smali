@@ -1,0 +1,828 @@
+.class Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;
+.super Lage/of/civilizations2/jakowski/lukasz/SliderMenuTitle;
+.source "Menu_InGame_WarDetails.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;-><init>()V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x0
+    name = null
+.end annotation
+
+
+# instance fields
+.field final synthetic this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+
+# direct methods
+.method constructor <init>(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;Ljava/lang/String;IZZ)V
+    .locals 0
+
+    iput-object p1, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    invoke-direct {p0, p2, p3, p4, p5}, Lage/of/civilizations2/jakowski/lukasz/SliderMenuTitle;-><init>(Ljava/lang/String;IZZ)V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method protected draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZ)V
+    .locals 16
+
+    move-object/from16 v0, p0
+
+    move-object/from16 v9, p1
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    add-int v3, p3, p2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    sub-int v2, p4, v2
+
+    sget v4, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v4}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v4
+
+    sub-int v4, v2, v4
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v2
+
+    sub-int v5, p5, v2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v6
+
+    move-object/from16 v2, p1
+
+    invoke-virtual/range {v1 .. v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw2(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    add-int v10, p3, p5
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v2
+
+    sub-int v2, v10, v2
+
+    add-int v3, v2, p2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    sub-int v2, p4, v2
+
+    sget v4, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v4}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v4
+
+    sub-int v4, v2, v4
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->dialog_title:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v5
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v6
+
+    const/4 v7, 0x1
+
+    const/4 v8, 0x0
+
+    move-object/from16 v2, p1
+
+    invoke-virtual/range {v1 .. v8}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw2(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZZ)V
+
+    new-instance v1, Lcom/badlogic/gdx/graphics/Color;
+
+    const v11, 0x3f0a8a8b
+
+    const v12, 0x3d50d0d1
+
+    const v2, 0x3e28f5c3    # 0.165f
+
+    invoke-direct {v1, v11, v12, v12, v2}, Lcom/badlogic/gdx/graphics/Color;-><init>(FFFF)V
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->line_32_off1:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    add-int/lit8 v13, p3, 0x2
+
+    add-int v14, v13, p2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    sub-int v2, p4, v2
+
+    add-int/lit8 v2, v2, 0x2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->line_32_off1:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v3
+
+    sub-int v4, v2, v3
+
+    add-int/lit8 v15, p5, -0x4
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    add-int/lit8 v6, v2, -0x2
+
+    const/4 v7, 0x0
+
+    const/4 v8, 0x1
+
+    move-object/from16 v2, p1
+
+    move v3, v14
+
+    move v5, v15
+
+    invoke-virtual/range {v1 .. v8}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZZ)V
+
+    new-instance v1, Lcom/badlogic/gdx/graphics/Color;
+
+    const/high16 v2, 0x3ec00000    # 0.375f
+
+    invoke-direct {v1, v11, v12, v12, v2}, Lcom/badlogic/gdx/graphics/Color;-><init>(FFFF)V
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->gradient:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    mul-int/lit8 v2, v2, 0x2
+
+    div-int/lit8 v2, v2, 0x3
+
+    sub-int v2, p4, v2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->gradient:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v3
+
+    sub-int v4, v2, v3
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v2
+
+    mul-int/lit8 v2, v2, 0x2
+
+    div-int/lit8 v6, v2, 0x3
+
+    move-object/from16 v2, p1
+
+    move v3, v14
+
+    invoke-virtual/range {v1 .. v8}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZZ)V
+
+    new-instance v1, Lcom/badlogic/gdx/graphics/Color;
+
+    const/4 v2, 0x0
+
+    const/high16 v3, 0x3f000000    # 0.5f
+
+    invoke-direct {v1, v2, v2, v2, v3}, Lcom/badlogic/gdx/graphics/Color;-><init>(FFFF)V
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->gradient:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    sub-int v2, p4, v2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->gradient:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v3
+
+    sub-int v4, v2, v3
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    move-object/from16 v2, p1
+
+    move v3, v14
+
+    invoke-virtual/range {v1 .. v8}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZZ)V
+
+    sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_NEW_GAME_EDGE_LINE:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->pix255_255_255:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    add-int/lit8 v7, p4, -0x1
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->pix255_255_255:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v2
+
+    sub-int v4, v7, v2
+
+    const/4 v6, 0x1
+
+    move-object/from16 v2, p1
+
+    invoke-virtual/range {v1 .. v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V
+
+    new-instance v1, Lcom/badlogic/gdx/graphics/Color;
+
+    sget-object v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_FLAG_FRAME:Lcom/badlogic/gdx/graphics/Color;
+
+    iget v2, v2, Lcom/badlogic/gdx/graphics/Color;->r:F
+
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_FLAG_FRAME:Lcom/badlogic/gdx/graphics/Color;
+
+    iget v3, v3, Lcom/badlogic/gdx/graphics/Color;->g:F
+
+    sget-object v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_FLAG_FRAME:Lcom/badlogic/gdx/graphics/Color;
+
+    iget v4, v4, Lcom/badlogic/gdx/graphics/Color;->b:F
+
+    const v5, 0x3ee66666    # 0.45f
+
+    invoke-direct {v1, v2, v3, v4, v5}, Lcom/badlogic/gdx/graphics/Color;-><init>(FFFF)V
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->slider_gradient:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->slider_gradient:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v2
+
+    sub-int v4, v7, v2
+
+    div-int/lit8 v8, v15, 0x2
+
+    move-object/from16 v2, p1
+
+    move v3, v14
+
+    move v5, v8
+
+    invoke-virtual/range {v1 .. v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->slider_gradient:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    add-int/2addr v13, v15
+
+    sub-int/2addr v13, v8
+
+    add-int v3, v13, p2
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->slider_gradient:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v2
+
+    sub-int v4, v7, v2
+
+    const/4 v7, 0x1
+
+    const/4 v11, 0x0
+
+    move-object/from16 v2, p1
+
+    move v8, v11
+
+    invoke-virtual/range {v1 .. v8}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIIIZZ)V
+
+    sget-object v1, Lcom/badlogic/gdx/graphics/Color;->WHITE:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-virtual {v9, v1}, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;->setColor(Lcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->diplo_rivals:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    div-int/lit8 v2, p5, 0x2
+
+    add-int v2, p3, v2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->diplo_rivals:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v3
+
+    div-int/lit8 v3, v3, 0x2
+
+    sub-int v3, v2, v3
+
+    add-int v3, v3, p2
+
+    add-int/lit8 v4, p4, 0x2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v5
+
+    sub-int v5, v4, v5
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v6
+
+    div-int/lit8 v6, v6, 0x2
+
+    add-int/2addr v5, v6
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/Images;->diplo_rivals:I
+
+    invoke-static {v6}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v6
+
+    invoke-virtual {v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v6
+
+    div-int/lit8 v6, v6, 0x2
+
+    sub-int/2addr v5, v6
+
+    invoke-virtual {v1, v9, v3, v5}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;II)V
+
+    sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->fontMain:Lcom/badlogic/gdx/graphics/g2d/BitmapFont;
+
+    invoke-virtual {v1}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont;->getData()Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;
+
+    move-result-object v1
+
+    const v3, 0x3f333333    # 0.7f
+
+    invoke-virtual {v1, v3}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;->setScale(F)V
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getText()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getTextWidth()I
+
+    move-result v5
+
+    int-to-float v5, v5
+
+    mul-float v5, v5, v3
+
+    float-to-int v5, v5
+
+    sub-int v5, v2, v5
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/Images;->diplo_rivals:I
+
+    invoke-static {v6}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v6
+
+    invoke-virtual {v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v6
+
+    div-int/lit8 v6, v6, 0x2
+
+    sub-int/2addr v5, v6
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    sub-int/2addr v5, v6
+
+    add-int v5, v5, p2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v6
+
+    sub-int v6, v4, v6
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v7
+
+    int-to-float v7, v7
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getTextHeight()I
+
+    move-result v8
+
+    int-to-float v8, v8
+
+    mul-float v8, v8, v3
+
+    sub-float/2addr v7, v8
+
+    float-to-int v7, v7
+
+    div-int/lit8 v7, v7, 0x2
+
+    add-int/2addr v6, v7
+
+    sget-object v7, Lcom/badlogic/gdx/graphics/Color;->WHITE:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-static {v9, v1, v5, v6, v7}, Lage/of/civilizations2/jakowski/lukasz/CFG;->drawText(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;Ljava/lang/String;IILcom/badlogic/gdx/graphics/Color;)V
+
+    iget-object v1, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    iget-object v1, v1, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->sDefender:Ljava/lang/String;
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/Images;->diplo_rivals:I
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v5
+
+    div-int/lit8 v5, v5, 0x2
+
+    add-int/2addr v2, v5
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    add-int/2addr v2, v5
+
+    add-int v2, v2, p2
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v5
+
+    sub-int/2addr v4, v5
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getHeight()I
+
+    move-result v5
+
+    int-to-float v5, v5
+
+    invoke-virtual/range {p0 .. p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->getTextHeight()I
+
+    move-result v6
+
+    int-to-float v6, v6
+
+    mul-float v6, v6, v3
+
+    sub-float/2addr v5, v6
+
+    float-to-int v3, v5
+
+    div-int/lit8 v3, v3, 0x2
+
+    add-int/2addr v4, v3
+
+    sget-object v3, Lcom/badlogic/gdx/graphics/Color;->WHITE:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-static {v9, v1, v2, v4, v3}, Lage/of/civilizations2/jakowski/lukasz/CFG;->drawText(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;Ljava/lang/String;IILcom/badlogic/gdx/graphics/Color;)V
+
+    sget v1, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v1}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v1
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    sub-int v2, v10, v2
+
+    add-int/lit8 v2, v2, -0x2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v3
+
+    int-to-float v3, v3
+
+    iget-object v4, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v4, v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->access$100(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;I)F
+
+    move-result v4
+
+    mul-float v3, v3, v4
+
+    float-to-int v3, v3
+
+    sub-int/2addr v2, v3
+
+    add-int v3, v2, p2
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    sub-int v2, p4, v2
+
+    sget v4, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v4}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v4
+
+    int-to-float v4, v4
+
+    iget-object v5, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v5, v6}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->access$100(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;I)F
+
+    move-result v5
+
+    mul-float v4, v4, v5
+
+    float-to-int v4, v4
+
+    sub-int/2addr v2, v4
+
+    sget v4, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v4}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v4
+
+    sub-int v4, v2, v4
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v2
+
+    int-to-float v2, v2
+
+    iget-object v5, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    sget v6, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v5, v6}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->access$100(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;I)F
+
+    move-result v5
+
+    mul-float v2, v2, v5
+
+    float-to-int v5, v2
+
+    sget v2, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v2}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Lage/of/civilizations2/jakowski/lukasz/Image;->getHeight()I
+
+    move-result v2
+
+    int-to-float v2, v2
+
+    iget-object v6, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    sget v7, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v6, v7}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->access$100(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;I)F
+
+    move-result v6
+
+    mul-float v2, v2, v6
+
+    float-to-int v6, v2
+
+    move-object/from16 v2, p1
+
+    invoke-virtual/range {v1 .. v6}, Lage/of/civilizations2/jakowski/lukasz/Image;->draw(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IIII)V
+
+    sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->fontMain:Lcom/badlogic/gdx/graphics/g2d/BitmapFont;
+
+    invoke-virtual {v1}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont;->getData()Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;
+
+    move-result-object v1
+
+    const v2, 0x3f0ccccd    # 0.55f
+
+    invoke-virtual {v1, v2}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;->setScale(F)V
+
+    iget-object v1, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    iget-object v1, v1, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->sWarDate:Ljava/lang/String;
+
+    iget-object v3, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    iget v3, v3, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->iWarDateWidth:I
+
+    sub-int/2addr v10, v3
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    mul-int/lit8 v3, v3, 0x2
+
+    sub-int/2addr v10, v3
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v3}, Lage/of/civilizations2/jakowski/lukasz/ImageManager;->getImage(I)Lage/of/civilizations2/jakowski/lukasz/Image;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Image;->getWidth()I
+
+    move-result v3
+
+    int-to-float v3, v3
+
+    iget-object v4, v0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails$17;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/Images;->time:I
+
+    invoke-static {v4, v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;->access$100(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_WarDetails;I)F
+
+    move-result v4
+
+    mul-float v3, v3, v4
+
+    float-to-int v3, v3
+
+    sub-int/2addr v10, v3
+
+    add-int/lit8 v10, v10, -0x2
+
+    add-int v10, v10, p2
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    sub-int v3, p4, v3
+
+    sget v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->TEXT_HEIGHT:I
+
+    int-to-float v4, v4
+
+    mul-float v4, v4, v2
+
+    float-to-int v2, v4
+
+    sub-int/2addr v3, v2
+
+    sget-object v2, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_TEXT_MODIFIER_NEUTRAL:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-static {v9, v1, v10, v3, v2}, Lage/of/civilizations2/jakowski/lukasz/CFG;->drawText(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;Ljava/lang/String;IILcom/badlogic/gdx/graphics/Color;)V
+
+    sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->fontMain:Lcom/badlogic/gdx/graphics/g2d/BitmapFont;
+
+    invoke-virtual {v1}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont;->getData()Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;
+
+    move-result-object v1
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    invoke-virtual {v1, v2}, Lcom/badlogic/gdx/graphics/g2d/BitmapFont$BitmapFontData;->setScale(F)V
+
+    return-void
+.end method

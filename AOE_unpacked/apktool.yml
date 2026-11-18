@@ -1,0 +1,32 @@
+version: 3.0.3
+apkFileName: AOE.APK
+usesFramework:
+  ids:
+  - 1
+sdkInfo:
+  minSdkVersion: 9
+  targetSdkVersion: 26
+versionInfo:
+  versionCode: 1
+  versionName: 1.0 TZGML
+resourcesInfo:
+  packageId: 127
+  # 资源包名保持原值，避免 arsc/R 错乱；应用ID由 Manifest + renameManifestPackage 决定
+  packageName: age.of.civilizations2.jakowski.Anchao
+renameManifestPackage: tz.yx.gemorin
+doNotCompress:
+- arsc
+- ogg
+- png
+- assets/game/lines/1
+- assets/game/lines/10
+- assets/game/lines/2
+- assets/game/lines/3
+- assets/game/lines/4
+- assets/game/lines/5
+- assets/game/lines/6
+- assets/game/lines/62
+- assets/game/lines/7
+- assets/game/lines/8
+- assets/game/lines/9
+- assets/game/lines/Age_of_Civilizations

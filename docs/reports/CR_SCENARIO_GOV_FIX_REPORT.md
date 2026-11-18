@@ -1,0 +1,236 @@
+# 文革剧本政体修复报告
+
+## cnwar | 文革内战半架空 | year=1968 | fixes=116
+- `ita_f` → `ita` (议会制民主政体)
+- `uni_m` → `uni_1` (议会君主立宪制)
+- `por` → `por_gt` (法团主义国家)
+- `pol_c` → `pol_马` (人民民主国家)
+- `yugo_c` → `yugo_工` (工人自治制)
+- `swi` → `swi_盖` (共识民主制)
+- `czsl_c` → `czsl_马` (人民民主国家)
+- `hun_c` → `hun_马` (人民民主国家)
+- `gre_m` → `gre_军` (军政府)
+- `tur` → `tur_凯` (凯末尔主义共和制)
+- `bul_c` → `bul_马` (人民民主国家)
+- `rom_c` → `rom_马` (人民民主国家)
+- `lux` → `lux_1` (议会君主立宪制)
+- `net_m` → `net_1` (议会君主立宪制)
+- `bel_m` → `bel_1` (议会君主立宪制)
+- `den_m` → `den_1` (议会君主立宪制)
+- `fra` → `fra_进` (半总统制)
+- `swe_m` → `swe_1` (议会君主立宪制)
+- `nor_m` → `nor_1` (议会君主立宪制)
+- `ira` → `ira_ys` (二元君主立宪制)
+- `irq_m` → `irq_fu` (一党霸权制)
+- `sau_m` → `sau_ac` (政教君主制)
+- `yem_m` → `yem_神` (神权政治)
+- `oma2` → `oma2_家` (苏丹制)
+- `eth` → `eth_bgd` (绝对君主制)
+- `usa_r` → `usa_稻` (总统制共和政体)
+- `and_m` → `and_1` (议会君主立宪制)
+- `moc` → `moc_1` (议会君主立宪制)
+- `aus_m` → `aus_1` (议会君主立宪制)
+- `mex` → `mex_fu` (一党霸权制)
+- `soa_m` → `soa_dc` (威权主义政体)
+- `jap` → `jap_1` (议会君主立宪制)
+- `afg` → `afg_1` (议会君主立宪制)
+- `phi` → `phi_dc` (威权主义政体)
+- `tha2` → `tha2_1` (议会君主立宪制)
+- `bhu_m` → `bhu_1` (议会君主立宪制)
+- `nep_m` → `nep_1` (议会君主立宪制)
+- `nez_m` → `nez_1` (议会君主立宪制)
+- `cub` → `cub_c` (马克思列宁主义一党制)
+- `chl` → `chl_稻` (总统制共和政体)
+- `arg` → `arg_稻` (总统制共和政体)
+- `bra` → `bra_军` (军政府)
+- `sok_c` → `sok_dc` (威权主义政体)
+- `sok` → `sok_dc` (威权主义政体)
+- `mya` → `mya_军` (军政府)
+- `ind` → `ind_稻` (总统制共和政体)
+- `egy` → `egy_na` (阿拉伯社会主义共和制)
+- `lib` → `lib_1` (议会君主立宪制)
+- `can` → `can_1` (议会君主立宪制)
+- `mor_m` → `mor_1` (议会君主立宪制)
+- `pal` → `pal_u` (叛乱政权)
+- `jor` → `jor_1` (议会君主立宪制)
+- `syr` → `syr_fu` (一党霸权制)
+- `cab_m` → `cab_1` (议会君主立宪制)
+- `vies` → `vies_稻` (总统制共和政体)
+- `ins` → `ins_dc` (威权主义政体)
+- `sin` → `sin_企` (发展型国家)
+- `mal` → `mal_1` (议会君主立宪制)
+- `cntgmidcrsz_马` → `cntgmidcrsz_c` (马克思列宁主义一党制)
+- `shq_马` → `shq_c` (马克思列宁主义一党制)
+- `bru` → `bru_家` (苏丹制)
+- `pap_m` → `pap_殖` (殖民政府)
+- `Liudeng_保` → `Liudeng_J` (军部支配体制)
+- `bspxslhh_保` → `bspxslhh_J` (军部支配体制)
+- `yejianying_h` → `yejianying_J` (军部支配体制)
+- `baiwanxs_保` → `baiwanxs_J` (军部支配体制)
+- `Wuhangzs_马` → `Wuhangzs_c` (马克思列宁主义一党制)
+- `1721622237802yxbbihaf_马` → `1721622237802yxbbihaf_c` (马克思列宁主义一党制)
+- `1721622481453yemmoyqs_保` → `1721622481453yemmoyqs_J` (军部支配体制)
+- `1721622515515xddtalww_马` → `1721622515515xddtalww_c` (马克思列宁主义一党制)
+- `1721622559599vhynuehl_保` → `1721622559599vhynuehl_J` (军部支配体制)
+- `1721622632502wivudfph_马` → `1721622632502wivudfph_c` (马克思列宁主义一党制)
+- `1721622646427uihzoryg_保` → `1721622646427uihzoryg_J` (军部支配体制)
+- `1721622695066rztaabtl_马` → `1721622695066rztaabtl_c` (马克思列宁主义一党制)
+- `1721622763985bkpxeuci_保` → `1721622763985bkpxeuci_J` (军部支配体制)
+- `1721622790248fpsnjont_马` → `1721622790248fpsnjont_c` (马克思列宁主义一党制)
+- `1721622888321hcbwcodx_马` → `1721622888321hcbwcodx_c` (马克思列宁主义一党制)
+- `1721622867014sinzzakc_保` → `1721622867014sinzzakc_J` (军部支配体制)
+- `1721622956944kswyznao_马` → `1721622956944kswyznao_c` (马克思列宁主义一党制)
+- `1721622968742ttgtczaw_保` → `1721622968742ttgtczaw_J` (军部支配体制)
+- `1721623018355szvqspdm_保` → `1721623018355szvqspdm_J` (军部支配体制)
+- `1721623056939obbcvfxz_保` → `1721623056939obbcvfxz_J` (军部支配体制)
+- `1721623169474vfeketxb_马` → `1721623169474vfeketxb_c` (马克思列宁主义一党制)
+- `1721623145018kpjniqku_保` → `1721623145018kpjniqku_J` (军部支配体制)
+- `1721623208242hmyyptwi_马` → `1721623208242hmyyptwi_c` (马克思列宁主义一党制)
+- `1721623226279aadtwrjc_保` → `1721623226279aadtwrjc_J` (军部支配体制)
+- `1721623281354azdhqlha_马` → `1721623281354azdhqlha_c` (马克思列宁主义一党制)
+- `1721623294493edkpearx_保` → `1721623294493edkpearx_J` (军部支配体制)
+- `1721623318160xlcldxih_马` → `1721623318160xlcldxih_c` (马克思列宁主义一党制)
+- `1721623338013cptkbnzv_保` → `1721623338013cptkbnzv_J` (军部支配体制)
+- `1721623964635hbmgdskv_马` → `1721623964635hbmgdskv_c` (马克思列宁主义一党制)
+- `1721624006573hwzaebfh_保` → `1721624006573hwzaebfh_J` (军部支配体制)
+- `1721623781920ulpnqjev_马` → `1721623781920ulpnqjev_c` (马克思列宁主义一党制)
+- `1721623806367vjwaehcd_保` → `1721623806367vjwaehcd_J` (军部支配体制)
+- `1721623726569xstegkuo_保` → `1721623726569xstegkuo_J` (军部支配体制)
+- `1721623702317oqfolqaj_马` → `1721623702317oqfolqaj_c` (马克思列宁主义一党制)
+- `1721623662062xrfspumu_马` → `1721623662062xrfspumu_c` (马克思列宁主义一党制)
+- `1721623676389gnltrjev_保` → `1721623676389gnltrjev_J` (军部支配体制)
+- `1721623584702vazmbnve_马` → `1721623584702vazmbnve_c` (马克思列宁主义一党制)
+- `1721623594998mvypysjv_保` → `1721623594998mvypysjv_J` (军部支配体制)
+- `1721623404982gdbcldmx_马` → `1721623404982gdbcldmx_c` (马克思列宁主义一党制)
+- `1721623416414xljndrqp_保` → `1721623416414xljndrqp_J` (军部支配体制)
+- `1721624141067fcboqpbz_马` → `1721624141067fcboqpbz_c` (马克思列宁主义一党制)
+- `1721624165171xmjcrlxo_保` → `1721624165171xmjcrlxo_J` (军部支配体制)
+- `1721623466605aqpubgln_马` → `1721623466605aqpubgln_c` (马克思列宁主义一党制)
+- `1721623490848thktodtl_保` → `1721623490848thktodtl_J` (军部支配体制)
+- `1721624212240urtfttwq_马` → `1721624212240urtfttwq_c` (马克思列宁主义一党制)
+- `1721624247215hdgnqbqu_保` → `1721624247215hdgnqbqu_J` (军部支配体制)
+- `1721624088470qskyqlyn_保` → `1721624088470qskyqlyn_J` (军部支配体制)
+- `1721624056352mernwxpi_毛` → `1721624056352mernwxpi_c` (马克思列宁主义一党制)
+- `1721624431227xhdsojfx_马` → `1721624431227xhdsojfx_c` (马克思列宁主义一党制)
+- `1721624319507fmpylosb_马` → `1721624319507fmpylosb_c` (马克思列宁主义一党制)
+- `1721624363407ebpgixsa_马` → `1721624363407ebpgixsa_c` (马克思列宁主义一党制)
+- `1721623855874ihzatkyh_保` → `1721623855874ihzatkyh_J` (军部支配体制)
+- `1721623951631ohhmednt_马` → `1721623951631ohhmednt_c` (马克思列宁主义一党制)
+- `chifs_(` → `chifs_u` (叛乱政权)
+
+## 1721835430051fmfkwqvv | 文革架空 | year=1968 | fixes=10
+- `LingB_毛` → `LingB_c` (马克思列宁主义一党制)
+- `shq_毛` → `shq_c` (马克思列宁主义一党制)
+- `cntgmidcrsz_毛` → `cntgmidcrsz_c` (马克思列宁主义一党制)
+- `chifs_(` → `chifs_u` (叛乱政权)
+- `yejianying_稻` → `yejianying_J` (军部支配体制)
+- `bspxslhh_稻` → `bspxslhh_J` (军部支配体制)
+- `Wuhangzs_毛` → `Wuhangzs_c` (马克思列宁主义一党制)
+- `baiwanxs_稻` → `baiwanxs_J` (军部支配体制)
+- `Liudeng_稻` → `Liudeng_J` (军部支配体制)
+- `ccpyn_布` → `ccpyn_c` (马克思列宁主义一党制)
+
+## Great_Proletarian_Cultural_Revolution | 1966:无产阶级文化大革命 | year=1965 | fixes=59
+- `ita_f` → `ita` (议会制民主政体)
+- `uni_m` → `uni_1` (议会君主立宪制)
+- `por` → `por_gt` (法团主义国家)
+- `pol_c` → `pol_马` (人民民主国家)
+- `yugo_c` → `yugo_工` (工人自治制)
+- `swi` → `swi_盖` (共识民主制)
+- `czsl_c` → `czsl_马` (人民民主国家)
+- `hun_c` → `hun_马` (人民民主国家)
+- `gre_m` → `gre_军` (军政府)
+- `tur` → `tur_凯` (凯末尔主义共和制)
+- `bul_c` → `bul_马` (人民民主国家)
+- `rom_c` → `rom_马` (人民民主国家)
+- `lux` → `lux_1` (议会君主立宪制)
+- `net_m` → `net_1` (议会君主立宪制)
+- `bel_m` → `bel_1` (议会君主立宪制)
+- `den_m` → `den_1` (议会君主立宪制)
+- `fra` → `fra_进` (半总统制)
+- `swe_m` → `swe_1` (议会君主立宪制)
+- `nor_m` → `nor_1` (议会君主立宪制)
+- `ira` → `ira_ys` (二元君主立宪制)
+- `irq_m` → `irq_fu` (一党霸权制)
+- `sau_m` → `sau_ac` (政教君主制)
+- `yem_m` → `yem_神` (神权政治)
+- `oma2` → `oma2_家` (苏丹制)
+- `eth` → `eth_bgd` (绝对君主制)
+- `usa_r` → `usa_稻` (总统制共和政体)
+- `and_m` → `and_1` (议会君主立宪制)
+- `moc` → `moc_1` (议会君主立宪制)
+- `aus_m` → `aus_1` (议会君主立宪制)
+- `mex` → `mex_fu` (一党霸权制)
+- `soa_m` → `soa_dc` (威权主义政体)
+- `jap` → `jap_1` (议会君主立宪制)
+- `afg` → `afg_1` (议会君主立宪制)
+- `phi` → `phi_dc` (威权主义政体)
+- `tha2` → `tha2_1` (议会君主立宪制)
+- `bhu_m` → `bhu_1` (议会君主立宪制)
+- `nep_m` → `nep_1` (议会君主立宪制)
+- `nez_m` → `nez_1` (议会君主立宪制)
+- `cub` → `cub_c` (马克思列宁主义一党制)
+- `chl` → `chl_稻` (总统制共和政体)
+- `arg` → `arg_稻` (总统制共和政体)
+- `bra` → `bra_军` (军政府)
+- `sok_c` → `sok_dc` (威权主义政体)
+- `sok` → `sok_dc` (威权主义政体)
+- `mya` → `mya_军` (军政府)
+- `ind` → `ind_稻` (总统制共和政体)
+- `egy` → `egy_na` (阿拉伯社会主义共和制)
+- `lib` → `lib_1` (议会君主立宪制)
+- `can` → `can_1` (议会君主立宪制)
+- `mor_m` → `mor_1` (议会君主立宪制)
+- `pal` → `pal_u` (叛乱政权)
+- `jor` → `jor_1` (议会君主立宪制)
+- `syr` → `syr_fu` (一党霸权制)
+- `shq` → `shq_c` (马克思列宁主义一党制)
+- `cab_m` → `cab_1` (议会君主立宪制)
+- `vies` → `vies_稻` (总统制共和政体)
+- `ins` → `ins_dc` (威权主义政体)
+- `sin` → `sin_企` (发展型国家)
+- `mal` → `mal_1` (议会君主立宪制)
+
+## 高频
+- 2× `ita_f→ita`
+- 2× `uni_m→uni_1`
+- 2× `por→por_gt`
+- 2× `pol_c→pol_马`
+- 2× `yugo_c→yugo_工`
+- 2× `swi→swi_盖`
+- 2× `czsl_c→czsl_马`
+- 2× `hun_c→hun_马`
+- 2× `gre_m→gre_军`
+- 2× `tur→tur_凯`
+- 2× `bul_c→bul_马`
+- 2× `rom_c→rom_马`
+- 2× `lux→lux_1`
+- 2× `net_m→net_1`
+- 2× `bel_m→bel_1`
+- 2× `den_m→den_1`
+- 2× `fra→fra_进`
+- 2× `swe_m→swe_1`
+- 2× `nor_m→nor_1`
+- 2× `ira→ira_ys`
+- 2× `irq_m→irq_fu`
+- 2× `sau_m→sau_ac`
+- 2× `yem_m→yem_神`
+- 2× `oma2→oma2_家`
+- 2× `eth→eth_bgd`
+- 2× `usa_r→usa_稻`
+- 2× `and_m→and_1`
+- 2× `moc→moc_1`
+- 2× `aus_m→aus_1`
+- 2× `mex→mex_fu`
+- 2× `soa_m→soa_dc`
+- 2× `jap→jap_1`
+- 2× `afg→afg_1`
+- 2× `phi→phi_dc`
+- 2× `tha2→tha2_1`
+- 2× `bhu_m→bhu_1`
+- 2× `nep_m→nep_1`
+- 2× `nez_m→nez_1`
+- 2× `cub→cub_c`
+- 2× `chl→chl_稻`
+
+总修正: 185 | 模式: APPLY

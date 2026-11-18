@@ -1,0 +1,328 @@
+.class Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;
+.super Lage/of/civilizations2/jakowski/lukasz/Button_Build_Building_Destroy;
+.source "Menu_InGame_Destroy_Workshop.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;-><init>(I)V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x0
+    name = null
+.end annotation
+
+
+# instance fields
+.field final synthetic this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+
+# direct methods
+.method constructor <init>(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;Ljava/lang/String;Ljava/lang/String;IIIIZ)V
+    .locals 9
+
+    move-object v8, p0
+
+    move-object v0, p1
+
+    iput-object v0, v8, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    move-object v0, p0
+
+    move-object v1, p2
+
+    move-object v2, p3
+
+    move v3, p4
+
+    move v4, p5
+
+    move v5, p6
+
+    move/from16 v6, p7
+
+    move/from16 v7, p8
+
+    invoke-direct/range {v0 .. v7}, Lage/of/civilizations2/jakowski/lukasz/Button_Build_Building_Destroy;-><init>(Ljava/lang/String;Ljava/lang/String;IIIIZ)V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method protected buildElementHover()V
+    .locals 7
+
+    new-instance v0, Ljava/util/ArrayList;
+
+    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+
+    new-instance v1, Ljava/util/ArrayList;
+
+    invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    sget-object v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->langManager:Lage/of/civilizations2/jakowski/lukasz/LanguageManager;
+
+    sget-object v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    iget-object v6, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-static {v6}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;)I
+
+    move-result v6
+
+    invoke-virtual {v5, v6}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Lage/of/civilizations2/jakowski/lukasz/Province;->getLevelOfWorkshop()I
+
+    move-result v5
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/BuildingsManager;->getWorkshop_Name(I)Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Lage/of/civilizations2/jakowski/lukasz/LanguageManager;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v4, ": "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    sget-object v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_TEXT_NUM_OF_PROVINCES:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-direct {v2, v3, v5}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;-><init>(Ljava/lang/String;Lcom/badlogic/gdx/graphics/Color;)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;
+
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    iget-object v5, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;)I
+
+    move-result v5
+
+    invoke-virtual {v3, v5}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Province;->getName()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    if-lez v3, :cond_0
+
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    iget-object v5, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;)I
+
+    move-result v5
+
+    invoke-virtual {v3, v5}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Province;->getName()Ljava/lang/String;
+
+    move-result-object v3
+
+    goto :goto_0
+
+    :cond_0
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->langManager:Lage/of/civilizations2/jakowski/lukasz/LanguageManager;
+
+    const-string v5, "Province"
+
+    invoke-virtual {v3, v5}, Lage/of/civilizations2/jakowski/lukasz/LanguageManager;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    :goto_0
+    invoke-direct {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;-><init>(Ljava/lang/String;)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Flag;
+
+    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    iget-object v5, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;)I
+
+    move-result v5
+
+    invoke-virtual {v3, v5}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/Province;->getCivID()I
+
+    move-result v3
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    const/4 v6, 0x0
+
+    invoke-direct {v2, v3, v5, v6}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Flag;-><init>(III)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Image;
+
+    sget v3, Lage/of/civilizations2/jakowski/lukasz/Images;->icon_check_true:I
+
+    sget v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
+
+    invoke-direct {v2, v3, v5, v6}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Image;-><init>(III)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element2;
+
+    invoke-direct {v2, v1}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element2;-><init>(Ljava/util/List;)V
+
+    invoke-interface {v0, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    invoke-interface {v1}, Ljava/util/List;->clear()V
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;
+
+    const-string v3, " - "
+
+    invoke-direct {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;-><init>(Ljava/lang/String;)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    sget-object v5, Lage/of/civilizations2/jakowski/lukasz/CFG;->langManager:Lage/of/civilizations2/jakowski/lukasz/LanguageManager;
+
+    const-string v6, "IncomeProduction"
+
+    invoke-virtual {v5, v6}, Lage/of/civilizations2/jakowski/lukasz/LanguageManager;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v3, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-direct {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;-><init>(Ljava/lang/String;)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "+"
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    sget-object v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
+
+    iget-object v5, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-static {v5}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;)I
+
+    move-result v5
+
+    invoke-virtual {v4, v5}, Lage/of/civilizations2/jakowski/lukasz/Game;->getProvince(I)Lage/of/civilizations2/jakowski/lukasz/Province;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Lage/of/civilizations2/jakowski/lukasz/Province;->getLevelOfWorkshop()I
+
+    move-result v4
+
+    invoke-static {v4}, Lage/of/civilizations2/jakowski/lukasz/BuildingsManager;->getWorkshop_IncomeProduction(I)F
+
+    move-result v4
+
+    const/high16 v5, 0x42c80000    # 100.0f
+
+    mul-float v4, v4, v5
+
+    float-to-int v4, v4
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    const-string v4, "%"
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    sget-object v4, Lage/of/civilizations2/jakowski/lukasz/CFG;->COLOR_TEXT_MODIFIER_POSITIVE:Lcom/badlogic/gdx/graphics/Color;
+
+    invoke-direct {v2, v3, v4}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element_Type_Text;-><init>(Ljava/lang/String;Lcom/badlogic/gdx/graphics/Color;)V
+
+    invoke-interface {v1, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element2;
+
+    invoke-direct {v2, v1}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2_Element2;-><init>(Ljava/util/List;)V
+
+    invoke-interface {v0, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    invoke-interface {v1}, Ljava/util/List;->clear()V
+
+    new-instance v1, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;
+
+    invoke-direct {v1, v0}, Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover_v2;-><init>(Ljava/util/List;)V
+
+    iput-object v1, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->menuElementHover:Lage/of/civilizations2/jakowski/lukasz/MenuElement_Hover;
+
+    return-void
+.end method
+
+.method protected getWidth()I
+    .locals 1
+
+    iget-object v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop$1;->this$0:Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;
+
+    invoke-virtual {v0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_Destroy_Workshop;->getElementW()I
+
+    move-result v0
+
+    mul-int/lit8 v0, v0, 0x2
+
+    return v0
+.end method

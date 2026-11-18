@@ -1,0 +1,30 @@
+.class public Lage/of/civilizations2/jakowski/lukasz/SaveManager$ConfigSaveInfo;
+.super Ljava/lang/Object;
+.source "SaveManager.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lage/of/civilizations2/jakowski/lukasz/SaveManager;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0xc
+    name = "ConfigSaveInfo"
+.end annotation
+
+
+# instance fields
+.field protected Age_of_Civilizations:Ljava/lang/String;
+
+.field protected Data_Save_Info:Ljava/util/ArrayList;
+
+
+# direct methods
+.method protected constructor <init>()V
+    .locals 0
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method

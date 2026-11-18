@@ -1,0 +1,22 @@
+{
+
+
+
+
+	Map: [
+		{
+			MapName: "newEARTH",
+			Author: "葛墨林",
+			BackgroundName: "BE",
+			ContinentsPackage: "Earth6",
+			RegionsPackage: "Earth_AoC2",
+			NumberOfProvinces: 4553,
+			MapScale: 5,
+			WorldMap: true,
+			Scenario: "testScenario",
+			Wiki: "Earth"
+		},
+	],
+	
+	Age_of_Civilizations: Map
+}
