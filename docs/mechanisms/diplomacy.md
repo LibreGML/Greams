@@ -21,6 +21,8 @@
 
 以原版 + 控制台安全配方为主。宣战 AI 门槛改动见 [war-ai.md](war-ai.md)。
 
+**live（2026-11-19）**：交易面板禁止领土买卖 — `TradeRequest_List.lProvinces` 在 `sendTradeRequest` / `acceptTradeRequest` 强制清空；Side「Provinces」隐藏；`fix_trade_no_provinces.py`。
+
 ## 注意
 
 控制台 `h` / peace 类命令：**禁止**只调 whitePeace；ledger 规定走 `acceptPeaceOffer` 配方（[../reports/CONSOLE_API_LEDGER.md](../reports/CONSOLE_API_LEDGER.md)）。

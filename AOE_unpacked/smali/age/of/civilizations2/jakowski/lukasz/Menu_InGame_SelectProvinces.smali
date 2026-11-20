@@ -549,6 +549,9 @@
 
     invoke-interface {v1}, Ljava/util/List;->clear()V
 
+    # Gemorin: do not accept TRADE_LEFT province selections
+    goto :cond_0
+
     :goto_0
     sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
 
@@ -609,6 +612,9 @@
     iget-object v1, v1, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->lProvinces:Ljava/util/List;
 
     invoke-interface {v1}, Ljava/util/List;->clear()V
+
+    # Gemorin: do not accept TRADE_RIGHT province selections
+    goto :cond_2
 
     :goto_1
     sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;

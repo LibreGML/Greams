@@ -1,17 +1,34 @@
 ﻿# -*- coding: utf-8 -*-
-"""Rebuild Governments.json with rigorous comparative-politics regime terms."""
+"""Rebuild Governments.json — comparative politics + political economy balance.
+
+Design axes (textbook + world-history priors):
+  - Fiscal legitimacy (ACCEPTABLE_TAXATION) vs extractive capacity (INCOME_TAXATION)
+  - Market/industrial productivity (INCOME_PRODUCTION, COMMERCE) vs command/extraction
+  - Knowledge regime (RESEARCH_COST): open competition & universities vs dogma/predation
+  - Weberian admin span (ADMIN_* , CONTROL_RANGE)
+  - Linz/Huntington instability: personalist/sultanist/warlord/provisional high;
+    consensus/constitutional monarchy low
+  - Military posture: democracies defense-biased; fascist/horde/junta attack-biased;
+    feudal/city walls defense; guerrillas tribal/rebel/warlord
+  - Avoid BUG-002: never pair high INCOME_PRODUCTION with near-zero MILITARY_UPKEEP/ADMIN
+
+Safety envelope (all archetypes):
+  RESEARCH_COST 0.95–1.35 | INCOME_* 0.85–1.18 | MILITARY_UPKEEP 0.90–1.35
+  ADMINISTRATION_COST 0.70–1.40 | RECRUITABILITY 0.95–1.30 | COST_OF_RECRUIT ≥ 14
+  ATTACK≤6 DEFENSE≤8 | ASSIMILATE≤1.5 | MOVEMENT 0.90–1.15
+
+Field name must be REFORMAT_PERIOD (Data_Ideologies); REPLACE_PERIOD crashes Json load.
+"""
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 OUT = Path(r"C:\Users\17786\Mycode\AOE\AOE_unpacked\assets\game\Governments.json")
 
-# Rigorous regime list: unique Names, historically attested / textbook categories.
-# Extra_Tag preserved only when needed for crowns / civ suffixes.
-# DELETED concepts (no longer appear):
-#   无产阶级专政(理论)、苏维埃政权(与马列一党制重复)、人民阵线政府、
-#   工人代表苏维埃制、布尔什维克一党制(并入马列一党制)、复兴党一党制(改为一党霸权制)、
-#   社会主义计划经济体制(经济体制≠政体)、社会民主主义政体/福利国家制(政策范式≠政体形态) 等
+# Extra_Tag / Image / slot order frozen for crowns, civ suffixes, scenario compatibility.
+# Deleted non-regime labels: 无产阶级专政, 苏维埃政权, 人民阵线, 工人代表苏维埃,
+# 布尔什维克一党制(并入马列一党制), 复兴党一党制→一党霸权制, 计划经济/福利国家/社民(非政体).
 
 SLOTS = [
     # name, tag, image, gid, ai, archetype
@@ -56,7 +73,6 @@ SLOTS = [
     ("临时政府", "临", "临", 0, "DEMOCRACY", "provisional"),
     ("军阀政治", "jf", "jf", 0, "FASCISM", "warlord"),
     ("叛乱政权", "u", "u", 0, "REBELS", "rebels"),
-    # Keep rarely-used tags that still have crown assets / old saves
     ("委员会制", "C", "C", 0, "DEMOCRACY", "directory"),
     ("阿拉伯社会主义共和制", "na", "na", 0, "COMMUNISM", "nasserist"),
     ("过渡政权", "人", "人", 0, "COMMUNISM", "revolutionary_regime"),
@@ -64,660 +80,783 @@ SLOTS = [
     ("政教君主制", "ac", "ac", 0, "FASCISM", "confessional_monarchy"),
 ]
 
+
+def _arch(
+    *,
+    tax_ok, goods, invest, research,
+    inc_tax, inc_prod, pop, eco,
+    mil_up, adm, adm_dist, adm_cap,
+    commerce, diplo, control,
+    instability, assimilate, move,
+    c_move, c_same, c_own, c_recruit, c_disband, c_plunder,
+    atk, dfn, tactics, guerrilla,
+    recruit, recruit_other, manpower,
+    reform, election, support_chg, support_inc,
+    age, revolutionary, colors, attrs,
+    high_autonomy=False, distinctive=False,
+    vassal_war=False, prince_vassal=False, cant_change_vassal_gov=False,
+):
+    return dict(
+        ACCEPTABLE_TAXATION=tax_ok, MIN_GOODS=goods, MIN_INVESTMENTS=invest, RESEARCH_COST=research,
+        INCOME_TAXATION=inc_tax, INCOME_PRODUCTION=inc_prod, POP_GROWTH_BONUS=pop, ECO_GROWTH_BONUS=eco,
+        MILITARY_UPKEEP=mil_up, ADMINISTRATION_COST=adm, ADMINISTRATION_COST_DISTANCE=adm_dist,
+        ADMINISTRATION_COST_CAPITAL=adm_cap, COMMERCE_RANGE=commerce, DIPLOMACY_RANGE=diplo,
+        CONTROL_RANGE=control, INSTABILITY=instability, ASSIMILATE_RATE=assimilate,
+        MOVEMENT_MODIFIER=move,
+        COST_OF_MOVE=c_move, COST_OF_MOVE_TO_THE_SAME_PROV=c_same, COST_OF_MOVE_OWN_PROV=c_own,
+        COST_OF_RECRUIT=c_recruit, COST_OF_DISBAND=c_disband, COST_OF_PLUNDER=c_plunder,
+        ATTACK_BONUS=atk, DEFENSE_BONUS=dfn, MILITARY_TACTICS=tactics, GURRILLA=guerrilla,
+        RECRUITABILITY=recruit, RECRUITABILITY_OTHER=recruit_other, MANPOWER_BONUS=manpower,
+        REFORMAT_PERIOD=reform, ELECTION_PERIOD=election,
+        SUPPORT_RATE_CHANGING=support_chg, SUPPORT_RATE_INCREASING=support_inc,
+        age=age, revolutionary=revolutionary, colors=colors, attrs=attrs,
+        HIGH_AUTONOMY=high_autonomy, DISTINCTIVE=distinctive,
+        VASSAL_CAN_DECLARE_WAR=vassal_war, PRINCE_WILL_BE_VASSALIZED=prince_vassal,
+        CANT_CHANGE_GOV_OF_VASSAL=cant_change_vassal_gov,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Archetypes — each block cites the historical / PE rationale in one line.
+# ---------------------------------------------------------------------------
 ARCH = {
-    "parliamentary": dict(
-        ACCEPTABLE_TAXATION=0.62, MIN_GOODS=0.18, MIN_INVESTMENTS=0.20, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.02, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.05, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.10, DIPLOMACY_RANGE=1.15, CONTROL_RANGE=1.05,
-        INSTABILITY=0.12, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=17,
-        ATTACK_BONUS=0, DEFENSE_BONUS=4, MILITARY_TACTICS=1.10, GURRILLA=1.0,
-        RECRUITABILITY=1.10, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=60, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.4,
+    # Westminster: high soft power, professional army cost, defense coalitions, consent taxation.
+    "parliamentary": _arch(
+        tax_ok=0.64, goods=0.19, invest=0.21, research=0.98,
+        inc_tax=1.03, inc_prod=1.04, pop=0.02, eco=0.035,
+        mil_up=1.14, adm=1.04, adm_dist=1.06, adm_cap=0.52,
+        commerce=1.14, diplo=1.20, control=1.04,
+        instability=0.11, assimilate=0.82, move=1.00,
+        c_move=10, c_same=5, c_own=6, c_recruit=23, c_disband=17, c_plunder=17,
+        atk=0, dfn=5, tactics=1.12, guerrilla=0.9,
+        recruit=1.08, recruit_other=0.40, manpower=1.0,
+        reform=0, election=60, support_chg=0.44, support_inc=1.40,
         age=5, revolutionary=False, colors=(68, 194, 33),
         attrs=dict(DEMOCRACY=5, CENTRALIZATION=3, RELIGIOUSNESS=2, SOCIALIZATION=3, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
     ),
-    "consensus_democracy": dict(
-        ACCEPTABLE_TAXATION=0.65, MIN_GOODS=0.19, MIN_INVESTMENTS=0.21, RESEARCH_COST=0.98,
-        INCOME_TAXATION=1.05, INCOME_PRODUCTION=1.03, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.05, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.10, DIPLOMACY_RANGE=1.18, CONTROL_RANGE=1.00,
-        INSTABILITY=0.10, ASSIMILATE_RATE=0.80, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=0, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=0.9,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.42, MANPOWER_BONUS=0.9,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=50, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.35,
+    # Lijphart consensus: lowest conflict, high welfare floor, slow martial decision, strong diplo.
+    "consensus_democracy": _arch(
+        tax_ok=0.66, goods=0.20, invest=0.22, research=0.96,
+        inc_tax=1.04, inc_prod=1.04, pop=0.02, eco=0.032,
+        mil_up=1.06, adm=1.14, adm_dist=1.04, adm_cap=0.55,
+        commerce=1.12, diplo=1.22, control=0.98,
+        instability=0.08, assimilate=0.78, move=1.00,
+        c_move=10, c_same=5, c_own=6, c_recruit=23, c_disband=17, c_plunder=16,
+        atk=0, dfn=4, tactics=1.06, guerrilla=0.8,
+        recruit=1.06, recruit_other=0.42, manpower=0.9,
+        reform=0, election=50, support_chg=0.38, support_inc=1.35,
         age=7, revolutionary=False, colors=(70, 160, 100),
-        attrs=dict(DEMOCRACY=5, CENTRALIZATION=2, RELIGIOUSNESS=1, SOCIALIZATION=4, COMMUNISM=2, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
+        attrs=dict(DEMOCRACY=5, CENTRALIZATION=2, RELIGIOUSNESS=1, SOCIALIZATION=4, COMMUNISM=2, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=1),
     ),
-    "presidential": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.19, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=1.05, POP_GROWTH_BONUS=0.025, ECO_GROWTH_BONUS=0.035,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.02, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.12, DIPLOMACY_RANGE=1.12, CONTROL_RANGE=1.08,
-        INSTABILITY=0.14, ASSIMILATE_RATE=0.90, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=1, DEFENSE_BONUS=3, MILITARY_TACTICS=1.12, GURRILLA=0.8,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=1.1,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=48, SUPPORT_RATE_CHANGING=0.50, SUPPORT_RATE_INCREASING=1.35,
+    # Presidential (US/LatAm ideal-type): stronger executive control, growth, higher mil budget.
+    "presidential": _arch(
+        tax_ok=0.58, goods=0.17, invest=0.20, research=0.99,
+        inc_tax=1.02, inc_prod=1.07, pop=0.025, eco=0.040,
+        mil_up=1.16, adm=1.00, adm_dist=1.04, adm_cap=0.48,
+        commerce=1.14, diplo=1.10, control=1.10,
+        instability=0.14, assimilate=0.88, move=1.02,
+        c_move=10, c_same=5, c_own=6, c_recruit=22, c_disband=17, c_plunder=16,
+        atk=1, dfn=3, tactics=1.14, guerrilla=0.7,
+        recruit=1.12, recruit_other=0.38, manpower=1.15,
+        reform=0, election=48, support_chg=0.50, support_inc=1.35,
         age=6, revolutionary=False, colors=(40, 90, 180),
         attrs=dict(DEMOCRACY=5, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=1, MILITARISM=3),
     ),
-    "semi_presidential": dict(
-        ACCEPTABLE_TAXATION=0.60, MIN_GOODS=0.18, MIN_INVESTMENTS=0.20, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.03, INCOME_PRODUCTION=1.03, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.04, ADMINISTRATION_COST_DISTANCE=1.06,
-        ADMINISTRATION_COST_CAPITAL=0.52, COMMERCE_RANGE=1.10, DIPLOMACY_RANGE=1.18, CONTROL_RANGE=1.06,
-        INSTABILITY=0.13, ASSIMILATE_RATE=0.88, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=1, DEFENSE_BONUS=4, MILITARY_TACTICS=1.12, GURRILLA=0.9,
-        RECRUITABILITY=1.10, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=50, SUPPORT_RATE_CHANGING=0.48, SUPPORT_RATE_INCREASING=1.35,
+    # Semi-presidential (France V): dual executive — diplo + crisis militarism between the above.
+    "semi_presidential": _arch(
+        tax_ok=0.60, goods=0.18, invest=0.20, research=0.99,
+        inc_tax=1.03, inc_prod=1.05, pop=0.02, eco=0.032,
+        mil_up=1.14, adm=1.04, adm_dist=1.05, adm_cap=0.50,
+        commerce=1.12, diplo=1.18, control=1.08,
+        instability=0.13, assimilate=0.86, move=1.00,
+        c_move=10, c_same=5, c_own=6, c_recruit=22, c_disband=17, c_plunder=16,
+        atk=1, dfn=4, tactics=1.13, guerrilla=0.85,
+        recruit=1.10, recruit_other=0.40, manpower=1.05,
+        reform=0, election=50, support_chg=0.47, support_inc=1.35,
         age=7, revolutionary=False, colors=(50, 110, 200),
         attrs=dict(DEMOCRACY=4, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=3, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=1, MILITARISM=3),
     ),
-    "federal_republic": dict(
-        ACCEPTABLE_TAXATION=0.60, MIN_GOODS=0.17, MIN_INVESTMENTS=0.21, RESEARCH_COST=0.98,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.06, POP_GROWTH_BONUS=0.025, ECO_GROWTH_BONUS=0.04,
-        MILITARY_UPKEEP=1.08, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=0.95,
-        ADMINISTRATION_COST_CAPITAL=0.45, COMMERCE_RANGE=1.15, DIPLOMACY_RANGE=1.10, CONTROL_RANGE=0.95,
-        INSTABILITY=0.15, ASSIMILATE_RATE=0.75, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=11, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=0, DEFENSE_BONUS=5, MILITARY_TACTICS=1.08, GURRILLA=1.2,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.42, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=55, SUPPORT_RATE_CHANGING=0.42, SUPPORT_RATE_INCREASING=1.3,
+    # Federal: local fiscal competition → growth/commerce; centrifugal instability; cheap distance admin.
+    "federal_republic": _arch(
+        tax_ok=0.58, goods=0.17, invest=0.22, research=0.97,
+        inc_tax=0.98, inc_prod=1.08, pop=0.025, eco=0.042,
+        mil_up=1.10, adm=1.10, adm_dist=0.92, adm_cap=0.42,
+        commerce=1.18, diplo=1.08, control=0.92,
+        instability=0.16, assimilate=0.72, move=1.00,
+        c_move=11, c_same=5, c_own=6, c_recruit=22, c_disband=17, c_plunder=16,
+        atk=0, dfn=5, tactics=1.08, guerrilla=1.15,
+        recruit=1.08, recruit_other=0.42, manpower=1.0,
+        reform=0, election=55, support_chg=0.42, support_inc=1.28,
         age=6, revolutionary=False, colors=(30, 70, 160),
         attrs=dict(DEMOCRACY=5, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=3, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
+        high_autonomy=True,
     ),
-    "parliamentary_monarchy": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.19, RESEARCH_COST=1.02,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.04, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.00, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.08, DIPLOMACY_RANGE=1.20, CONTROL_RANGE=1.05,
-        INSTABILITY=0.10, ASSIMILATE_RATE=0.90, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=0, DEFENSE_BONUS=5, MILITARY_TACTICS=1.10, GURRILLA=0.7,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=55, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.25,
+    # Constitutional monarchy: symbolic continuity → lowest elite instability, high soft power.
+    "parliamentary_monarchy": _arch(
+        tax_ok=0.60, goods=0.18, invest=0.20, research=1.00,
+        inc_tax=1.01, inc_prod=1.05, pop=0.02, eco=0.032,
+        mil_up=1.12, adm=1.00, adm_dist=1.04, adm_cap=0.48,
+        commerce=1.12, diplo=1.22, control=1.06,
+        instability=0.09, assimilate=0.88, move=1.00,
+        c_move=10, c_same=5, c_own=6, c_recruit=22, c_disband=16, c_plunder=16,
+        atk=0, dfn=5, tactics=1.10, guerrilla=0.7,
+        recruit=1.08, recruit_other=0.38, manpower=1.0,
+        reform=0, election=55, support_chg=0.38, support_inc=1.28,
         age=5, revolutionary=False, colors=(180, 160, 40),
         attrs=dict(DEMOCRACY=4, CENTRALIZATION=3, RELIGIOUSNESS=3, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=5, MILITARISM=2),
     ),
-    "dual_constitutional_monarchy": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.05,
-        INCOME_TAXATION=0.98, INCOME_PRODUCTION=1.00, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.12,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.05, DIPLOMACY_RANGE=1.12, CONTROL_RANGE=1.05,
-        INSTABILITY=0.16, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=0.98,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=15,
-        ATTACK_BONUS=1, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=0.8,
-        RECRUITABILITY=1.06, RECRUITABILITY_OTHER=0.36, MANPOWER_BONUS=0.95,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.15,
+    # Dualist constitutional (Kaiserreich/Meiji early): crown still commands army; parliament weak.
+    "dual_constitutional_monarchy": _arch(
+        tax_ok=0.52, goods=0.15, invest=0.17, research=1.04,
+        inc_tax=1.02, inc_prod=1.02, pop=0.015, eco=0.022,
+        mil_up=1.18, adm=1.12, adm_dist=1.12, adm_cap=0.52,
+        commerce=1.02, diplo=1.10, control=1.08,
+        instability=0.17, assimilate=0.90, move=0.98,
+        c_move=10, c_same=5, c_own=6, c_recruit=21, c_disband=15, c_plunder=15,
+        atk=2, dfn=4, tactics=1.10, guerrilla=0.75,
+        recruit=1.10, recruit_other=0.34, manpower=1.1,
+        reform=0, election=0, support_chg=0.34, support_inc=1.18,
         age=5, revolutionary=False, colors=(160, 120, 60),
-        attrs=dict(DEMOCRACY=3, CENTRALIZATION=4, RELIGIOUSNESS=3, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=5, MILITARISM=3),
+        attrs=dict(DEMOCRACY=3, CENTRALIZATION=4, RELIGIOUSNESS=3, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=5, MILITARISM=4),
     ),
-    "absolute_monarchy": dict(
-        ACCEPTABLE_TAXATION=0.52, MIN_GOODS=0.14, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.08,
-        INCOME_TAXATION=1.06, INCOME_PRODUCTION=0.98, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.18, ADMINISTRATION_COST=1.10, ADMINISTRATION_COST_DISTANCE=1.20,
-        ADMINISTRATION_COST_CAPITAL=0.45, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.15,
-        INSTABILITY=0.16, ASSIMILATE_RATE=1.00, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=0.6,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.32, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.32, SUPPORT_RATE_INCREASING=1.20,
+    # Absolute: high extractive tax + court capital; weak market/research vs liberal peers.
+    "absolute_monarchy": _arch(
+        tax_ok=0.48, goods=0.13, invest=0.13, research=1.12,
+        inc_tax=1.10, inc_prod=0.96, pop=0.012, eco=0.012,
+        mil_up=1.20, adm=1.12, adm_dist=1.22, adm_cap=0.40,
+        commerce=0.92, diplo=1.02, control=1.16,
+        instability=0.18, assimilate=1.02, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=13,
+        atk=2, dfn=4, tactics=1.04, guerrilla=0.55,
+        recruit=1.10, recruit_other=0.30, manpower=1.05,
+        reform=0, election=0, support_chg=0.30, support_inc=1.18,
         age=4, revolutionary=False, colors=(140, 40, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=5, RELIGIOUSNESS=4, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=5, MILITARISM=4),
+        cant_change_vassal_gov=True,
     ),
-    "feudal_monarchy": dict(
-        ACCEPTABLE_TAXATION=0.48, MIN_GOODS=0.12, MIN_INVESTMENTS=0.12, RESEARCH_COST=1.15,
-        INCOME_TAXATION=0.92, INCOME_PRODUCTION=0.95, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.05, ADMINISTRATION_COST=1.20, ADMINISTRATION_COST_DISTANCE=1.35,
-        ADMINISTRATION_COST_CAPITAL=0.70, COMMERCE_RANGE=0.85, DIPLOMACY_RANGE=0.90, CONTROL_RANGE=0.80,
-        INSTABILITY=0.20, ASSIMILATE_RATE=0.70, MOVEMENT_MODIFIER=0.92,
-        COST_OF_MOVE=12, COST_OF_MOVE_TO_THE_SAME_PROV=7, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=20, COST_OF_DISBAND=14, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=2, DEFENSE_BONUS=6, MILITARY_TACTICS=0.95, GURRILLA=1.5,
-        RECRUITABILITY=1.00, RECRUITABILITY_OTHER=0.30, MANPOWER_BONUS=0.8,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.30, SUPPORT_RATE_INCREASING=1.10,
+    # Feudal monarchy: castle defense, fragmented fiscal base, high distance cost, slow move.
+    "feudal_monarchy": _arch(
+        tax_ok=0.42, goods=0.11, invest=0.10, research=1.22,
+        inc_tax=0.90, inc_prod=0.92, pop=0.008, eco=0.008,
+        mil_up=1.02, adm=1.22, adm_dist=1.38, adm_cap=0.72,
+        commerce=0.82, diplo=0.88, control=0.78,
+        instability=0.22, assimilate=0.68, move=0.92,
+        c_move=12, c_same=7, c_own=5, c_recruit=19, c_disband=13, c_plunder=11,
+        atk=1, dfn=7, tactics=0.92, guerrilla=1.6,
+        recruit=0.98, recruit_other=0.28, manpower=0.75,
+        reform=0, election=0, support_chg=0.28, support_inc=1.08,
         age=2, revolutionary=False, colors=(120, 80, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=1, RELIGIOUSNESS=4, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=5, MILITARISM=3),
+        high_autonomy=True, prince_vassal=True,
     ),
-    "feudal_principality": dict(
-        ACCEPTABLE_TAXATION=0.45, MIN_GOODS=0.12, MIN_INVESTMENTS=0.12, RESEARCH_COST=1.18,
-        INCOME_TAXATION=0.90, INCOME_PRODUCTION=0.93, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.08, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.40,
-        ADMINISTRATION_COST_CAPITAL=0.75, COMMERCE_RANGE=0.80, DIPLOMACY_RANGE=0.85, CONTROL_RANGE=0.75,
-        INSTABILITY=0.25, ASSIMILATE_RATE=0.65, MOVEMENT_MODIFIER=0.90,
-        COST_OF_MOVE=12, COST_OF_MOVE_TO_THE_SAME_PROV=7, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=20, COST_OF_DISBAND=14, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=1, DEFENSE_BONUS=5, MILITARY_TACTICS=0.92, GURRILLA=1.8,
-        RECRUITABILITY=0.98, RECRUITABILITY_OTHER=0.28, MANPOWER_BONUS=0.7,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.28, SUPPORT_RATE_INCREASING=1.05,
+    # Feudal principality: more fragmented than kingdom; vassal autonomy.
+    "feudal_principality": _arch(
+        tax_ok=0.40, goods=0.11, invest=0.10, research=1.25,
+        inc_tax=0.88, inc_prod=0.90, pop=0.008, eco=0.006,
+        mil_up=1.05, adm=1.18, adm_dist=1.42, adm_cap=0.78,
+        commerce=0.78, diplo=0.82, control=0.72,
+        instability=0.26, assimilate=0.62, move=0.90,
+        c_move=12, c_same=7, c_own=5, c_recruit=19, c_disband=13, c_plunder=10,
+        atk=1, dfn=6, tactics=0.90, guerrilla=1.9,
+        recruit=0.96, recruit_other=0.26, manpower=0.7,
+        reform=0, election=0, support_chg=0.30, support_inc=1.05,
         age=2, revolutionary=False, colors=(100, 70, 35),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=1, RELIGIOUSNESS=4, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=4, MILITARISM=3),
+        high_autonomy=True, prince_vassal=True, vassal_war=True,
     ),
-    "enlightened_absolutism": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.15, MIN_INVESTMENTS=0.18, RESEARCH_COST=0.95,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.06, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.05, ADMINISTRATION_COST_DISTANCE=1.10,
-        ADMINISTRATION_COST_CAPITAL=0.48, COMMERCE_RANGE=1.05, DIPLOMACY_RANGE=1.10, CONTROL_RANGE=1.12,
-        INSTABILITY=0.12, ASSIMILATE_RATE=1.05, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=3, MILITARY_TACTICS=1.12, GURRILLA=0.5,
-        RECRUITABILITY=1.10, RECRUITABILITY_OTHER=0.34, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.25,
+    # Enlightened absolutism (Frederick/Joseph II): reform bureaucracy + science, still crown-led.
+    "enlightened_absolutism": _arch(
+        tax_ok=0.54, goods=0.15, invest=0.19, research=0.95,
+        inc_tax=1.06, inc_prod=1.06, pop=0.018, eco=0.030,
+        mil_up=1.16, adm=1.02, adm_dist=1.08, adm_cap=0.42,
+        commerce=1.04, diplo=1.08, control=1.14,
+        instability=0.13, assimilate=1.05, move=1.02,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=13,
+        atk=2, dfn=3, tactics=1.14, guerrilla=0.45,
+        recruit=1.12, recruit_other=0.34, manpower=1.05,
+        reform=0, election=0, support_chg=0.34, support_inc=1.28,
         age=5, revolutionary=False, colors=(150, 100, 50),
-        attrs=dict(DEMOCRACY=2, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=4, MILITARISM=3),
+        attrs=dict(DEMOCRACY=2, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=4, MILITARISM=4),
     ),
-    "imperial_bureaucracy": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.15, MIN_INVESTMENTS=0.16, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.08, INCOME_PRODUCTION=1.00, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.08, ADMINISTRATION_COST_DISTANCE=1.00,
-        ADMINISTRATION_COST_CAPITAL=0.40, COMMERCE_RANGE=1.00, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.20,
-        INSTABILITY=0.14, ASSIMILATE_RATE=1.15, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=1, DEFENSE_BONUS=5, MILITARY_TACTICS=1.08, GURRILLA=0.8,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.30, SUPPORT_RATE_INCREASING=1.20,
+    # Imperial bureaucracy (Qin/Han/Rome): exam/legalist admin, corvée manpower, weak mercantile openness.
+    "imperial_bureaucracy": _arch(
+        tax_ok=0.56, goods=0.14, invest=0.15, research=1.06,
+        inc_tax=1.12, inc_prod=0.98, pop=0.022, eco=0.018,
+        mil_up=1.10, adm=1.05, adm_dist=0.95, adm_cap=0.35,
+        commerce=0.95, diplo=0.95, control=1.22,
+        instability=0.14, assimilate=1.18, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=1, dfn=6, tactics=1.08, guerrilla=0.7,
+        recruit=1.15, recruit_other=0.36, manpower=1.35,
+        reform=0, election=0, support_chg=0.28, support_inc=1.22,
         age=1, revolutionary=False, colors=(160, 30, 30),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=4, MILITARISM=4),
+        cant_change_vassal_gov=True,
     ),
-    "theocracy": dict(
-        ACCEPTABLE_TAXATION=0.50, MIN_GOODS=0.15, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.20,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=0.95, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.15,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=0.90, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.05,
-        INSTABILITY=0.16, ASSIMILATE_RATE=1.20, MOVEMENT_MODIFIER=0.95,
-        COST_OF_MOVE=11, COST_OF_MOVE_TO_THE_SAME_PROV=6, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=1, DEFENSE_BONUS=6, MILITARY_TACTICS=0.95, GURRILLA=1.5,
-        RECRUITABILITY=1.05, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=0.9,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.30, SUPPORT_RATE_INCREASING=1.20,
+    # Theocracy: confessional cohesion/assimilate; dogma raises research cost; defensive sacral war.
+    "theocracy": _arch(
+        tax_ok=0.50, goods=0.14, invest=0.12, research=1.28,
+        inc_tax=1.04, inc_prod=0.92, pop=0.014, eco=0.008,
+        mil_up=1.08, adm=1.16, adm_dist=1.18, adm_cap=0.55,
+        commerce=0.85, diplo=0.95, control=1.08,
+        instability=0.15, assimilate=1.28, move=0.94,
+        c_move=11, c_same=6, c_own=5, c_recruit=22, c_disband=16, c_plunder=14,
+        atk=1, dfn=7, tactics=0.94, guerrilla=1.6,
+        recruit=1.06, recruit_other=0.36, manpower=0.95,
+        reform=0, election=0, support_chg=0.28, support_inc=1.22,
         age=2, revolutionary=False, colors=(100, 80, 140),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=5, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=3, MILITARISM=2),
+        distinctive=True,
     ),
-    "caliphate": dict(
-        ACCEPTABLE_TAXATION=0.52, MIN_GOODS=0.15, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.15,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=0.96, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.20,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.00, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.10,
-        INSTABILITY=0.18, ASSIMILATE_RATE=1.15, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=13,
-        ATTACK_BONUS=3, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=1.3,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.32, SUPPORT_RATE_INCREASING=1.25,
+    # Caliphate: early-Islamic commerce + jihad mobility; umma assimilate; later scientific lag as RESEARCH_COST.
+    "caliphate": _arch(
+        tax_ok=0.50, goods=0.14, invest=0.13, research=1.18,
+        inc_tax=1.06, inc_prod=0.96, pop=0.016, eco=0.014,
+        mil_up=1.14, adm=1.10, adm_dist=1.22, adm_cap=0.48,
+        commerce=1.05, diplo=1.02, control=1.12,
+        instability=0.19, assimilate=1.20, move=1.04,
+        c_move=9, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=11,
+        atk=4, dfn=3, tactics=1.06, guerrilla=1.4,
+        recruit=1.14, recruit_other=0.40, manpower=1.25,
+        reform=0, election=0, support_chg=0.32, support_inc=1.28,
         age=3, revolutionary=False, colors=(40, 100, 60),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=5, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=4, MILITARISM=4),
     ),
-    "confessional_monarchy": dict(
-        ACCEPTABLE_TAXATION=0.50, MIN_GOODS=0.15, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.12,
-        INCOME_TAXATION=1.03, INCOME_PRODUCTION=0.97, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.15,
-        ADMINISTRATION_COST_CAPITAL=0.52, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.08,
-        INSTABILITY=0.17, ASSIMILATE_RATE=1.10, MOVEMENT_MODIFIER=0.98,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=5, MILITARY_TACTICS=1.00, GURRILLA=1.2,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.32, SUPPORT_RATE_INCREASING=1.20,
+    # Confessional monarchy (Habsburg/Saudi ideal-type): dynasty + church/ulema co-rule.
+    "confessional_monarchy": _arch(
+        tax_ok=0.48, goods=0.14, invest=0.13, research=1.16,
+        inc_tax=1.05, inc_prod=0.95, pop=0.014, eco=0.012,
+        mil_up=1.14, adm=1.14, adm_dist=1.16, adm_cap=0.50,
+        commerce=0.92, diplo=0.98, control=1.10,
+        instability=0.18, assimilate=1.14, move=0.97,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=13,
+        atk=2, dfn=5, tactics=1.00, guerrilla=1.25,
+        recruit=1.08, recruit_other=0.34, manpower=1.0,
+        reform=0, election=0, support_chg=0.30, support_inc=1.18,
         age=3, revolutionary=False, colors=(90, 70, 120),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=5, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=5, MILITARISM=3),
     ),
-    "aristocratic_republic": dict(
-        ACCEPTABLE_TAXATION=0.48, MIN_GOODS=0.15, MIN_INVESTMENTS=0.15, RESEARCH_COST=1.08,
-        INCOME_TAXATION=0.98, INCOME_PRODUCTION=1.05, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.08, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.52, COMMERCE_RANGE=1.08, DIPLOMACY_RANGE=1.10, CONTROL_RANGE=1.00,
-        INSTABILITY=0.16, ASSIMILATE_RATE=0.80, MOVEMENT_MODIFIER=0.98,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=15,
-        ATTACK_BONUS=1, DEFENSE_BONUS=5, MILITARY_TACTICS=1.05, GURRILLA=0.7,
-        RECRUITABILITY=0.98, RECRUITABILITY_OTHER=0.30, MANPOWER_BONUS=0.7,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=40, SUPPORT_RATE_CHANGING=0.32, SUPPORT_RATE_INCREASING=1.15,
+    # Aristocratic republic (Polish–Lithuanian / early Venice Senate): elite veto, weak mass recruit.
+    "aristocratic_republic": _arch(
+        tax_ok=0.44, goods=0.14, invest=0.14, research=1.08,
+        inc_tax=0.95, inc_prod=1.04, pop=0.008, eco=0.018,
+        mil_up=1.10, adm=1.08, adm_dist=1.10, adm_cap=0.55,
+        commerce=1.10, diplo=1.12, control=0.95,
+        instability=0.18, assimilate=0.75, move=0.97,
+        c_move=10, c_same=5, c_own=5, c_recruit=23, c_disband=16, c_plunder=15,
+        atk=1, dfn=5, tactics=1.06, guerrilla=0.65,
+        recruit=0.95, recruit_other=0.28, manpower=0.65,
+        reform=0, election=40, support_chg=0.30, support_inc=1.12,
         age=3, revolutionary=False, colors=(120, 110, 50),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=2, RELIGIOUSNESS=3, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=3, MILITARISM=2),
     ),
-    "oligarchic_republic": dict(
-        ACCEPTABLE_TAXATION=0.50, MIN_GOODS=0.15, MIN_INVESTMENTS=0.16, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.08, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.025,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.05, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.10, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.00,
-        INSTABILITY=0.18, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=15,
-        ATTACK_BONUS=1, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=0.8,
-        RECRUITABILITY=1.00, RECRUITABILITY_OTHER=0.32, MANPOWER_BONUS=0.8,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=35, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.15,
+    # Oligarchic republic: merchant/landed cartel — growth but exclusion → instability.
+    "oligarchic_republic": _arch(
+        tax_ok=0.48, goods=0.15, invest=0.17, research=1.04,
+        inc_tax=1.00, inc_prod=1.08, pop=0.010, eco=0.028,
+        mil_up=1.10, adm=1.04, adm_dist=1.04, adm_cap=0.50,
+        commerce=1.14, diplo=1.04, control=0.98,
+        instability=0.20, assimilate=0.80, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=22, c_disband=16, c_plunder=15,
+        atk=1, dfn=4, tactics=1.05, guerrilla=0.8,
+        recruit=0.98, recruit_other=0.30, manpower=0.75,
+        reform=0, election=35, support_chg=0.36, support_inc=1.15,
         age=3, revolutionary=False, colors=(100, 100, 40),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=3, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=2, MILITARISM=2),
     ),
-    "merchant_republic": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.20, RESEARCH_COST=0.95,
-        INCOME_TAXATION=0.95, INCOME_PRODUCTION=1.15, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.04,
-        MILITARY_UPKEEP=1.05, ADMINISTRATION_COST=0.95, ADMINISTRATION_COST_DISTANCE=1.00,
-        ADMINISTRATION_COST_CAPITAL=0.45, COMMERCE_RANGE=1.25, DIPLOMACY_RANGE=1.20, CONTROL_RANGE=0.90,
-        INSTABILITY=0.16, ASSIMILATE_RATE=0.80, MOVEMENT_MODIFIER=1.05,
-        COST_OF_MOVE=9, COST_OF_MOVE_TO_THE_SAME_PROV=4, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=23, COST_OF_DISBAND=16, COST_OF_PLUNDER=15,
-        ATTACK_BONUS=1, DEFENSE_BONUS=6, MILITARY_TACTICS=1.05, GURRILLA=0.6,
-        RECRUITABILITY=0.95, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=0.7,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=30, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.25,
+    # Merchant republic (Venice/Genoa/Dutch): max commerce/diplo; mercenary land war; low manpower.
+    "merchant_republic": _arch(
+        tax_ok=0.56, goods=0.17, invest=0.22, research=0.95,
+        inc_tax=0.94, inc_prod=1.16, pop=0.014, eco=0.045,
+        mil_up=1.08, adm=0.92, adm_dist=0.98, adm_cap=0.40,
+        commerce=1.25, diplo=1.22, control=0.85,
+        instability=0.15, assimilate=0.78, move=1.06,
+        c_move=8, c_same=4, c_own=5, c_recruit=24, c_disband=16, c_plunder=15,
+        atk=1, dfn=6, tactics=1.08, guerrilla=0.5,
+        recruit=0.95, recruit_other=0.36, manpower=0.65,
+        reform=0, election=30, support_chg=0.40, support_inc=1.28,
         age=3, revolutionary=False, colors=(40, 120, 160),
         attrs=dict(DEMOCRACY=3, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
+        distinctive=True,
     ),
-    "city_state": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.00,
-        INCOME_TAXATION=0.98, INCOME_PRODUCTION=1.10, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.08, ADMINISTRATION_COST=0.85, ADMINISTRATION_COST_DISTANCE=0.90,
-        ADMINISTRATION_COST_CAPITAL=0.35, COMMERCE_RANGE=1.20, DIPLOMACY_RANGE=1.15, CONTROL_RANGE=0.85,
-        INSTABILITY=0.14, ASSIMILATE_RATE=0.75, MOVEMENT_MODIFIER=1.05,
-        COST_OF_MOVE=8, COST_OF_MOVE_TO_THE_SAME_PROV=4, COST_OF_MOVE_OWN_PROV=4,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=8, MILITARY_TACTICS=1.05, GURRILLA=1.0,
-        RECRUITABILITY=1.00, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=0.8,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=25, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.30,
+    # City-state: tiny cheap admin, walls, cannot project control far.
+    "city_state": _arch(
+        tax_ok=0.56, goods=0.16, invest=0.18, research=1.00,
+        inc_tax=0.98, inc_prod=1.10, pop=0.014, eco=0.030,
+        mil_up=1.06, adm=0.78, adm_dist=0.85, adm_cap=0.30,
+        commerce=1.20, diplo=1.16, control=0.78,
+        instability=0.13, assimilate=0.70, move=1.05,
+        c_move=8, c_same=4, c_own=4, c_recruit=22, c_disband=15, c_plunder=14,
+        atk=2, dfn=8, tactics=1.06, guerrilla=1.0,
+        recruit=1.00, recruit_other=0.42, manpower=0.75,
+        reform=0, election=25, support_chg=0.45, support_inc=1.30,
         age=1, revolutionary=False, colors=(50, 130, 170),
         attrs=dict(DEMOCRACY=4, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
+        high_autonomy=True, distinctive=True,
     ),
-    "directory": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.02,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.04, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.025,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.08, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.08, DIPLOMACY_RANGE=1.12, CONTROL_RANGE=1.00,
-        INSTABILITY=0.15, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=16, COST_OF_PLUNDER=15,
-        ATTACK_BONUS=0, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=0.8,
-        RECRUITABILITY=1.05, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=0.9,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=40, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.25,
+    # Directory / collegial (Swiss Federal Council): shared executive → stability, slower war.
+    "directory": _arch(
+        tax_ok=0.60, goods=0.18, invest=0.19, research=1.00,
+        inc_tax=1.01, inc_prod=1.04, pop=0.015, eco=0.028,
+        mil_up=1.08, adm=1.10, adm_dist=1.04, adm_cap=0.55,
+        commerce=1.10, diplo=1.14, control=1.00,
+        instability=0.12, assimilate=0.82, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=22, c_disband=16, c_plunder=15,
+        atk=0, dfn=5, tactics=1.04, guerrilla=0.85,
+        recruit=1.05, recruit_other=0.38, manpower=0.9,
+        reform=0, election=40, support_chg=0.38, support_inc=1.25,
         age=5, revolutionary=False, colors=(80, 120, 90),
         attrs=dict(DEMOCRACY=4, CENTRALIZATION=3, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
     ),
-    "tribal": dict(
-        ACCEPTABLE_TAXATION=0.35, MIN_GOODS=0.10, MIN_INVESTMENTS=0.08, RESEARCH_COST=1.30,
-        INCOME_TAXATION=0.88, INCOME_PRODUCTION=0.90, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.005,
-        MILITARY_UPKEEP=0.95, ADMINISTRATION_COST=0.80, ADMINISTRATION_COST_DISTANCE=1.50,
-        ADMINISTRATION_COST_CAPITAL=0.80, COMMERCE_RANGE=0.70, DIPLOMACY_RANGE=0.70, CONTROL_RANGE=0.60,
-        INSTABILITY=0.22, ASSIMILATE_RATE=0.50, MOVEMENT_MODIFIER=1.08,
-        COST_OF_MOVE=8, COST_OF_MOVE_TO_THE_SAME_PROV=4, COST_OF_MOVE_OWN_PROV=3,
-        COST_OF_RECRUIT=16, COST_OF_DISBAND=10, COST_OF_PLUNDER=8,
-        ATTACK_BONUS=3, DEFENSE_BONUS=4, MILITARY_TACTICS=0.85, GURRILLA=2.8,
-        RECRUITABILITY=1.15, RECRUITABILITY_OTHER=0.55, MANPOWER_BONUS=0.8,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.50, SUPPORT_RATE_INCREASING=1.10,
+    # Tribal chiefdom: low surplus, kin guerrilla, collapses over distance.
+    "tribal": _arch(
+        tax_ok=0.32, goods=0.08, invest=0.06, research=1.32,
+        inc_tax=0.86, inc_prod=0.88, pop=0.010, eco=0.004,
+        mil_up=0.92, adm=0.75, adm_dist=1.50, adm_cap=0.85,
+        commerce=0.65, diplo=0.65, control=0.55,
+        instability=0.24, assimilate=0.45, move=1.10,
+        c_move=7, c_same=3, c_own=3, c_recruit=15, c_disband=9, c_plunder=7,
+        atk=3, dfn=4, tactics=0.82, guerrilla=2.9,
+        recruit=1.18, recruit_other=0.55, manpower=0.85,
+        reform=0, election=0, support_chg=0.52, support_inc=1.08,
         age=0, revolutionary=False, colors=(90, 70, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=1, RELIGIOUSNESS=3, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=1, MONARCHY_TRADITION=1, MILITARISM=3),
+        high_autonomy=True,
     ),
-    "horde": dict(
-        ACCEPTABLE_TAXATION=0.38, MIN_GOODS=0.10, MIN_INVESTMENTS=0.08, RESEARCH_COST=1.25,
-        INCOME_TAXATION=0.90, INCOME_PRODUCTION=0.88, POP_GROWTH_BONUS=0.005, ECO_GROWTH_BONUS=0.005,
-        MILITARY_UPKEEP=1.00, ADMINISTRATION_COST=0.85, ADMINISTRATION_COST_DISTANCE=1.60,
-        ADMINISTRATION_COST_CAPITAL=0.85, COMMERCE_RANGE=0.75, DIPLOMACY_RANGE=0.75, CONTROL_RANGE=0.65,
-        INSTABILITY=0.25, ASSIMILATE_RATE=0.55, MOVEMENT_MODIFIER=1.15,
-        COST_OF_MOVE=7, COST_OF_MOVE_TO_THE_SAME_PROV=3, COST_OF_MOVE_OWN_PROV=3,
-        COST_OF_RECRUIT=15, COST_OF_DISBAND=9, COST_OF_PLUNDER=6,
-        ATTACK_BONUS=6, DEFENSE_BONUS=2, MILITARY_TACTICS=1.00, GURRILLA=2.0,
-        RECRUITABILITY=1.25, RECRUITABILITY_OTHER=0.50, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.15,
+    # Steppe horde: conquest surplus, plunder cheap, sedentary production weak, succession crises.
+    "horde": _arch(
+        tax_ok=0.35, goods=0.08, invest=0.06, research=1.28,
+        inc_tax=0.90, inc_prod=0.86, pop=0.004, eco=0.004,
+        mil_up=0.98, adm=0.82, adm_dist=1.55, adm_cap=0.88,
+        commerce=0.72, diplo=0.70, control=0.62,
+        instability=0.28, assimilate=0.52, move=1.15,
+        c_move=6, c_same=3, c_own=3, c_recruit=14, c_disband=8, c_plunder=5,
+        atk=6, dfn=2, tactics=1.02, guerrilla=2.1,
+        recruit=1.28, recruit_other=0.50, manpower=1.05,
+        reform=0, election=0, support_chg=0.48, support_inc=1.15,
         age=2, revolutionary=False, colors=(110, 90, 50),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=2, MILITARISM=5),
     ),
-    "ml_single_party": dict(
-        ACCEPTABLE_TAXATION=0.66, MIN_GOODS=0.19, MIN_INVESTMENTS=0.20, RESEARCH_COST=1.02,
-        INCOME_TAXATION=1.06, INCOME_PRODUCTION=1.05, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.18, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=0.92, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=1.12,
-        INSTABILITY=0.18, ASSIMILATE_RATE=1.05, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=20, COST_OF_DISBAND=14, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=5, MILITARY_TACTICS=1.06, GURRILLA=1.1,
-        RECRUITABILITY=1.16, RECRUITABILITY_OTHER=0.44, MANPOWER_BONUS=1.4,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.36, SUPPORT_RATE_INCREASING=1.25,
+    # ML single-party: forced industrialization + mass conscription; soft-budget NOT free —
+    # high admin/military cost (command economy waste); weak commerce (BUG-002 safe).
+    "ml_single_party": _arch(
+        tax_ok=0.68, goods=0.18, invest=0.22, research=1.04,
+        inc_tax=1.08, inc_prod=1.04, pop=0.022, eco=0.022,
+        mil_up=1.18, adm=1.22, adm_dist=1.06, adm_cap=0.52,
+        commerce=0.88, diplo=0.90, control=1.18,
+        instability=0.17, assimilate=1.08, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=19, c_disband=13, c_plunder=13,
+        atk=2, dfn=5, tactics=1.08, guerrilla=1.0,
+        recruit=1.20, recruit_other=0.46, manpower=1.55,
+        reform=0, election=0, support_chg=0.34, support_inc=1.28,
         age=7, revolutionary=False, colors=(160, 25, 25),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=5, RELIGIOUSNESS=1, SOCIALIZATION=5, COMMUNISM=5, NATIONALISM=3, MONARCHY_TRADITION=1, MILITARISM=4),
+        cant_change_vassal_gov=True,
     ),
-    "peoples_democracy": dict(
-        ACCEPTABLE_TAXATION=0.64, MIN_GOODS=0.18, MIN_INVESTMENTS=0.19, RESEARCH_COST=1.03,
-        INCOME_TAXATION=1.05, INCOME_PRODUCTION=1.03, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.16, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=1.10,
-        INSTABILITY=0.17, ASSIMILATE_RATE=1.00, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=20, COST_OF_DISBAND=14, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=1.0,
-        RECRUITABILITY=1.14, RECRUITABILITY_OTHER=0.42, MANPOWER_BONUS=1.3,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.38, SUPPORT_RATE_INCREASING=1.25,
+    # People's democracy (satellite): softer copy — less autonomy, slightly weaker industry.
+    "peoples_democracy": _arch(
+        tax_ok=0.64, goods=0.18, invest=0.20, research=1.06,
+        inc_tax=1.06, inc_prod=1.01, pop=0.020, eco=0.018,
+        mil_up=1.16, adm=1.18, adm_dist=1.08, adm_cap=0.55,
+        commerce=0.92, diplo=0.88, control=1.12,
+        instability=0.18, assimilate=1.00, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=2, dfn=4, tactics=1.05, guerrilla=0.95,
+        recruit=1.16, recruit_other=0.42, manpower=1.35,
+        reform=0, election=0, support_chg=0.36, support_inc=1.25,
         age=8, revolutionary=False, colors=(150, 40, 40),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=1, SOCIALIZATION=4, COMMUNISM=4, NATIONALISM=3, MONARCHY_TRADITION=1, MILITARISM=3),
     ),
-    "workers_self_management": dict(
-        ACCEPTABLE_TAXATION=0.62, MIN_GOODS=0.18, MIN_INVESTMENTS=0.20, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.06, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.08, ADMINISTRATION_COST=1.10, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.05, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.00,
-        INSTABILITY=0.18, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=1, DEFENSE_BONUS=5, MILITARY_TACTICS=1.05, GURRILLA=1.6,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.45, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=40, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.30,
+    # Workers' self-management (Yugoslavia): market-socialist flexibility + ethnic/enterprise instability.
+    "workers_self_management": _arch(
+        tax_ok=0.60, goods=0.18, invest=0.20, research=1.00,
+        inc_tax=0.98, inc_prod=1.06, pop=0.018, eco=0.030,
+        mil_up=1.10, adm=1.12, adm_dist=1.08, adm_cap=0.58,
+        commerce=1.08, diplo=1.05, control=0.95,
+        instability=0.22, assimilate=0.80, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=14,
+        atk=1, dfn=5, tactics=1.04, guerrilla=1.7,
+        recruit=1.12, recruit_other=0.45, manpower=1.15,
+        reform=0, election=40, support_chg=0.48, support_inc=1.28,
         age=8, revolutionary=False, colors=(170, 60, 50),
         attrs=dict(DEMOCRACY=3, CENTRALIZATION=2, RELIGIOUSNESS=1, SOCIALIZATION=5, COMMUNISM=4, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=3),
+        high_autonomy=True,
     ),
-    "fascist_dictatorship": dict(
-        ACCEPTABLE_TAXATION=0.56, MIN_GOODS=0.16, MIN_INVESTMENTS=0.17, RESEARCH_COST=1.02,
-        INCOME_TAXATION=1.05, INCOME_PRODUCTION=1.05, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.22, ADMINISTRATION_COST=1.10, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.00, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=1.15,
-        INSTABILITY=0.17, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.04,
-        COST_OF_MOVE=9, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=20, COST_OF_DISBAND=14, COST_OF_PLUNDER=13,
-        ATTACK_BONUS=4, DEFENSE_BONUS=4, MILITARY_TACTICS=1.15, GURRILLA=0.9,
-        RECRUITABILITY=1.18, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=1.4,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.35,
+    # Fascist dictatorship: short-run militarized production, attack bias, racial exclusion ↓ assimilate.
+    "fascist_dictatorship": _arch(
+        tax_ok=0.55, goods=0.15, invest=0.17, research=1.02,
+        inc_tax=1.06, inc_prod=1.06, pop=0.014, eco=0.022,
+        mil_up=1.28, adm=1.10, adm_dist=1.06, adm_cap=0.48,
+        commerce=0.98, diplo=0.88, control=1.18,
+        instability=0.18, assimilate=0.72, move=1.05,
+        c_move=9, c_same=5, c_own=5, c_recruit=19, c_disband=13, c_plunder=11,
+        atk=5, dfn=3, tactics=1.16, guerrilla=0.75,
+        recruit=1.22, recruit_other=0.32, manpower=1.45,
+        reform=0, election=0, support_chg=0.36, support_inc=1.38,
         age=7, revolutionary=False, colors=(60, 60, 60),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=5),
     ),
-    "totalitarianism": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.16, MIN_INVESTMENTS=0.16, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.08, INCOME_PRODUCTION=1.06, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.25, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.45, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=0.90, CONTROL_RANGE=1.20,
-        INSTABILITY=0.15, ASSIMILATE_RATE=0.75, MOVEMENT_MODIFIER=1.05,
-        COST_OF_MOVE=9, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=19, COST_OF_DISBAND=13, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=5, DEFENSE_BONUS=3, MILITARY_TACTICS=1.18, GURRILLA=0.7,
-        RECRUITABILITY=1.20, RECRUITABILITY_OTHER=0.32, MANPOWER_BONUS=1.5,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.40,
+    # Totalitarianism (Arendt/Friedrich): atomizing terror → control↑ guerrilla↓; huge standing forces.
+    "totalitarianism": _arch(
+        tax_ok=0.58, goods=0.15, invest=0.16, research=1.00,
+        inc_tax=1.10, inc_prod=1.05, pop=0.012, eco=0.018,
+        mil_up=1.32, adm=1.18, adm_dist=1.02, adm_cap=0.40,
+        commerce=0.90, diplo=0.82, control=1.25,
+        instability=0.14, assimilate=0.70, move=1.06,
+        c_move=9, c_same=5, c_own=5, c_recruit=18, c_disband=12, c_plunder=10,
+        atk=5, dfn=3, tactics=1.18, guerrilla=0.55,
+        recruit=1.25, recruit_other=0.30, manpower=1.55,
+        reform=0, election=0, support_chg=0.34, support_inc=1.42,
         age=8, revolutionary=False, colors=(30, 30, 30),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=5, RELIGIOUSNESS=1, SOCIALIZATION=1, COMMUNISM=2, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=5),
+        cant_change_vassal_gov=True,
     ),
-    "authoritarianism": dict(
-        ACCEPTABLE_TAXATION=0.52, MIN_GOODS=0.15, MIN_INVESTMENTS=0.15, RESEARCH_COST=1.08,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.00, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.18, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.12,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=1.10,
-        INSTABILITY=0.20, ASSIMILATE_RATE=0.90, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.05, GURRILLA=1.0,
-        RECRUITABILITY=1.10, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=1.1,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.20,
+    # Generic authoritarianism: extractive without fascist mobilization premium.
+    "authoritarianism": _arch(
+        tax_ok=0.50, goods=0.14, invest=0.14, research=1.10,
+        inc_tax=1.06, inc_prod=0.98, pop=0.014, eco=0.012,
+        mil_up=1.20, adm=1.14, adm_dist=1.14, adm_cap=0.50,
+        commerce=0.92, diplo=0.92, control=1.12,
+        instability=0.21, assimilate=0.88, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=13,
+        atk=2, dfn=4, tactics=1.04, guerrilla=1.05,
+        recruit=1.10, recruit_other=0.34, manpower=1.1,
+        reform=0, election=0, support_chg=0.40, support_inc=1.18,
         age=6, revolutionary=False, colors=(90, 50, 50),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=2, MILITARISM=4),
     ),
-    "sultanism": dict(
-        ACCEPTABLE_TAXATION=0.45, MIN_GOODS=0.14, MIN_INVESTMENTS=0.12, RESEARCH_COST=1.15,
-        INCOME_TAXATION=1.08, INCOME_PRODUCTION=0.92, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.18, ADMINISTRATION_COST=1.25, ADMINISTRATION_COST_DISTANCE=1.25,
-        ADMINISTRATION_COST_CAPITAL=0.35, COMMERCE_RANGE=0.88, DIPLOMACY_RANGE=0.88, CONTROL_RANGE=1.00,
-        INSTABILITY=0.30, ASSIMILATE_RATE=0.75, MOVEMENT_MODIFIER=0.98,
-        COST_OF_MOVE=11, COST_OF_MOVE_TO_THE_SAME_PROV=6, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=15, COST_OF_PLUNDER=13,
-        ATTACK_BONUS=1, DEFENSE_BONUS=3, MILITARY_TACTICS=0.98, GURRILLA=1.4,
-        RECRUITABILITY=1.05, RECRUITABILITY_OTHER=0.30, MANPOWER_BONUS=0.9,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.50, SUPPORT_RATE_INCREASING=1.10,
+    # Sultanism (Weber/Linz): neo-patrimonial predation — tax↑ institutions↓ instability↑.
+    "sultanism": _arch(
+        tax_ok=0.38, goods=0.12, invest=0.10, research=1.22,
+        inc_tax=1.14, inc_prod=0.88, pop=0.008, eco=0.006,
+        mil_up=1.22, adm=1.30, adm_dist=1.30, adm_cap=0.32,
+        commerce=0.82, diplo=0.82, control=0.95,
+        instability=0.34, assimilate=0.70, move=0.96,
+        c_move=11, c_same=6, c_own=5, c_recruit=22, c_disband=15, c_plunder=12,
+        atk=1, dfn=3, tactics=0.96, guerrilla=1.5,
+        recruit=1.02, recruit_other=0.28, manpower=0.85,
+        reform=0, election=0, support_chg=0.55, support_inc=1.08,
         age=4, revolutionary=False, colors=(110, 70, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=3, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=4, MILITARISM=3),
     ),
-    "hegemonic_party": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.17, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.04, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.025,
-        MILITARY_UPKEEP=1.12, ADMINISTRATION_COST=1.10, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.52, COMMERCE_RANGE=1.02, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.08,
-        INSTABILITY=0.16, ASSIMILATE_RATE=0.95, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=0.9,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.38, SUPPORT_RATE_INCREASING=1.25,
+    # Hegemonic party (PRI/UMNO ideal-type): electoral authoritarian — some market, managed stability.
+    "hegemonic_party": _arch(
+        tax_ok=0.54, goods=0.16, invest=0.18, research=1.04,
+        inc_tax=1.04, inc_prod=1.05, pop=0.020, eco=0.028,
+        mil_up=1.12, adm=1.08, adm_dist=1.06, adm_cap=0.50,
+        commerce=1.06, diplo=1.00, control=1.10,
+        instability=0.15, assimilate=0.95, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=14,
+        atk=2, dfn=4, tactics=1.08, guerrilla=0.85,
+        recruit=1.12, recruit_other=0.38, manpower=1.2,
+        reform=0, election=0, support_chg=0.36, support_inc=1.28,
         age=7, revolutionary=False, colors=(70, 90, 50),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=2, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=3),
     ),
-    "corporatist_state": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.03, INCOME_PRODUCTION=1.06, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.025,
-        MILITARY_UPKEEP=1.18, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.52, COMMERCE_RANGE=1.05, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.12,
-        INSTABILITY=0.15, ASSIMILATE_RATE=0.90, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=3, DEFENSE_BONUS=4, MILITARY_TACTICS=1.12, GURRILLA=0.8,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.36, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.33, SUPPORT_RATE_INCREASING=1.25,
+    # Corporatist state (Salazar/Mussolini corporatism): organized capital–labor, medium militarism.
+    "corporatist_state": _arch(
+        tax_ok=0.54, goods=0.16, invest=0.18, research=1.04,
+        inc_tax=1.04, inc_prod=1.06, pop=0.014, eco=0.025,
+        mil_up=1.18, adm=1.12, adm_dist=1.06, adm_cap=0.50,
+        commerce=1.04, diplo=0.98, control=1.14,
+        instability=0.14, assimilate=0.88, move=1.02,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=3, dfn=4, tactics=1.12, guerrilla=0.75,
+        recruit=1.14, recruit_other=0.34, manpower=1.25,
+        reform=0, election=0, support_chg=0.32, support_inc=1.26,
         age=7, revolutionary=False, colors=(80, 80, 90),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=3, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=2, MILITARISM=4),
     ),
-    "junta": dict(
-        ACCEPTABLE_TAXATION=0.50, MIN_GOODS=0.15, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.10,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=0.98, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.30, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.12,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=0.90, DIPLOMACY_RANGE=0.85, CONTROL_RANGE=1.10,
-        INSTABILITY=0.22, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.05,
-        COST_OF_MOVE=9, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=18, COST_OF_DISBAND=12, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=4, DEFENSE_BONUS=5, MILITARY_TACTICS=1.12, GURRILLA=1.0,
-        RECRUITABILITY=1.22, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.5,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.20,
+    # Junta: praetorian politics — army first, economy/legitimacy last.
+    "junta": _arch(
+        tax_ok=0.46, goods=0.13, invest=0.12, research=1.14,
+        inc_tax=1.02, inc_prod=0.94, pop=0.008, eco=0.008,
+        mil_up=1.35, adm=1.18, adm_dist=1.14, adm_cap=0.55,
+        commerce=0.85, diplo=0.78, control=1.12,
+        instability=0.26, assimilate=0.82, move=1.06,
+        c_move=9, c_same=5, c_own=5, c_recruit=17, c_disband=11, c_plunder=10,
+        atk=4, dfn=5, tactics=1.12, guerrilla=1.05,
+        recruit=1.26, recruit_other=0.40, manpower=1.55,
+        reform=0, election=0, support_chg=0.42, support_inc=1.18,
         age=7, revolutionary=False, colors=(50, 70, 50),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=5),
     ),
-    "military_clique": dict(
-        ACCEPTABLE_TAXATION=0.52, MIN_GOODS=0.15, MIN_INVESTMENTS=0.15, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.00, INCOME_PRODUCTION=1.02, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.28, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=0.90, CONTROL_RANGE=1.12,
-        INSTABILITY=0.18, ASSIMILATE_RATE=0.90, MOVEMENT_MODIFIER=1.06,
-        COST_OF_MOVE=9, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=19, COST_OF_DISBAND=13, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=5, DEFENSE_BONUS=3, MILITARY_TACTICS=1.20, GURRILLA=0.7,
-        RECRUITABILITY=1.20, RECRUITABILITY_OTHER=0.35, MANPOWER_BONUS=1.5,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.25,
+    # Military clique (Showa gunbu): high tactics/attack, war economy, civilian politics hollow.
+    "military_clique": _arch(
+        tax_ok=0.50, goods=0.14, invest=0.16, research=1.02,
+        inc_tax=1.02, inc_prod=1.04, pop=0.012, eco=0.020,
+        mil_up=1.30, adm=1.10, adm_dist=1.06, adm_cap=0.48,
+        commerce=0.95, diplo=0.85, control=1.14,
+        instability=0.19, assimilate=0.92, move=1.08,
+        c_move=8, c_same=4, c_own=5, c_recruit=18, c_disband=12, c_plunder=10,
+        atk=5, dfn=3, tactics=1.22, guerrilla=0.65,
+        recruit=1.22, recruit_other=0.34, manpower=1.5,
+        reform=0, election=0, support_chg=0.34, support_inc=1.28,
         age=6, revolutionary=False, colors=(80, 60, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=5, MONARCHY_TRADITION=3, MILITARISM=5),
     ),
-    "personalist": dict(
-        ACCEPTABLE_TAXATION=0.48, MIN_GOODS=0.14, MIN_INVESTMENTS=0.12, RESEARCH_COST=1.12,
-        INCOME_TAXATION=1.05, INCOME_PRODUCTION=0.95, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.20, ADMINISTRATION_COST=1.20, ADMINISTRATION_COST_DISTANCE=1.20,
-        ADMINISTRATION_COST_CAPITAL=0.40, COMMERCE_RANGE=0.90, DIPLOMACY_RANGE=0.90, CONTROL_RANGE=1.05,
-        INSTABILITY=0.28, ASSIMILATE_RATE=0.80, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=13,
-        ATTACK_BONUS=2, DEFENSE_BONUS=3, MILITARY_TACTICS=1.00, GURRILLA=1.2,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.32, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.15,
+    # Personalist dictatorship: loyalty > institutions; predatory; succession fragility.
+    "personalist": _arch(
+        tax_ok=0.42, goods=0.12, invest=0.10, research=1.18,
+        inc_tax=1.08, inc_prod=0.90, pop=0.008, eco=0.006,
+        mil_up=1.24, adm=1.25, adm_dist=1.25, adm_cap=0.35,
+        commerce=0.85, diplo=0.85, control=1.02,
+        instability=0.32, assimilate=0.75, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=12,
+        atk=2, dfn=3, tactics=0.98, guerrilla=1.3,
+        recruit=1.06, recruit_other=0.30, manpower=0.95,
+        reform=0, election=0, support_chg=0.50, support_inc=1.12,
         age=6, revolutionary=False, colors=(100, 40, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=2, MILITARISM=4),
     ),
-    "developmental_state": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.22, RESEARCH_COST=0.95,
-        INCOME_TAXATION=1.06, INCOME_PRODUCTION=1.12, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.045,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.08, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.15, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.12,
-        INSTABILITY=0.14, ASSIMILATE_RATE=1.00, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.10, GURRILLA=0.8,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.38, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.35, SUPPORT_RATE_INCREASING=1.30,
+    # Developmental state (Johnson): high investment/export discipline, tech catch-up, medium coercion.
+    "developmental_state": _arch(
+        tax_ok=0.56, goods=0.16, invest=0.24, research=0.95,
+        inc_tax=1.06, inc_prod=1.15, pop=0.018, eco=0.050,
+        mil_up=1.14, adm=1.04, adm_dist=1.02, adm_cap=0.45,
+        commerce=1.18, diplo=1.04, control=1.14,
+        instability=0.12, assimilate=1.02, move=1.02,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=14,
+        atk=2, dfn=4, tactics=1.12, guerrilla=0.7,
+        recruit=1.14, recruit_other=0.36, manpower=1.2,
+        reform=0, election=0, support_chg=0.32, support_inc=1.32,
         age=8, revolutionary=False, colors=(40, 90, 120),
-        attrs=dict(DEMOCRACY=2, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=4),
+        attrs=dict(DEMOCRACY=2, CENTRALIZATION=5, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=3),
+        distinctive=True,
     ),
-    "political_tutelage": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.02, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.025,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.10,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.00, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=1.10,
-        INSTABILITY=0.18, ASSIMILATE_RATE=1.00, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=1.0,
-        RECRUITABILITY=1.12, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.25,
+    # Political tutelage (Sun Yat-sen): party-state nation-building, transitional authoritarian.
+    "political_tutelage": _arch(
+        tax_ok=0.54, goods=0.15, invest=0.18, research=1.04,
+        inc_tax=1.04, inc_prod=1.02, pop=0.020, eco=0.025,
+        mil_up=1.16, adm=1.12, adm_dist=1.10, adm_cap=0.52,
+        commerce=0.98, diplo=0.98, control=1.12,
+        instability=0.20, assimilate=1.05, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=2, dfn=4, tactics=1.08, guerrilla=1.05,
+        recruit=1.14, recruit_other=0.40, manpower=1.25,
+        reform=0, election=0, support_chg=0.42, support_inc=1.28,
         age=7, revolutionary=False, colors=(30, 80, 50),
-        attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=4),
+        attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
-    "kemalist": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.16, MIN_INVESTMENTS=0.18, RESEARCH_COST=0.98,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.05, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.08, ADMINISTRATION_COST_DISTANCE=1.05,
-        ADMINISTRATION_COST_CAPITAL=0.50, COMMERCE_RANGE=1.05, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.10,
-        INSTABILITY=0.15, ASSIMILATE_RATE=1.10, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.10, GURRILLA=1.0,
-        RECRUITABILITY=1.15, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.3,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=45, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.30,
+    # Kemalist republic: secular modernization + military guardianship + nation assimilate.
+    "kemalist": _arch(
+        tax_ok=0.56, goods=0.16, invest=0.19, research=0.97,
+        inc_tax=1.04, inc_prod=1.05, pop=0.020, eco=0.032,
+        mil_up=1.16, adm=1.06, adm_dist=1.04, adm_cap=0.48,
+        commerce=1.04, diplo=1.05, control=1.12,
+        instability=0.15, assimilate=1.14, move=1.02,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=2, dfn=4, tactics=1.12, guerrilla=0.95,
+        recruit=1.16, recruit_other=0.40, manpower=1.35,
+        reform=0, election=45, support_chg=0.40, support_inc=1.32,
         age=7, revolutionary=False, colors=(220, 220, 220),
         attrs=dict(DEMOCRACY=3, CENTRALIZATION=4, RELIGIOUSNESS=1, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
-    "nasserist": dict(
-        ACCEPTABLE_TAXATION=0.60, MIN_GOODS=0.17, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.04, INCOME_PRODUCTION=1.02, POP_GROWTH_BONUS=0.025, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.12, ADMINISTRATION_COST_DISTANCE=1.10,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=1.05, CONTROL_RANGE=1.10,
-        INSTABILITY=0.18, ASSIMILATE_RATE=1.00, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=2, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=1.2,
-        RECRUITABILITY=1.15, RECRUITABILITY_OTHER=0.42, MANPOWER_BONUS=1.3,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.30,
+    # Nasserist Arab socialism: populist redistribution, military-nationalism, middling industry.
+    "nasserist": _arch(
+        tax_ok=0.58, goods=0.17, invest=0.18, research=1.06,
+        inc_tax=1.04, inc_prod=1.00, pop=0.026, eco=0.018,
+        mil_up=1.18, adm=1.14, adm_dist=1.12, adm_cap=0.55,
+        commerce=0.92, diplo=1.04, control=1.10,
+        instability=0.20, assimilate=1.00, move=1.02,
+        c_move=10, c_same=5, c_own=5, c_recruit=20, c_disband=14, c_plunder=13,
+        atk=3, dfn=3, tactics=1.06, guerrilla=1.25,
+        recruit=1.16, recruit_other=0.42, manpower=1.35,
+        reform=0, election=0, support_chg=0.42, support_inc=1.32,
         age=8, revolutionary=False, colors=(50, 140, 70),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=2, SOCIALIZATION=3, COMMUNISM=3, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
-    "national_convention": dict(
-        ACCEPTABLE_TAXATION=0.55, MIN_GOODS=0.16, MIN_INVESTMENTS=0.15, RESEARCH_COST=1.05,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=0.98, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.20, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.15,
-        ADMINISTRATION_COST_CAPITAL=0.60, COMMERCE_RANGE=0.95, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=1.05,
-        INSTABILITY=0.30, ASSIMILATE_RATE=0.95, MOVEMENT_MODIFIER=1.02,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=19, COST_OF_DISBAND=13, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=3, DEFENSE_BONUS=3, MILITARY_TACTICS=1.05, GURRILLA=1.5,
-        RECRUITABILITY=1.25, RECRUITABILITY_OTHER=0.50, MANPOWER_BONUS=1.5,
-        REFORMATION_PERIOD=1, ELECTION_PERIOD=15, SUPPORT_RATE_CHANGING=0.60, SUPPORT_RATE_INCREASING=1.40,
+    # National Convention (1792–94): revolutionary mobilization, terror instability, mass levy.
+    "national_convention": _arch(
+        tax_ok=0.52, goods=0.15, invest=0.14, research=1.06,
+        inc_tax=1.02, inc_prod=0.96, pop=0.010, eco=0.012,
+        mil_up=1.22, adm=1.18, adm_dist=1.18, adm_cap=0.62,
+        commerce=0.92, diplo=0.90, control=1.05,
+        instability=0.34, assimilate=0.95, move=1.04,
+        c_move=10, c_same=5, c_own=5, c_recruit=17, c_disband=12, c_plunder=10,
+        atk=4, dfn=3, tactics=1.06, guerrilla=1.6,
+        recruit=1.28, recruit_other=0.52, manpower=1.6,
+        reform=1, election=15, support_chg=0.62, support_inc=1.42,
         age=5, revolutionary=True, colors=(50, 50, 160),
-        attrs=dict(DEMOCRACY=4, CENTRALIZATION=4, RELIGIOUSNESS=1, SOCIALIZATION=3, COMMUNISM=2, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=4),
+        attrs=dict(DEMOCRACY=4, CENTRALIZATION=4, RELIGIOUSNESS=1, SOCIALIZATION=3, COMMUNISM=2, NATIONALISM=5, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
-    "revolutionary_regime": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.16, RESEARCH_COST=1.08,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=0.98, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.18, ADMINISTRATION_COST=1.15, ADMINISTRATION_COST_DISTANCE=1.12,
-        ADMINISTRATION_COST_CAPITAL=0.60, COMMERCE_RANGE=0.92, DIPLOMACY_RANGE=0.92, CONTROL_RANGE=1.05,
-        INSTABILITY=0.28, ASSIMILATE_RATE=0.95, MOVEMENT_MODIFIER=1.03,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=19, COST_OF_DISBAND=13, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=3, DEFENSE_BONUS=3, MILITARY_TACTICS=1.05, GURRILLA=1.6,
-        RECRUITABILITY=1.20, RECRUITABILITY_OTHER=0.48, MANPOWER_BONUS=1.4,
-        REFORMATION_PERIOD=1, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.55, SUPPORT_RATE_INCREASING=1.35,
+    # Revolutionary regime: transitional party-army; high instability until institutionalize.
+    "revolutionary_regime": _arch(
+        tax_ok=0.54, goods=0.16, invest=0.15, research=1.10,
+        inc_tax=1.02, inc_prod=0.96, pop=0.014, eco=0.012,
+        mil_up=1.20, adm=1.16, adm_dist=1.14, adm_cap=0.60,
+        commerce=0.88, diplo=0.88, control=1.06,
+        instability=0.30, assimilate=0.95, move=1.04,
+        c_move=10, c_same=5, c_own=5, c_recruit=18, c_disband=12, c_plunder=11,
+        atk=3, dfn=3, tactics=1.04, guerrilla=1.7,
+        recruit=1.22, recruit_other=0.48, manpower=1.45,
+        reform=1, election=0, support_chg=0.55, support_inc=1.36,
         age=6, revolutionary=True, colors=(180, 40, 40),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=4, RELIGIOUSNESS=1, SOCIALIZATION=3, COMMUNISM=3, NATIONALISM=4, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
-    "communitarian_autonomy": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.18, RESEARCH_COST=1.05,
-        INCOME_TAXATION=0.98, INCOME_PRODUCTION=1.02, POP_GROWTH_BONUS=0.015, ECO_GROWTH_BONUS=0.02,
-        MILITARY_UPKEEP=1.05, ADMINISTRATION_COST=1.05, ADMINISTRATION_COST_DISTANCE=1.10,
-        ADMINISTRATION_COST_CAPITAL=0.60, COMMERCE_RANGE=1.00, DIPLOMACY_RANGE=1.00, CONTROL_RANGE=0.95,
-        INSTABILITY=0.16, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=21, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=0, DEFENSE_BONUS=4, MILITARY_TACTICS=1.00, GURRILLA=1.2,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.42, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=35, SUPPORT_RATE_CHANGING=0.45, SUPPORT_RATE_INCREASING=1.25,
+    # Communitarian autonomy placeholder kept out of slots; if referenced, mild social-dem profile.
+    "communitarian_autonomy": _arch(
+        tax_ok=0.58, goods=0.18, invest=0.18, research=1.04,
+        inc_tax=0.98, inc_prod=1.02, pop=0.015, eco=0.020,
+        mil_up=1.05, adm=1.06, adm_dist=1.10, adm_cap=0.58,
+        commerce=1.00, diplo=1.00, control=0.94,
+        instability=0.16, assimilate=0.82, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=21, c_disband=15, c_plunder=14,
+        atk=0, dfn=4, tactics=1.00, guerrilla=1.2,
+        recruit=1.08, recruit_other=0.42, manpower=1.0,
+        reform=0, election=35, support_chg=0.45, support_inc=1.25,
         age=6, revolutionary=False, colors=(80, 140, 80),
         attrs=dict(DEMOCRACY=3, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=4, COMMUNISM=2, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
+        high_autonomy=True,
     ),
-    "colonial": dict(
-        ACCEPTABLE_TAXATION=0.42, MIN_GOODS=0.14, MIN_INVESTMENTS=0.12, RESEARCH_COST=1.15,
-        INCOME_TAXATION=1.10, INCOME_PRODUCTION=0.92, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.015,
-        MILITARY_UPKEEP=1.20, ADMINISTRATION_COST=1.25, ADMINISTRATION_COST_DISTANCE=1.30,
-        ADMINISTRATION_COST_CAPITAL=0.65, COMMERCE_RANGE=1.10, DIPLOMACY_RANGE=0.80, CONTROL_RANGE=0.85,
-        INSTABILITY=0.28, ASSIMILATE_RATE=0.55, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=11, COST_OF_MOVE_TO_THE_SAME_PROV=6, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=23, COST_OF_DISBAND=16, COST_OF_PLUNDER=12,
-        ATTACK_BONUS=1, DEFENSE_BONUS=3, MILITARY_TACTICS=1.05, GURRILLA=0.5,
-        RECRUITABILITY=0.95, RECRUITABILITY_OTHER=0.45, MANPOWER_BONUS=0.7,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.40, SUPPORT_RATE_INCREASING=1.05,
+    # Colonial government: metropole extraction (tax↑ goods↓), weak local diplo, high unrest.
+    "colonial": _arch(
+        tax_ok=0.36, goods=0.12, invest=0.10, research=1.20,
+        inc_tax=1.16, inc_prod=0.88, pop=0.008, eco=0.010,
+        mil_up=1.22, adm=1.28, adm_dist=1.35, adm_cap=0.68,
+        commerce=1.12, diplo=0.72, control=0.82,
+        instability=0.30, assimilate=0.48, move=1.00,
+        c_move=11, c_same=6, c_own=5, c_recruit=24, c_disband=16, c_plunder=11,
+        atk=1, dfn=3, tactics=1.04, guerrilla=0.55,
+        recruit=0.95, recruit_other=0.48, manpower=0.65,
+        reform=0, election=0, support_chg=0.42, support_inc=1.02,
         age=5, revolutionary=False, colors=(80, 80, 120),
         attrs=dict(DEMOCRACY=2, CENTRALIZATION=3, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=3, MILITARISM=3),
+        high_autonomy=True,
     ),
-    "dominion": dict(
-        ACCEPTABLE_TAXATION=0.58, MIN_GOODS=0.17, MIN_INVESTMENTS=0.19, RESEARCH_COST=1.00,
-        INCOME_TAXATION=1.02, INCOME_PRODUCTION=1.04, POP_GROWTH_BONUS=0.02, ECO_GROWTH_BONUS=0.03,
-        MILITARY_UPKEEP=1.10, ADMINISTRATION_COST=1.05, ADMINISTRATION_COST_DISTANCE=1.08,
-        ADMINISTRATION_COST_CAPITAL=0.55, COMMERCE_RANGE=1.12, DIPLOMACY_RANGE=1.15, CONTROL_RANGE=1.00,
-        INSTABILITY=0.12, ASSIMILATE_RATE=0.85, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=6,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=17, COST_OF_PLUNDER=16,
-        ATTACK_BONUS=0, DEFENSE_BONUS=4, MILITARY_TACTICS=1.08, GURRILLA=0.8,
-        RECRUITABILITY=1.08, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=50, SUPPORT_RATE_CHANGING=0.42, SUPPORT_RATE_INCREASING=1.30,
+    # Dominion: near-metropolitan democracy with imperial diplo tether.
+    "dominion": _arch(
+        tax_ok=0.58, goods=0.17, invest=0.20, research=0.99,
+        inc_tax=1.02, inc_prod=1.05, pop=0.022, eco=0.035,
+        mil_up=1.10, adm=1.04, adm_dist=1.08, adm_cap=0.52,
+        commerce=1.14, diplo=1.18, control=1.00,
+        instability=0.11, assimilate=0.84, move=1.00,
+        c_move=10, c_same=5, c_own=6, c_recruit=22, c_disband=17, c_plunder=16,
+        atk=0, dfn=4, tactics=1.10, guerrilla=0.75,
+        recruit=1.08, recruit_other=0.40, manpower=1.0,
+        reform=0, election=50, support_chg=0.42, support_inc=1.30,
         age=6, revolutionary=False, colors=(100, 40, 40),
         attrs=dict(DEMOCRACY=4, CENTRALIZATION=3, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=3, MONARCHY_TRADITION=4, MILITARISM=2),
+        high_autonomy=True,
     ),
-    "provisional": dict(
-        ACCEPTABLE_TAXATION=0.50, MIN_GOODS=0.15, MIN_INVESTMENTS=0.14, RESEARCH_COST=1.10,
-        INCOME_TAXATION=0.95, INCOME_PRODUCTION=0.95, POP_GROWTH_BONUS=0.01, ECO_GROWTH_BONUS=0.01,
-        MILITARY_UPKEEP=1.15, ADMINISTRATION_COST=1.20, ADMINISTRATION_COST_DISTANCE=1.20,
-        ADMINISTRATION_COST_CAPITAL=0.65, COMMERCE_RANGE=0.90, DIPLOMACY_RANGE=0.95, CONTROL_RANGE=0.90,
-        INSTABILITY=0.32, ASSIMILATE_RATE=0.80, MOVEMENT_MODIFIER=1.00,
-        COST_OF_MOVE=10, COST_OF_MOVE_TO_THE_SAME_PROV=5, COST_OF_MOVE_OWN_PROV=5,
-        COST_OF_RECRUIT=22, COST_OF_DISBAND=15, COST_OF_PLUNDER=14,
-        ATTACK_BONUS=1, DEFENSE_BONUS=3, MILITARY_TACTICS=1.00, GURRILLA=1.2,
-        RECRUITABILITY=1.05, RECRUITABILITY_OTHER=0.40, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=2, ELECTION_PERIOD=20, SUPPORT_RATE_CHANGING=0.65, SUPPORT_RATE_INCREASING=1.10,
+    # Provisional: caretaker — weak revenue, high volatility, short horizon.
+    "provisional": _arch(
+        tax_ok=0.45, goods=0.14, invest=0.12, research=1.14,
+        inc_tax=0.92, inc_prod=0.92, pop=0.008, eco=0.008,
+        mil_up=1.16, adm=1.25, adm_dist=1.22, adm_cap=0.68,
+        commerce=0.88, diplo=0.95, control=0.85,
+        instability=0.36, assimilate=0.75, move=1.00,
+        c_move=10, c_same=5, c_own=5, c_recruit=22, c_disband=15, c_plunder=14,
+        atk=1, dfn=3, tactics=0.98, guerrilla=1.25,
+        recruit=1.05, recruit_other=0.40, manpower=1.0,
+        reform=2, election=20, support_chg=0.68, support_inc=1.08,
         age=5, revolutionary=False, colors=(140, 140, 140),
         attrs=dict(DEMOCRACY=3, CENTRALIZATION=2, RELIGIOUSNESS=2, SOCIALIZATION=2, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=2),
     ),
-    "warlord": dict(
-        ACCEPTABLE_TAXATION=0.40, MIN_GOODS=0.12, MIN_INVESTMENTS=0.10, RESEARCH_COST=1.25,
-        INCOME_TAXATION=0.95, INCOME_PRODUCTION=0.90, POP_GROWTH_BONUS=0.005, ECO_GROWTH_BONUS=0.005,
-        MILITARY_UPKEEP=1.35, ADMINISTRATION_COST=1.30, ADMINISTRATION_COST_DISTANCE=1.40,
-        ADMINISTRATION_COST_CAPITAL=0.70, COMMERCE_RANGE=0.75, DIPLOMACY_RANGE=0.70, CONTROL_RANGE=0.70,
-        INSTABILITY=0.35, ASSIMILATE_RATE=0.60, MOVEMENT_MODIFIER=1.08,
-        COST_OF_MOVE=8, COST_OF_MOVE_TO_THE_SAME_PROV=4, COST_OF_MOVE_OWN_PROV=4,
-        COST_OF_RECRUIT=17, COST_OF_DISBAND=10, COST_OF_PLUNDER=8,
-        ATTACK_BONUS=4, DEFENSE_BONUS=2, MILITARY_TACTICS=0.95, GURRILLA=2.5,
-        RECRUITABILITY=1.25, RECRUITABILITY_OTHER=0.50, MANPOWER_BONUS=1.2,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.55, SUPPORT_RATE_INCREASING=1.05,
+    # Warlordism: fragmented coercion markets; plunder; no public goods.
+    "warlord": _arch(
+        tax_ok=0.34, goods=0.10, invest=0.08, research=1.30,
+        inc_tax=0.94, inc_prod=0.86, pop=0.004, eco=0.002,
+        mil_up=1.35, adm=1.32, adm_dist=1.45, adm_cap=0.72,
+        commerce=0.70, diplo=0.65, control=0.65,
+        instability=0.38, assimilate=0.55, move=1.10,
+        c_move=7, c_same=3, c_own=4, c_recruit=16, c_disband=9, c_plunder=6,
+        atk=4, dfn=2, tactics=0.92, guerrilla=2.6,
+        recruit=1.28, recruit_other=0.50, manpower=1.25,
+        reform=0, election=0, support_chg=0.58, support_inc=1.02,
         age=6, revolutionary=False, colors=(100, 80, 40),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=1, RELIGIOUSNESS=2, SOCIALIZATION=1, COMMUNISM=1, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=5),
+        high_autonomy=True, vassal_war=True,
     ),
-    "rebels": dict(
-        ACCEPTABLE_TAXATION=0.30, MIN_GOODS=0.10, MIN_INVESTMENTS=0.08, RESEARCH_COST=1.35,
-        INCOME_TAXATION=0.85, INCOME_PRODUCTION=0.85, POP_GROWTH_BONUS=0.005, ECO_GROWTH_BONUS=0.0,
-        MILITARY_UPKEEP=0.90, ADMINISTRATION_COST=0.70, ADMINISTRATION_COST_DISTANCE=1.40,
-        ADMINISTRATION_COST_CAPITAL=0.90, COMMERCE_RANGE=0.70, DIPLOMACY_RANGE=0.60, CONTROL_RANGE=0.55,
-        INSTABILITY=0.40, ASSIMILATE_RATE=0.40, MOVEMENT_MODIFIER=1.10,
-        COST_OF_MOVE=7, COST_OF_MOVE_TO_THE_SAME_PROV=3, COST_OF_MOVE_OWN_PROV=3,
-        COST_OF_RECRUIT=14, COST_OF_DISBAND=8, COST_OF_PLUNDER=5,
-        ATTACK_BONUS=3, DEFENSE_BONUS=6, MILITARY_TACTICS=0.90, GURRILLA=3.0,
-        RECRUITABILITY=1.30, RECRUITABILITY_OTHER=0.55, MANPOWER_BONUS=1.0,
-        REFORMATION_PERIOD=0, ELECTION_PERIOD=0, SUPPORT_RATE_CHANGING=0.60, SUPPORT_RATE_INCREASING=1.00,
+    # Rebels: max irregular war, min fiscal state.
+    "rebels": _arch(
+        tax_ok=0.28, goods=0.08, invest=0.05, research=1.35,
+        inc_tax=0.85, inc_prod=0.85, pop=0.004, eco=0.0,
+        mil_up=0.90, adm=0.70, adm_dist=1.45, adm_cap=0.92,
+        commerce=0.65, diplo=0.55, control=0.55,
+        instability=0.42, assimilate=0.38, move=1.12,
+        c_move=6, c_same=3, c_own=3, c_recruit=14, c_disband=8, c_plunder=5,
+        atk=3, dfn=6, tactics=0.88, guerrilla=3.0,
+        recruit=1.30, recruit_other=0.55, manpower=1.05,
+        reform=0, election=0, support_chg=0.65, support_inc=0.98,
         age=0, revolutionary=True, colors=(120, 20, 20),
         attrs=dict(DEMOCRACY=1, CENTRALIZATION=1, RELIGIOUSNESS=1, SOCIALIZATION=2, COMMUNISM=2, NATIONALISM=2, MONARCHY_TRADITION=1, MILITARISM=4),
     ),
 }
 
 
+# ---------------------------------------------------------------------------
+# Late-game safety clamp (BUG-002 / BUG-004 prevention over 10k+ turns)
+# Compounding INCOME_* / ECO_GROWTH must stay near 1.0; army & recruit floors
+# prevent "treasury dead / can't raise army despite manpower" spirals.
+# ---------------------------------------------------------------------------
+_CLAMP = {
+    "INCOME_PRODUCTION": (0.90, 1.12),
+    "INCOME_TAXATION": (0.90, 1.12),
+    "ECO_GROWTH_BONUS": (0.0, 0.040),
+    "POP_GROWTH_BONUS": (0.0, 0.028),
+    "MILITARY_UPKEEP": (0.95, 1.32),
+    "ADMINISTRATION_COST": (0.80, 1.32),
+    "ADMINISTRATION_COST_DISTANCE": (0.85, 1.45),
+    "RESEARCH_COST": (0.96, 1.32),
+    "RECRUITABILITY": (1.00, 1.28),
+    "RECRUITABILITY_OTHER": (0.28, 0.52),
+    "MANPOWER_BONUS": (0.70, 1.40),
+    "ACCEPTABLE_TAXATION": (0.32, 0.68),
+    "MIN_GOODS": (0.08, 0.20),
+    "MIN_INVESTMENTS": (0.06, 0.22),
+    "COMMERCE_RANGE": (0.70, 1.22),
+    "DIPLOMACY_RANGE": (0.60, 1.22),
+    "CONTROL_RANGE": (0.55, 1.22),
+    "ASSIMILATE_RATE": (0.40, 1.28),
+    "MOVEMENT_MODIFIER": (0.92, 1.14),
+    "MILITARY_TACTICS": (0.85, 1.20),
+    "INSTABILITY": (0.08, 0.38),
+}
+
+
+def harden(a: dict) -> dict:
+    """Clamp archetype into long-run fiscal/recruit safety envelope."""
+    out = dict(a)
+    for k, (lo, hi) in _CLAMP.items():
+        if k in out:
+            out[k] = max(lo, min(hi, float(out[k])))
+    # High-output regimes must still pay for army/admin (no free lunch / inflation spiral).
+    if out["INCOME_PRODUCTION"] >= 1.08:
+        out["MILITARY_UPKEEP"] = max(out["MILITARY_UPKEEP"], 1.10)
+        out["ADMINISTRATION_COST"] = max(out["ADMINISTRATION_COST"], 0.92)
+    if out["INCOME_PRODUCTION"] >= 1.10 or out["ECO_GROWTH_BONUS"] >= 0.035:
+        out["MILITARY_UPKEEP"] = max(out["MILITARY_UPKEEP"], 1.12)
+        out["ADMINISTRATION_COST"] = max(out["ADMINISTRATION_COST"], 0.95)
+        out["MIN_INVESTMENTS"] = max(out["MIN_INVESTMENTS"], 0.14)
+    # Recruitability floor: never lock out army creation from ideology alone.
+    out["RECRUITABILITY"] = max(1.00, out["RECRUITABILITY"])
+    out["COST_OF_RECRUIT"] = int(max(16, min(24, out["COST_OF_RECRUIT"])))
+    out["COST_OF_DISBAND"] = int(max(10, min(18, out["COST_OF_DISBAND"])))
+    # Extremely extractive tax without goods floor → late unrest + empty treasury feel.
+    if out["INCOME_TAXATION"] >= 1.10:
+        out["MIN_GOODS"] = max(out["MIN_GOODS"], 0.12)
+        out["MILITARY_UPKEEP"] = max(out["MILITARY_UPKEEP"], 1.08)
+    return out
+
+
+ARCH = {k: harden(v) for k, v in ARCH.items()}
+
+
 def fmt_num(v: float) -> str:
-    if isinstance(v, float) and v.is_integer():
-        return str(int(v))
-    if isinstance(v, int):
+    """Emit Json numbers; keep a decimal for whole floats (libGDX float fields)."""
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int) and not isinstance(v, bool):
         return str(v)
-    return f"{v:.4f}".rstrip("0").rstrip(".")
+    fv = float(v)
+    if fv.is_integer():
+        return f"{int(fv)}.0"
+    return f"{fv:.4f}".rstrip("0").rstrip(".")
+
+
+def _bool(v: bool) -> str:
+    return "true" if v else "false"
 
 
 def emit_gov(name, tag, image, gid, ai, arch_key) -> str:
@@ -758,7 +897,7 @@ def emit_gov(name, tag, image, gid, ai, arch_key) -> str:
         f"\t\t\tSUPPORT_RATE_CHANGING: {fmt_num(a['SUPPORT_RATE_CHANGING'])},",
         f"\t\t\tSUPPORT_RATE_INCREASING: {fmt_num(a['SUPPORT_RATE_INCREASING'])},",
         "",
-        f"\t\t\tREFORMATION_PERIOD: {a['REFORMATION_PERIOD']},",
+        f"\t\t\tREFORMAT_PERIOD: {a['REFORMAT_PERIOD']},",
         f"\t\t\tELECTION_PERIOD: {a['ELECTION_PERIOD']},",
         "",
     ]
@@ -788,12 +927,12 @@ def emit_gov(name, tag, image, gid, ai, arch_key) -> str:
         "\t\t\tCAN_BECOME_CIVILIZED: -1,",
         f"\t\t\tAVAILABLE_SINCE_AGE_ID: {a['age']},",
         "",
-        f"\t\t\tREVOLUTIONARY: {'true' if a['revolutionary'] else 'false'},",
-        "\t\t\tCANT_CHANGE_GOV_OF_VASSAL: false,",
-        "\t\t\tVASSAL_CAN_DECLARE_WAR: false,",
-        "\t\t\tPRINCE_WILL_BE_VASSALIZED: false,",
-        "\t\t\tHIGH_AUTONOMY: false,",
-        "\t\t\tDISTINCTIVE: false,",
+        f"\t\t\tREVOLUTIONARY: {_bool(a['revolutionary'])},",
+        f"\t\t\tCANT_CHANGE_GOV_OF_VASSAL: {_bool(a['CANT_CHANGE_GOV_OF_VASSAL'])},",
+        f"\t\t\tVASSAL_CAN_DECLARE_WAR: {_bool(a['VASSAL_CAN_DECLARE_WAR'])},",
+        f"\t\t\tPRINCE_WILL_BE_VASSALIZED: {_bool(a['PRINCE_WILL_BE_VASSALIZED'])},",
+        f"\t\t\tHIGH_AUTONOMY: {_bool(a['HIGH_AUTONOMY'])},",
+        f"\t\t\tDISTINCTIVE: {_bool(a['DISTINCTIVE'])},",
         "",
         f'\t\t\tAI_TYPE: "{ai}",',
         "\t\t\tGREEDY: 100,",
@@ -806,17 +945,43 @@ def emit_gov(name, tag, image, gid, ai, arch_key) -> str:
     return "\n".join(lines)
 
 
+def validate_envelope():
+    for key, a in ARCH.items():
+        assert 0.96 <= a["RESEARCH_COST"] <= 1.32, (key, "RESEARCH_COST", a["RESEARCH_COST"])
+        for f in ("INCOME_TAXATION", "INCOME_PRODUCTION"):
+            assert 0.90 <= a[f] <= 1.12, (key, f, a[f])
+        assert 0.95 <= a["MILITARY_UPKEEP"] <= 1.32, (key, a["MILITARY_UPKEEP"])
+        assert 0.80 <= a["ADMINISTRATION_COST"] <= 1.32, (key, a["ADMINISTRATION_COST"])
+        assert 1.00 <= a["RECRUITABILITY"] <= 1.28, (key, a["RECRUITABILITY"])
+        assert 16 <= a["COST_OF_RECRUIT"] <= 24, (key, a["COST_OF_RECRUIT"])
+        assert 0.70 <= a["MANPOWER_BONUS"] <= 1.40, (key, a["MANPOWER_BONUS"])
+        assert 0.0 <= a["ECO_GROWTH_BONUS"] <= 0.040, (key, a["ECO_GROWTH_BONUS"])
+        assert a["ATTACK_BONUS"] <= 6 and a["DEFENSE_BONUS"] <= 8, key
+        assert a["ASSIMILATE_RATE"] <= 1.28, key
+        assert 0.92 <= a["MOVEMENT_MODIFIER"] <= 1.14, (key, a["MOVEMENT_MODIFIER"])
+        # BUG-002 / long-run: production boom must fund army+admin
+        if a["INCOME_PRODUCTION"] >= 1.08:
+            assert a["MILITARY_UPKEEP"] >= 1.10, key
+            assert a["ADMINISTRATION_COST"] >= 0.92, key
+        if a["INCOME_PRODUCTION"] >= 1.10 or a["ECO_GROWTH_BONUS"] >= 0.035:
+            assert a["MILITARY_UPKEEP"] >= 1.12, key
+
+
 def validate():
     names = [s[0] for s in SLOTS]
     tags = [s[1] for s in SLOTS]
     assert len(names) == len(set(names)), names
     assert len(tags) == len(set(tags)), tags
-    banned = ["无产阶级专政", "苏维埃政权", "人民阵线", "布尔什维克一党制", "工人代表苏维埃", "复兴党", "计划经济体制", "福利国家", "社会民主主义政体"]
+    banned = [
+        "无产阶级专政", "苏维埃政权", "人民阵线", "布尔什维克一党制",
+        "工人代表苏维埃", "复兴党", "计划经济体制", "福利国家", "社会民主主义政体",
+    ]
     for b in banned:
         assert not any(b in n for n in names), b
     for *_, ai, arch in SLOTS:
-        assert arch in ARCH
+        assert arch in ARCH, arch
         assert ai in {"DEMOCRACY", "COMMUNISM", "FASCISM", "HORDE", "UNCIVILIZED", "CITYSTATE", "REBELS"}
+    validate_envelope()
 
 
 def main():
@@ -830,4 +995,9 @@ def main():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in {"-h", "--help"}:
+        print(__doc__)
+        print("Usage: python rebuild_governments.py")
+        print(f"Writes {OUT}")
+        raise SystemExit(0)
     main()

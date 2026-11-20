@@ -393,45 +393,8 @@
     invoke-virtual {v2, v3}, Lage/of/civilizations2/jakowski/lukasz/MenuElement;->setClickable(Z)V
 
     :cond_0
-    new-instance v2, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest_Side$2;
-
-    sget-object v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->langManager:Lage/of/civilizations2/jakowski/lukasz/LanguageManager;
-
-    const-string v4, "Provinces"
-
-    invoke-virtual {v3, v4}, Lage/of/civilizations2/jakowski/lukasz/LanguageManager;->get(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v4
-
-    sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->PADDING:I
-
-    mul-int/lit8 v5, v3, 0x2
-
-    const/4 v6, 0x2
-
-    sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->BUTTON_WIDTH:I
-
-    mul-int/lit8 v8, v3, 0x2
-
-    sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->BUTTON_HEIGHT:I
-
-    int-to-float v3, v3
-
-    const v9, 0x3f19999a    # 0.6f
-
-    mul-float/2addr v3, v9
-
-    float-to-int v9, v3
-
-    const/4 v10, 0x0
-
-    move-object/from16 v3, p0
-
-    move/from16 v11, p2
-
-    invoke-direct/range {v2 .. v11}, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest_Side$2;-><init>(Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest_Side;Ljava/lang/String;IIIIIZZ)V
-
-    invoke-virtual {v15, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+    # Gemorin: do not add Provinces row — list reflows (Cost -> DeclareWar)
+    # v7 already includes Cost height from Side$1; do not add previous height again
 
     new-instance v2, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest_Side$3;
 
@@ -448,24 +411,6 @@
     mul-int/lit8 v5, v3, 0x2
 
     const/4 v6, 0x2
-
-    invoke-virtual {v15}, Ljava/util/ArrayList;->size()I
-
-    move-result v3
-
-    add-int/lit8 v3, v3, -0x1
-
-    invoke-virtual {v15, v3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
-
-    move-result-object v3
-
-    check-cast v3, Lage/of/civilizations2/jakowski/lukasz/MenuElement;
-
-    invoke-virtual {v3}, Lage/of/civilizations2/jakowski/lukasz/MenuElement;->getHeight()I
-
-    move-result v3
-
-    add-int/2addr v7, v3
 
     sget v3, Lage/of/civilizations2/jakowski/lukasz/CFG;->BUTTON_WIDTH:I
 
@@ -1300,6 +1245,9 @@
     goto :goto_4
 
     :pswitch_1
+    # Gemorin: province trade disabled
+    goto :goto_5
+
     iget-boolean v1, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest_Side;->left:Z
 
     if-eqz v1, :cond_8
@@ -2001,9 +1949,9 @@
     goto :goto_11
 
     :pswitch_data_0
+    # Gemorin: Provinces row removed — indices shift (old 2..7 -> 1..6)
     .packed-switch 0x0
         :pswitch_0
-        :pswitch_1
         :pswitch_2
         :pswitch_3
         :pswitch_4

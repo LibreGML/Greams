@@ -46,18 +46,18 @@
 
     iput v2, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->maxSimultaneousSounds:I
 
-    # RGB565 framebuffer — half the window buffer memory vs RGBA8888
-    const/4 v2, 0x5
+    # RGBA8888 — MuMu/x86 bridge rejects some RGB565 EGL configs (eglCreateContext IAE)
+    const/16 v2, 0x8
 
     iput v2, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->r:I
 
-    const/4 v3, 0x6
-
-    iput v3, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->g:I
+    iput v2, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->g:I
 
     iput v2, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->b:I
 
-    iput v0, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->a:I
+    iput v2, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->a:I
+
+    iput-boolean v0, v1, Lcom/badlogic/gdx/backends/android/AndroidApplicationConfiguration;->useGL30:Z
 
     const/4 v2, 0x1
 

@@ -545,6 +545,9 @@
 
     move-result v2
 
+    # Gemorin: never show LEFT provinces trade row
+    const/4 v2, 0x0
+
     if-lez v2, :cond_2
 
     new-instance v2, Lage/of/civilizations2/jakowski/lukasz/Menu_InGame_TradeRequest$4;
@@ -1327,6 +1330,9 @@
     invoke-interface {v2}, Ljava/util/List;->size()I
 
     move-result v2
+
+    # Gemorin: never show RIGHT provinces trade row
+    const/4 v2, 0x0
 
     if-lez v2, :cond_b
 

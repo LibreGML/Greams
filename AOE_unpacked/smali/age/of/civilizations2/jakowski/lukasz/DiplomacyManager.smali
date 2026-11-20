@@ -17370,6 +17370,19 @@
 .method protected static final acceptTradeRequest(IILage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;)V
     .locals 11
 
+    # Gemorin: territory cannot be bought/sold via trade — strip provinces before apply
+    iget-object v6, p2, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->listLEFT:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;
+
+    iget-object v6, v6, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->lProvinces:Ljava/util/List;
+
+    invoke-interface {v6}, Ljava/util/List;->clear()V
+
+    iget-object v6, p2, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->listRight:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;
+
+    iget-object v6, v6, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->lProvinces:Ljava/util/List;
+
+    invoke-interface {v6}, Ljava/util/List;->clear()V
+
     iget-object v6, p2, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->listLEFT:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;
 
     iget-boolean v6, v6, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->militaryAccess:Z
@@ -33435,6 +33448,19 @@
 
 .method protected static final sendTradeRequest(IILage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;)Z
     .locals 3
+
+    # Gemorin: strip provinces from outbound trade requests
+    iget-object v0, p2, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->listLEFT:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;
+
+    iget-object v0, v0, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->lProvinces:Ljava/util/List;
+
+    invoke-interface {v0}, Ljava/util/List;->clear()V
+
+    iget-object v0, p2, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->listRight:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;
+
+    iget-object v0, v0, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_List;->lProvinces:Ljava/util/List;
+
+    invoke-interface {v0}, Ljava/util/List;->clear()V
 
     sget-object v0, Lage/of/civilizations2/jakowski/lukasz/CFG;->game:Lage/of/civilizations2/jakowski/lukasz/Game;
 

@@ -15,6 +15,36 @@
 
 ## 记录
 
+### 2026-11-19 — MuMu EGL 闪退修复（RGBA8888）
+- 目的：解决手动打开即闪退（非政体 JSON）
+- 根因：`eglCreateContext` 抛 `IllegalArgumentException`（RGB565 + MuMu/x86 bridge）；进程反复被 Force finishing
+- 改动：`AndroidLauncher` 改回 RGBA8888 并强制 `useGL30=false`；`GLSurfaceView20$ContextFactory` 捕获 IAE 再回退 GLES2
+- 安装包：`build/AOE-signed.apk`
+- 真机：`192.168.0.178:42445`
+- 验证：启动后 PID 存活；无 FATAL EGL；已进入「读取革命图形」加载屏
+
+### 2026-11-19 — 政体加载修复 + 万回合财政/征兵安全包络
+- 目的：修复卡在「读取革命图形」；预防万回合后盈余归零 / 有预备役却无法征兵（BUG-002 类）
+- 根因：生成器误写 `REPLACE_PERIOD`，引擎字段为 `REFORMAT_PERIOD` → Json `SerializationException` 未捕获 → 加载挂死
+- 改动：`rebuild_governments.py` 改回 `REFORMAT_PERIOD`；新增 `harden()` 收紧 INCOME≤1.12、RECRUITABILITY≥1.00、高产出必须高军费；`Governments.json`；`docs/reports/GOVERNMENTS.md`
+- 安装包：`build/AOE-signed.apk`
+- 真机：`192.168.0.178:34559`（此前 45615）
+- 验证：无 REPLACE_PERIOD；无 SerializationException；安装启动后 heap/GC 在推进（大地图前期 % 可能长时间显示 0）；adb 长加载中途曾掉线待复测进主菜单
+
+### 2026-11-19 — 政体属性按政治经济学/史实全面再平衡
+- 目的：46 政体加成符合现实财政与制度差异；拉开民主/专制/神权/商贸/封建/命令经济/法西斯/掠夺型等谱系；防 BUG-002
+- 改动：`tools/patches/live/rebuild_governments.py`（ARCH 重设 + 包络校验 + HIGH_AUTONOMY 等旗）；`AOE_unpacked/assets/game/Governments.json`；`docs/reports/GOVERNMENTS.md`；`docs/mechanisms/governments.md`
+- 安装包：`build/AOE-signed.apk`
+- 真机：`192.168.0.178:5555`
+- 验证：生成 46 槽 Extra_Tag 未变；包络 assert 通过；打包安装（随后发现 REPLACE_PERIOD 加载挂死，见上条）
+
+### 2026-11-19 — 交易面板剔除领土买卖（含列表重排）
+- 目的：领土不可交易；Provinces 行从 Side 列表**物理移除**并重排，避免留空位
+- 改动：`Menu_InGame_TradeRequest_Side` 不再 `add` Side$2；`packed-switch` 索引前移；`DiplomacyManager` send/accept 清空 `lProvinces`；`fix_trade_no_provinces.py`
+- 安装包：`build/AOE-signed.apk`
+- 真机：`192.168.0.178:5555`
+- 验证：打包安装后「花费」下一项应为「全面战争」无空行
+
 ### 2026-11-18 — 全量 smali/方法/资产编目（AI 精确解释）
 - 目的：每个 `.smali` 有说明+方法摘录；神类有完整方法/字段索引；资产深度目录；统一 DOC_FORMAT
 - 改动：`tools/utils/gen_ai_docs_catalog.py` / `gen_assets_catalog.py`；`docs/catalog/files/*`、`god-methods/*`、`families/*`、`ALL_CLASSES.jsonl`、`CLASS_COMPLETE`、`DOC_FORMAT`；强化 `AI_NAV`/`ENCYCLOPEDIA`/`HOW_TO_LOCATE`

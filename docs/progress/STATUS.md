@@ -16,6 +16,9 @@
 | 财政 long ledger + UI | live | `BudgetCore` + `Civilization` long 字段 | 多条 budget fix 脚本 | 2026-11-17+ |
 | `rewrite_money_display.py` | **unsafe-to-rerun** | 曾导致 VerifyError | `tools/patches/do-not-rerun/` | BUG-004 |
 | 政体重写 + 文明政体名 | live | `assets/game/Governments.json` + civ Bundle | `rebuild_governments.py` 等 | 2026-11-17 |
+| 政体 PE/史实再平衡 | live | `Governments.json` 46 archetype 数值+旗帜 | `tools/patches/live/rebuild_governments.py` | 2026-11-19 |
+| 政体加载修复 + 万回合安全包络 | live | `REFORMAT_PERIOD`；`harden()` INCOME≤1.12 / RECRUIT≥1.0 | `rebuild_governments.py` | 2026-11-19 |
+| MuMu EGL 闪退修复 | live | `AndroidLauncher` RGBA8888；`ContextFactory` catch IAE | smali | 2026-11-19 |
 | 剧本政府 Extra_Tag 修正 | live | `assets/map/TZ/scenarios/**` | `fix_scenario_governments.py` 等 | 2026-11-17 |
 | 默认开局难度/战争迷雾/侵略度 | live | `CFG` / `Game_Calendar` / `Menu_Games` | changelog | 2026-11-17 |
 | 默认剧本必须重载 | live | `Menu_Games.clickNewGame` 等 | BUG-003 | fixed |
@@ -25,8 +28,10 @@
 | 剧本导出到 Download | live | `ScenarioExport`；`Game.saveScenario`；`Map_BG` preview | `ScenarioExport.java` | 2026-11-18 |
 | 控制台引擎 | live | `Console*` / `Calc*` | `tools/console/` | 持续 |
 | 真机闭环 adb | live | `192.168.0.178:5555` / `tz.yx.gemorin` | BUILD.md | 2026-11-18 |
+| 真机 adb（HyperOS 机） | live | `192.168.0.166:37149`（23113RKC6C / Android 16） | BUILD.md「HyperOS 安装被拒」 | 2026-11-20 |
 | AI 文档导航（百科+类目录） | live | `docs/AI_NAV.md` / `mechanisms/ENCYCLOPEDIA.md` / `docs/catalog/` | 文档轮 | 2026-11-18 |
 | 全量 smali 编目 + 神类方法索引 | live | `docs/catalog/FILES_INDEX.md` / `god-methods/` / `ALL_CLASSES.jsonl` | `gen_ai_docs_catalog.py` | 2026-11-18 |
+| 交易面板禁止领土买卖 | live | `DiplomacyManager.accept/sendTradeRequest`；`Menu_InGame_TradeRequest*`；`SelectProvinces` | `fix_trade_no_provinces.py` | 2026-11-19 |
 
 ## 快速禁令
 

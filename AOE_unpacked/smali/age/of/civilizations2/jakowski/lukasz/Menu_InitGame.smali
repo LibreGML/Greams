@@ -27,12 +27,12 @@
 
     iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->iNumOfSteps:I
 
-    # Desktop defaults: textures / province-data per loadAssets tick
-    const/16 v0, 0xfa
+    # Per-tick batch sizes. Too high freezes GL thread (UI stuck at 0%).
+    const/16 v0, 0x28
 
     iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->numToLoad:I
 
-    const/16 v0, 0x1f4
+    const/16 v0, 0x30
 
     iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->numToLoad2:I
 
@@ -46,12 +46,12 @@
 
     if-nez v0, :cond_0
 
-    # Android: still aggressive — modern devices handle large batches
-    const/16 v0, 0xc8
+    # Android / MuMu bridge: small batches so draw can refresh percent
+    const/16 v0, 0x14
 
     iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->numToLoad:I
 
-    const/16 v0, 0x190
+    const/16 v0, 0x18
 
     iput v0, p0, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->numToLoad2:I
 
@@ -8191,21 +8191,9 @@
 
     invoke-static {p1, p2, p3}, Lage/of/civilizations2/jakowski/lukasz/CFG;->drawJakowskiGames_RIGHT_BOT(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;IF)V
 
-    # Load several ticks per frame on the GL thread (no per-frame Thread).
-    const/4 p3, 0x0
-
-    :goto_fast_load
-    const/16 p4, 0xa
-
-    if-ge p3, p4, :cond_fast_load_done
-
+    # One load tick per frame — keeps loading % / text updating (avoid GL stall).
     invoke-static {p0}, Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;->access$000(Lage/of/civilizations2/jakowski/lukasz/Menu_InitGame;)V
 
-    add-int/lit8 p3, p3, 0x1
-
-    goto :goto_fast_load
-
-    :cond_fast_load_done
     invoke-static {p1, p2}, Lage/of/civilizations2/jakowski/lukasz/CFG;->drawVersion_LEFT_BOT(Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;I)V
 
     const/4 p1, 0x1

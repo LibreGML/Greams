@@ -50,6 +50,9 @@
 .method protected actionElement(I)V
     .locals 3
 
+    # Gemorin: province trade disabled
+    return-void
+
     sget-object v1, Lage/of/civilizations2/jakowski/lukasz/CFG;->tradeRequest:Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;
 
     iget v1, v1, Lage/of/civilizations2/jakowski/lukasz/TradeRequest_GameData;->iCivLEFT:I

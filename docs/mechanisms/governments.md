@@ -28,6 +28,13 @@
 - `tools/patches/live/fix_cr_scenario_governments.py`
 - 报告：[../reports/GOVERNMENTS.md](../reports/GOVERNMENTS.md)
 
+## 平衡原则（2026-11-19）
+
+按财政合法性 / 提取能力 / 知识体制 / 行政跨度 / 不稳定类型 / 攻防姿态拉开 46 政体差距；包络与族谱见 [../reports/GOVERNMENTS.md](../reports/GOVERNMENTS.md)。生成：`python tools/patches/live/rebuild_governments.py`。
+
+`harden()` 强制：`INCOME_*≤1.12`、`RECRUITABILITY≥1.00`、`COST_OF_RECRUIT 16–24`、高产出必须高军费/行政——预防万回合财政/征兵塌缩。字段名必须是 **`REFORMAT_PERIOD`**（勿写 REPLACE）。
+
 ## BUG
 
-BUG-002 公社后期崩经济 → 已通过政体重写 fixed。
+BUG-002 公社后期崩经济 → 已通过政体重写 + harden 包络 fixed。  
+加载挂死「读取革命图形」→ 误用 `REPLACE_PERIOD` 触发 Json SerializationException → 已改回 `REFORMAT_PERIOD`。
